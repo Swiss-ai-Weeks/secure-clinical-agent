@@ -1,0 +1,3 @@
+<template><ClinicalCard title="✦ Morning Briefing" :ai="true"><ul><li v-for="item in briefing" :key="item.id"><RouterLink v-if="item.patientId" :to="`/patients/${item.patientId}/overview`">{{ item.text }}</RouterLink><span v-else>{{ item.text }}</span></li></ul></ClinicalCard></template>
+<script setup lang="ts">import { RouterLink } from 'vue-router'; import ClinicalCard from '../../components/ui/ClinicalCard.vue'; defineProps<{ briefing: Array<{ id: string; text: string; patientId?: string }> }>();</script>
+<style scoped>ul { display: grid; gap: 12px; margin: 0; padding-left: 22px; } li::marker { content: '✦  '; color: var(--color-warning); } a { color: var(--color-plum); font-weight: 750; }</style>
