@@ -1,0 +1,248 @@
+# Overrides NVIDIA RAG v2.6.2 for this two-GPU hybrid deployment.
+# Active services have no profile. Optional upstream services stay disabled.
+services:
+  nim-llm:
+    container_name: secure-rag-nim-llm
+    profiles: !override [disabled-optional]
+    ports: !reset []
+  nemotron-embedding-ms:
+    container_name: secure-rag-nemotron-embedding-ms
+    profiles: !override [disabled-optional]
+    ports: !reset []
+  nemotron-vlm-embedding-ms:
+    container_name: secure-rag-nemotron-vlm-embedding-ms
+    profiles: !override []
+    ports: !reset []
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  nemotron-ranking-ms:
+    container_name: secure-rag-nemotron-ranking-ms
+    profiles: !override []
+    ports: !reset []
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  nemotron-ranking-vl-ms:
+    container_name: secure-rag-nemotron-ranking-vl-ms
+    profiles: !override [disabled-optional]
+    ports: !reset []
+  page-elements:
+    container_name: secure-rag-page-elements
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/v1/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+      start_period: 120s
+    profiles: !override []
+    ports: !reset []
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      NIM_ENABLE_OTEL: "false"
+  graphic-elements:
+    container_name: secure-rag-graphic-elements
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/v1/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+      start_period: 120s
+    profiles: !override []
+    ports: !reset []
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  table-structure:
+    container_name: secure-rag-table-structure
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/v1/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+      start_period: 120s
+    profiles: !override []
+    ports: !reset []
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  paddle:
+    container_name: secure-rag-paddle
+    profiles: !override [disabled-optional]
+    ports: !reset []
+  nemotron-ocr:
+    container_name: secure-rag-nemotron-ocr
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/v1/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+      start_period: 120s
+    profiles: !override []
+    ports: !reset []
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  nemotron-parse:
+    container_name: secure-rag-nemotron-parse
+    profiles: !override [disabled-optional]
+    ports: !reset []
+  audio:
+    container_name: secure-rag-audio
+    profiles: !override [disabled-optional]
+    ports: !reset []
+  vlm-ms:
+    container_name: secure-rag-vlm-ms
+    profiles: !override [disabled-optional]
+    ports: !reset []
+  vlm-captioning-ms:
+    container_name: secure-rag-vlm-captioning-ms
+    profiles: !override [disabled-optional]
+    ports: !reset []
+  milvus:
+    container_name: secure-rag-milvus
+    profiles: !override [disabled-optional]
+    ports: !reset []
+  etcd:
+    container_name: secure-rag-etcd
+    profiles: !override [disabled-optional]
+    ports: !reset []
+  seaweedfs:
+    container_name: secure-rag-seaweedfs
+    profiles: !override []
+    ports: !reset []
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    volumes:
+      - ${RAG_ROOT}/.secrets/s3.json:/etc/seaweedfs/s3.json:ro
+  elasticsearch:
+    container_name: secure-rag-elasticsearch
+    profiles: !override []
+    ports: !reset []
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  ingestor-server:
+    container_name: secure-rag-ingestor-server
+    profiles: !override []
+    ports: !override
+      - "127.0.0.1:8082:8082"
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8082/v1/health', timeout=5)"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 60s
+  redis:
+    container_name: secure-rag-redis
+    profiles: !override []
+    ports: !reset []
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    volumes:
+      - rag-vol-redis:/data
+    environment:
+      REDIS_ARGS: "--appendonly yes"
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+  nv-ingest-ms-runtime:
+    container_name: secure-rag-nv-ingest-ms-runtime
+    profiles: !override []
+    ports: !reset []
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  rag-server:
+    container_name: secure-rag-rag-server
+    profiles: !override []
+    ports: !override
+      - "127.0.0.1:8081:8081"
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8081/v1/health', timeout=5)"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 60s
+  rag-frontend:
+    container_name: secure-rag-rag-frontend
+    profiles: !override []
+    ports: !override
+      - "127.0.0.1:8090:3000"
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:3000/',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+volumes:
+  rag-vol-milvus:
+    name: secure-clinical-agent-rag-vol-milvus
+  rag-vol-etcd:
+    name: secure-clinical-agent-rag-vol-etcd
+  rag-vol-seaweedfs:
+    name: secure-clinical-agent-rag-vol-seaweedfs
+  rag-vol-elasticsearch:
+    name: secure-clinical-agent-rag-vol-elasticsearch
+  rag-vol-ingestor:
+    name: secure-clinical-agent-rag-vol-ingestor
+  rag-vol-lancedb:
+    name: secure-clinical-agent-rag-vol-lancedb
+  rag-vol-redis:
+    name: secure-clinical-agent-rag-vol-redis
+networks:
+  default:
+    name: secure-clinical-agent-rag
