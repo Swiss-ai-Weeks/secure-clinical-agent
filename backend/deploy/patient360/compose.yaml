@@ -1,0 +1,353 @@
+# Patient360 inference + stores on two H100 NVLs.
+# GPU 1: Nano (and VISTA with --profile ingest). GPU 0: safety + embed (and MedGemma with ingest).
+# Host publishes loopback only. NGC_API_KEY must come from the environment, never this file.
+
+name: patient360
+
+services:
+  postgres:
+    image: public.ecr.aws/docker/library/postgres:16-bookworm
+    container_name: patient360-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: fhir_app
+      POSTGRES_PASSWORD: ${PATIENT360_FHIR_PASSWORD:-patient360-fhir-dev}
+      POSTGRES_DB: fhir
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres-fhir-data:/var/lib/postgresql/data
+      - ./sql/fhir:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fhir_app -d fhir"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks: [patient360]
+
+  openfga:
+    image: openfga/openfga:v1.8.12
+    container_name: patient360-openfga
+    restart: unless-stopped
+    command: ["run"]
+    environment:
+      OPENFGA_DATASTORE_ENGINE: memory
+      OPENFGA_PLAYGROUND_ENABLED: "false"
+      OPENFGA_HTTP_ADDR: 0.0.0.0:8080
+      OPENFGA_AUTHN_METHOD: preshared
+      OPENFGA_AUTHN_PRESHARED_KEYS: ${PATIENT360_OPENFGA_KEY:-patient360-openfga-dev}
+    ports:
+      - "127.0.0.1:8091:8080"
+    healthcheck:
+      test: ["CMD", "/bin/sh", "-c", "exit 0"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    networks: [patient360]
+
+  openfga-init:
+    image: public.ecr.aws/docker/library/busybox:1.37
+    container_name: patient360-openfga-init
+    depends_on:
+      - openfga
+    environment:
+      PATIENT360_OPENFGA_KEY: ${PATIENT360_OPENFGA_KEY:-patient360-openfga-dev}
+    volumes:
+      - ./stores/init/openfga.sh:/init.sh:ro
+    entrypoint: ["/bin/sh", "/init.sh"]
+    networks: [patient360]
+    restart: "no"
+
+  immudb:
+    image: codenotary/immudb:1.9.5
+    container_name: patient360-immudb
+    restart: unless-stopped
+    environment:
+      IMMUDB_ADDRESS: 0.0.0.0
+      IMMUDB_ADMIN_PASSWORD: ${PATIENT360_AUDIT_PASSWORD:-patient360-audit-dev}
+    ports:
+      - "127.0.0.1:3322:3322"
+    volumes:
+      - immudb-data:/var/lib/immudb
+    healthcheck:
+      test: ["CMD", "immuadmin", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 15s
+    networks: [patient360]
+
+  qdrant:
+    image: qdrant/qdrant:v1.13.6
+    container_name: patient360-qdrant
+    restart: unless-stopped
+    environment:
+      QDRANT__SERVICE__API_KEY: ${PATIENT360_QDRANT_API_KEY:-patient360-qdrant-dev}
+    ports:
+      - "127.0.0.1:6333:6333"
+    volumes:
+      - qdrant-data:/qdrant/storage
+    healthcheck:
+      test: ["CMD-SHELL", "true"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    networks: [patient360]
+
+  qdrant-init:
+    image: curlimages/curl:8.13.0
+    container_name: patient360-qdrant-init
+    depends_on:
+      - qdrant
+    environment:
+      QDRANT__SERVICE__API_KEY: ${PATIENT360_QDRANT_API_KEY:-patient360-qdrant-dev}
+    volumes:
+      - ./stores/init/qdrant.sh:/init.sh:ro
+    entrypoint: ["/bin/sh", "/init.sh"]
+    networks: [patient360]
+    restart: "no"
+
+  openbao:
+    image: ghcr.io/openbao/openbao:2.3.1
+    container_name: patient360-openbao
+    restart: unless-stopped
+    command:
+      - server
+      - -dev
+      - -dev-listen-address=0.0.0.0:8200
+      - -dev-root-token-id=${PATIENT360_LINKAGE_TOKEN:-patient360-linkage-dev}
+    environment:
+      BAO_DEV_ROOT_TOKEN_ID: ${PATIENT360_LINKAGE_TOKEN:-patient360-linkage-dev}
+    ports:
+      - "127.0.0.1:8200:8200"
+    networks: [patient360-linkage]
+
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: patient360-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${PATIENT360_MINIO_USER}
+      MINIO_ROOT_PASSWORD: ${PATIENT360_MINIO_PASSWORD}
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [patient360]
+
+  minio-init:
+    image: quay.io/minio/mc:latest
+    container_name: patient360-minio-init
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        mc alias set local http://minio:9000 "$$MINIO_ROOT_USER" "$$MINIO_ROOT_PASSWORD"
+        mc mb -p local/reports
+        mc mb -p local/vlm-descriptions
+    environment:
+      MINIO_ROOT_USER: ${PATIENT360_MINIO_USER}
+      MINIO_ROOT_PASSWORD: ${PATIENT360_MINIO_PASSWORD}
+    networks: [patient360]
+    restart: "no"
+
+  orthanc:
+    image: jodogne/orthanc-plugins:1.12.7
+    container_name: patient360-orthanc
+    restart: unless-stopped
+    environment:
+      ORTHANC__NAME: Patient360
+      ORTHANC__AUTHENTICATION_ENABLED: "true"
+      ORTHANC__REGISTERED_USERS: "${ORTHANC_USERS_JSON}"
+      DICOM_WEB_PLUGIN_ENABLED: "true"
+      VERBOSE_ENABLED: "false"
+    ports:
+      - "127.0.0.1:8042:8042"
+      - "127.0.0.1:4242:4242"
+    volumes:
+      - orthanc-data:/var/lib/orthanc/db
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8042/system >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+    networks: [patient360]
+
+  nano:
+    image: nvcr.io/nim/nvidia/nemotron-3-nano:latest
+    container_name: patient360-nano
+    restart: unless-stopped
+    user: "${UID:-1000}:${GID:-1000}"
+    ipc: host
+    shm_size: "16gb"
+    environment:
+      NGC_API_KEY: ${NGC_API_KEY}
+      NIM_MAX_MODEL_LEN: "32768"
+      NIM_GPU_MEMORY_UTILIZATION: "0.42"
+      NIM_TENSOR_PARALLEL_SIZE: "1"
+      HOME: /tmp
+      USER: ${USER:-nvidia}
+    volumes:
+      - ${HOME}/.cache/nim/nano:/opt/nim/.cache
+    ports:
+      - "127.0.0.1:8000:8000"
+    gpus:
+      - driver: nvidia
+        device_ids: ["1"]
+        capabilities: [gpu]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/v1/health/ready >/dev/null || curl -fsS http://127.0.0.1:8000/v1/models >/dev/null"]
+      interval: 20s
+      timeout: 10s
+      retries: 90
+      start_period: 900s
+    networks: [patient360]
+
+  safety:
+    image: nvcr.io/nim/nvidia/llama-3.1-nemotron-safety-guard-8b-v3:1.14.0
+    container_name: patient360-safety
+    restart: unless-stopped
+    user: "${UID:-1000}:${GID:-1000}"
+    ipc: host
+    shm_size: "16gb"
+    environment:
+      NGC_API_KEY: ${NGC_API_KEY}
+      NIM_TENSOR_PARALLEL_SIZE: "1"
+      HOME: /tmp
+      USER: ${USER:-nvidia}
+    volumes:
+      - ${HOME}/.cache/nim/safetyguard8b:/opt/nim/.cache
+    ports:
+      - "127.0.0.1:8002:8000"
+    gpus:
+      - driver: nvidia
+        device_ids: ["0"]
+        capabilities: [gpu]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/v1/health/ready >/dev/null || curl -fsS http://127.0.0.1:8000/v1/models >/dev/null"]
+      interval: 20s
+      timeout: 10s
+      retries: 90
+      start_period: 900s
+    networks: [patient360]
+
+  embed:
+    image: nvcr.io/nim/nvidia/llama-nemotron-embed-vl-1b-v2:latest
+    container_name: patient360-embed
+    restart: unless-stopped
+    user: "${UID:-1000}:${GID:-1000}"
+    ipc: host
+    shm_size: "16gb"
+    environment:
+      NGC_API_KEY: ${NGC_API_KEY}
+      HOME: /tmp
+      USER: ${USER:-nvidia}
+    volumes:
+      - ${HOME}/.cache/nim/embed:/opt/nim/.cache
+    ports:
+      - "127.0.0.1:8001:8000"
+    gpus:
+      - driver: nvidia
+        device_ids: ["0"]
+        capabilities: [gpu]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/v1/health/ready >/dev/null || curl -fsS http://127.0.0.1:8000/v1/models >/dev/null"]
+      interval: 20s
+      timeout: 10s
+      retries: 90
+      start_period: 600s
+    networks: [patient360]
+
+  vista3d:
+    profiles: [ingest]
+    image: nvcr.io/nim/nvidia/vista3d:1.0.0
+    container_name: patient360-vista3d
+    restart: unless-stopped
+    user: "${UID:-1000}:${GID:-1000}"
+    ipc: host
+    shm_size: "16gb"
+    environment:
+      NGC_API_KEY: ${NGC_API_KEY}
+      NIM_TENSOR_PARALLEL_SIZE: "1"
+      HOME: /tmp
+      USER: ${USER:-nvidia}
+    volumes:
+      - ${HOME}/.cache/nim/vista3d:/opt/nim/.cache
+    ports:
+      - "127.0.0.1:8003:8000"
+    gpus:
+      - driver: nvidia
+        device_ids: ["1"]
+        capabilities: [gpu]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/v1/health/ready >/dev/null || curl -fsS http://127.0.0.1:8000/v1/models >/dev/null"]
+      interval: 20s
+      timeout: 10s
+      retries: 90
+      start_period: 900s
+    networks: [patient360]
+
+  medgemma:
+    profiles: [ingest]
+    image: vllm/vllm-openai:v0.10.2
+    container_name: patient360-medgemma
+    restart: unless-stopped
+    command:
+      - google/medgemma-1.5-4b-it
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+      - --max-model-len
+      - "8192"
+      - --gpu-memory-utilization
+      - "0.12"
+      - --served-model-name
+      - google/medgemma-1.5-4b-it
+      - --enforce-eager
+    environment:
+      HUGGING_FACE_HUB_TOKEN: ${HF_TOKEN:-}
+      HF_HOME: /root/.cache/huggingface
+    volumes:
+      - ${HOME}/.cache/huggingface:/root/.cache/huggingface
+    ports:
+      - "127.0.0.1:8004:8000"
+    ipc: host
+    shm_size: "8gb"
+    gpus:
+      - driver: nvidia
+        device_ids: ["0"]
+        capabilities: [gpu]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/v1/models >/dev/null"]
+      interval: 20s
+      timeout: 10s
+      retries: 90
+      start_period: 600s
+    networks: [patient360]
+
+volumes:
+  postgres-fhir-data:
+  immudb-data:
+  qdrant-data:
+  minio-data:
+  orthanc-data:
+
+networks:
+  patient360:
+    name: patient360
+    driver: bridge
+  patient360-linkage:
+    name: patient360-linkage
+    driver: bridge

@@ -1,0 +1,10 @@
+model
+  schema 1.1
+
+type user
+
+type patient
+  relations
+    define care_team: [user]
+    define consented: [user]
+    define viewer: care_team or consented

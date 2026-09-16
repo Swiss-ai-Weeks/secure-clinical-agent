@@ -1,0 +1,13 @@
+.vendor/
+.secrets/
+.cache/
+.data/
+.env
+__pycache__/
+
+# Local environment variants; keep templates in source control.
+.env.*
+!.env.example
+
+# Historical local access diagnostics are not part of the published project.
+/.scratch/rag-blueprint-reliability/
