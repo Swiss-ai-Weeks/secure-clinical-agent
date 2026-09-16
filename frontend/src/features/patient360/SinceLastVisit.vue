@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import ClinicalCard from '../../components/ui/ClinicalCard.vue';
-import { useUiStore } from '../../stores/useUiStore';
+import { useUiStore } from '../../stores/useUiStore.js';
 const ui = useUiStore();
 const changes = [
   { label: '3 new symptom entries', target: 'event-patient-update-sept-02' }, { label: '1 new laboratory result', target: 'event-lab-aug-18' }, { label: 'LDL increased 12%', target: 'event-lab-aug-18' }, { label: 'Patient reported starting magnesium', target: 'event-patient-update-sept-02' }, { label: 'No new allergies', target: 'allergies' }, { label: 'No clinician-entered medication changes', target: 'medications' }

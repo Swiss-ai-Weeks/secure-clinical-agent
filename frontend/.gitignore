@@ -7,3 +7,4 @@ playwright.config.js
 playwright.config.d.ts
 test-results/
 playwright-report/
+.vite/
