@@ -2,6 +2,8 @@
 
 This directory is the home for Patient360 ingestion work. It currently contains the implementation plan and source-contract research; no ingestion worker has been implemented yet.
 
+- [Ordered GitHub implementation backlog](issues.md)
+- [Ingestion roadmap](https://github.com/Swiss-ai-Weeks/secure-clinical-agent/issues/2)
 - [Proposed sequence and data-flow diagram](plan.md)
 - [Wayfinder map and local decision issues](../../.scratch/ingestion-pipeline/map.md)
 - [Synthea, Presidio, Nemotron, and Qdrant research](research/source-model-contracts.md)

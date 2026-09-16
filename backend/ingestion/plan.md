@@ -2,6 +2,8 @@
 
 This is the reading guide for [Plan the Patient360 synthetic ingestion pipeline](../../.scratch/ingestion-pipeline/map.md), the canonical local wayfinder map. It charts implementation order; it does not resolve the open decisions. Each linked issue holds its eventual answer. Branch: `ingestion-pipeline`. No pipeline execution or store population has happened as part of this plan.
 
+The [ordered GitHub implementation backlog](issues.md) tracks execution, with the `ingestion` label on every issue. The local wayfinder tickets below retain the design questions that each implementation step must resolve.
+
 ## Destination and first slice
 
 Prepare a reproducible seed of synthetic patients and linked clinical notes in Patient360's existing PostgreSQL and Qdrant stores, with consistent opaque patient keys, traceable transformations, and access checks. Proposed size: 10 patients for smoke checks, then 100 for the first seed; the user has not yet selected the size. Start with a batch job and Patient/Condition/Observation. The clinical-note generator project/API is still awaiting the user's URL.
