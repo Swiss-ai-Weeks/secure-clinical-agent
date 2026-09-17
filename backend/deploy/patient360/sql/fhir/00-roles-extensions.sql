@@ -6,7 +6,7 @@
 --
 -- Layout
 --   clinical  FHIR R4 projections (allowlisted elements, HL7 HCS labels)
---   identity  users, sessions, run tokens (opaque ids only, no names)
+--   identity  users, sessions (opaque ids only, no names)
 --   audit     append-only, hash-chained events shaped like FHIR AuditEvent
 --
 -- Roles (passwords are set by 99-role-passwords.sh from the environment)
@@ -29,7 +29,7 @@ CREATE SCHEMA identity;
 CREATE SCHEMA audit;
 
 COMMENT ON SCHEMA clinical IS 'FHIR R4 element projections keyed by opaque patient_key. Every row carries an HL7 HCS label.';
-COMMENT ON SCHEMA identity IS 'Opaque user ids, roles, server-side sessions, run-token registry. Never names, logins, or persisted patient links.';
+COMMENT ON SCHEMA identity IS 'Opaque user ids, roles, server-side sessions (hashed). Never names, logins, or persisted patient links. Run tokens are stateless JWTs bound to a session by sid.';
 COMMENT ON SCHEMA audit    IS 'Append-only, hash-chained event log exportable as FHIR AuditEvent.';
 
 -- Unqualified table names in application SQL resolve to the clinical schema.

@@ -1,7 +1,7 @@
 -- Patient360 `fhir` database: identity schema.
 --
 -- What this schema answers: what role does u_xxx have; is u_xxx logged in, on
--- duty, stepped up; which run tokens are live. What it never contains: names,
+-- duty, stepped up; which sessions are live. What it never contains: names,
 -- logins, credentials, consents, or a persisted user -> patient link. The
 -- login -> pseudonym mapping lives only in the vault; resolve_self copies it
 -- into the session row for the session lifetime and nowhere else.
@@ -10,6 +10,12 @@
 -- the backend stores and looks up sha256(token) (session_hash), so a read of
 -- this table yields no usable cookies. Audit rows reference a session by the
 -- hex of session_hash.
+--
+-- Run tokens (RFC 9068 at+JWT with an RFC 8693 act claim) have no table. They
+-- carry sid = encode(session_hash, 'hex'); tool endpoints verify the signature,
+-- typ, iss, aud and exp, then require the sid session to exist, be unexpired
+-- and unrevoked. Revoking the session therefore revokes every token minted
+-- from it. jti is kept in the token and in audit rows for correlation only.
 --
 -- Standards: NIST SP 800-63-4 (auth_level = AAL), OWASP ASVS 5.0 V7,
 -- RFC 9068 / RFC 8693 (run tokens with act claim).
@@ -57,29 +63,8 @@ CREATE TABLE identity.sessions (
     CHECK (absolute_expires_at > created_at)
 );
 
-COMMENT ON TABLE identity.sessions IS 'One row per live session, keyed by sha256(cookie token). Rotate the token (new row) on login and step-up. self_patient_id is filled by one vault call at login and disappears with the row; it must never gain a foreign key or be copied elsewhere.';
+COMMENT ON TABLE identity.sessions IS 'One row per live session, keyed by sha256(cookie token). Rotate the token (new row) on login and step-up. self_patient_id is filled by one vault call at login and disappears with the row; it must never gain a foreign key or be copied elsewhere. Run tokens minted for a session carry sid = encode(session_hash, ''hex'') and are valid only while this row is live, so revoking the session revokes every token.';
 COMMENT ON COLUMN identity.sessions.self_patient_id IS 'Transient. Patient and caregiver roles only. The PDP compares it in memory; OpenFGA is not consulted for self access.';
 
 CREATE INDEX sessions_user_idx    ON identity.sessions (user_id);
 CREATE INDEX sessions_expires_idx ON identity.sessions (expires_at) WHERE revoked_at IS NULL;
-
---------------------------------------------------------------------------------
--- Run tokens (RFC 9068 at+JWT with RFC 8693 act claim), one row per jti
---------------------------------------------------------------------------------
-
-CREATE TABLE identity.run_tokens (
-    jti          text PRIMARY KEY,                                                         -- not secret: the JWT is signed
-    session_hash bytea NOT NULL REFERENCES identity.sessions (session_hash) ON DELETE CASCADE,
-    subject    text NOT NULL CHECK (subject ~ '^user:u_[0-9a-z]+$'),                      -- sub
-    actor      text CHECK (actor IS NULL OR actor ~ '^agent:'),                            -- act.sub
-    audience   text NOT NULL DEFAULT 'patient360-tools',                                   -- aud
-    issued_at  timestamptz NOT NULL DEFAULT now(),                                         -- iat
-    expires_at timestamptz NOT NULL,                                                       -- exp (10 min)
-    revoked_at timestamptz,
-    CHECK (expires_at > issued_at)
-);
-
-COMMENT ON TABLE identity.run_tokens IS 'Registry of minted run tokens. Tool endpoints require the jti to exist, be unexpired, unrevoked, and belong to a live session. Ending a session cascades here, revoking every token minted from it.';
-
-CREATE INDEX run_tokens_session_idx ON identity.run_tokens (session_hash);
-CREATE INDEX run_tokens_expires_idx ON identity.run_tokens (expires_at) WHERE revoked_at IS NULL;
