@@ -41,7 +41,7 @@ Build a sandboxed clinical assistant that aggregates and queries anonymized pati
 | Area | Decision | Why |
 |---|---|---|
 | Architecture | Agent + tools, not RAG. Structured SQL path, small ACL-filtered notes path, imaging *report* path. One PDP on every read. | FHIR is structured; vector RAG cannot answer aggregates and has no authorization layer |
-| Grant store | **OpenFGA** (Postgres datastore), extended model with time-window conditions and `but not blocked`. **The only grant store.** | Relationship checks with expiry, revocation, and explicit deny as data, not code paths |
+| Grant store | **OpenFGA** (Postgres datastore: own database `openfga`, own role, same instance), extended model with time-window conditions and `but not blocked`. **The only grant store.** Three object types: `patient` carries every per-patient permission, `project` for research cohorts, `ward` for ward-scoped staff (dietary) via `staff from admitted_to`. Model, demo tuples, and test matrix in `stores/openfga/` | Relationship checks with expiry, revocation, and explicit deny as data, not code paths; every artifact resolves to one `patient_key` server-side |
 | Consent record | No `consents` table. Provenance (granted_by, scope, justification, revoked_at) is `consent_granted` / `consent_revoked` / `break_glass` rows in append-only `audit_events`, written in the same handler as the tuple | One enforced store, one immutable log |
 | Self-access | Identity, not a grant. No `self` tuple, no `self_patient_id` column. Vault `resolve_self` at login → server-side session only. PDP compares in memory | The login → pseudonym link persists in exactly one place: the vault |
 | User ids | Opaque everywhere (`u_7f3a`). Names exist only in the dev-login map and the vault | Grant tuples link two pseudonyms |
@@ -58,6 +58,7 @@ Build a sandboxed clinical assistant that aggregates and queries anonymized pati
 | Agent runtime | `AGENT_RUNTIME=openshell|inproc`. Same tool client, same run token | Demo does not depend on OpenShell being cooperative |
 | Frontend | Reuse the Vue app; replace `mockApi.ts` with a real client behind the same method names; `/me` manifest gates panels; add `/redteam` and `/threat-model` | Existing views already cover clinician, portal, cohort, audit |
 | Break-glass | Human dashboard action only, typed justification, time-boxed `emergency` tuple, `BTG` audit row. No such tool exists | Emergency access is a governance track, not an agent capability |
+| Writes | Four human write actions, all dashboard endpoints on the session cookie: consent grant, consent revoke, break-glass, appointment book/cancel. The agent proposes (structured `appointment_proposal`), a human commits. Tools stay read-only | The run token's `aud` and the PDP's agent-channel rule are two independent walls against agent-initiated writes |
 
 ---
 
@@ -215,11 +216,17 @@ Uniform not-found: unauthorized and nonexistent patients return byte-identical 4
 
 ### 4.2 Grant store (OpenFGA)
 
+Source of truth: `backend/deploy/patient360/stores/openfga/` — `model.fga` (the model below), `tuples.demo.yaml` (the §9 seed), `store.fga.yaml` (model + tuples + the persona test matrix; `fga model test --tests store.fga.yaml` runs it offline, `fga store import` loads it). OpenFGA answers exactly one question: does `user:u_xxx` hold relation R on `patient:p_xxx` (or `project:...`, `ward:...`) at `current_time`? Roles, duty, AAL, labels, dataset allowlists, and self access are PDP rules. Studies, note chunks, and objects have no FGA type: each resolves server-side to one `patient_key`, and the permission sits on `patient`. Three object types: `patient` (every per-patient permission), `project` (research cohorts), `ward` (placement for ward-scoped staff; dietary staff relate to a ward, never to patients).
+
 ```text
 model
   schema 1.1
 
 type user
+
+type ward
+  relations
+    define staff: [user with active_window]
 
 type patient
   relations
@@ -229,22 +236,63 @@ type patient
     define caregiver: [user with active_window]
     define caregiver_notes: [user with active_window]
     define emergency: [user with active_window]
+    define admitted_to: [ward with active_window]
     define blocked: [user]
     define can_read_clinical: (attending or consultant or care_team or caregiver or emergency) but not blocked
     define can_read_notes: (attending or consultant or care_team or caregiver_notes or emergency) but not blocked
+    define can_read_imaging_metadata: (attending or consultant or care_team or emergency) but not blocked
     define can_read_imaging_report: (attending or consultant or emergency) but not blocked
     define can_view_pixels: (attending or consultant or emergency) but not blocked
+    define can_read_diet: (attending or care_team or caregiver or emergency or staff from admitted_to) but not blocked
+    define can_schedule: (attending or care_team or caregiver) but not blocked
 
 type project
   relations
     define researcher: [user with active_window]
+    define can_query_aggregate: researcher
 
 condition active_window(current_time: timestamp, start: timestamp, expiry: timestamp) {
   current_time >= start && current_time < expiry
 }
 ```
 
-Only three human actions write tuples, all through PDP-checked dashboard endpoints: consent grant (write tuple + `consent_granted`), consent revoke (delete tuple + `consent_revoked`), break-glass (write `emergency` tuple + `break_glass` with justification and compliance flag). The ingestion worker seeds the initial set. The agent has no path to any of them.
+Every grant relation requires `active_window` (start inclusive, expiry exclusive); a grant without a window cannot be written (the model rejects the tuple). `blocked` has no window and is deny-overrides on every permission, including `emergency` and the ward chain. There is no `self` relation. The PDP checks permissions only, never raw grant relations. `staff from admitted_to` is the ward chain: a chef on shift (`ward#staff`, window = shift) reaches `can_read_diet` on every patient whose `admitted_to` placement is live, and nothing else; `admitted_to` is windowed (expiry = expected discharge, refreshed by the worker, deleted on discharge) so a missed discharge expires instead of leaking. Placements are not consents.
+
+**Check contract.** Resource → relation checked on `patient:{patient_key}` → store-side enforcement after a permit:
+
+| `Resource.type` | Relation | Enforcement from the decision |
+|---|---|---|
+| `clinical_rows` (labs, conditions, meds, encounters, allergies) | `can_read_clinical` | SQL `WHERE patient_key = $1`; role dataset allowlist; label rules and `REDACT` |
+| `clinical_rows`, dataset `diet` (every role) | `can_read_diet` | `diet_orders WHERE patient_key = $1` |
+| `clinical_rows`, dataset `allergies`, role `dietary_staff` | `can_read_diet` | obligation `category = food`; every other role uses `can_read_clinical` for allergies |
+| `aggregate`, `dietary_staff` own-ward counts | `list_objects(user, can_read_diet, patient)` | `patient_key IN (...)` over `diet_orders`; ward counts only |
+| `notes` | `can_read_notes` | Qdrant filter built server-side: `patient_key`, `published = true`, allowed `confidentiality`, `internal = false` for self |
+| `imaging_report`, metadata tier (care_team) | `can_read_imaging_metadata` | `studies` metadata only |
+| `imaging_report`, text tier | `can_read_imaging_report` | sanitized report text read server-side |
+| `imaging_pixels`, `document_bytes` (`POST /media/sign`) | `can_view_pixels` | `study_id` / `object_key` resolved to `patient_key`; signed URL bound to one `study_uid`; proxy path rewrite |
+| `aggregate`, researcher | `can_query_aggregate` on `project:{id}` | `k_min`, complementary suppression, `allowed_dims`, overlap log |
+| `aggregate`, attending own patients | `list_objects(user, can_read_clinical, patient)` | `patient_key IN (...)` |
+| `appointment`, action `schedule` / `cancel` (dashboard channel only) | `can_schedule` | `INSERT` / `UPDATE` on `clinical.appointments`; audit `appointment_booked` / `appointment_cancelled` |
+| self access (`patient_key == session.self_patient_id`) | none | PDP self match; OpenFGA is not consulted |
+
+Rules: every check and `list_objects` carries `context.current_time` (UTC RFC 3339 from `Context.now`); a conditioned tuple checked without it is an error, not a false. The backend resolves the store by name (`patient360-grants`) at startup and refuses to start if zero or several match; it pins the newest `authorization_model_id` and stamps it into every audit row as `policy_version = fga:{model_id}`, so a decision can be replayed against the exact model that made it. Any FGA error (transport, validation, missing condition parameter) is a 503 `transient` with `outcome = 8`, never a permit. `allowed = false` becomes `not_found`. The check-query cache stays disabled so a revoked tuple fails the very next check (§9 step 11). OpenFGA preshared keys have no scopes: the backend, the worker, and `openfga-init` share one key with full API access, so read/write separation is a property of which code paths call Write, not of the credential.
+
+**Write interface.** Tuples change only through the OpenFGA Write API; nobody touches the `openfga` database. Four human actions write tuples, all PDP-checked dashboard endpoints on the session cookie (never the run token): consent grant (`POST /consents`: write tuple + `consent_granted`), consent revoke (`POST /consents/{id}/revoke`: delete tuple + `consent_revoked`), break-glass (`POST /break-glass`: write time-boxed `emergency` tuple + `break_glass` with justification and compliance flag), and appointment booking (`POST /appointments`: `can_schedule` check, no tuple written unless the optional treatment-relationship toggle is on). The ingestion worker (`seed_grants.py`) seeds Synthea-scale grants and writes a `consent_granted` row for each, including `detail.seeded = true` rows for the demo tuples that `openfga-init` loads. The worker is also the only writer of placements: `patient#admitted_to` from inpatient encounters (`class = IMP`, `dept` to ward mapping; deleted on discharge) and `ward#staff` from the roster, audited as `admission` / `discharge` / `roster` rows (Track B adds them to `audit.vs_event_type()`; until then `ingest` rows with `detail.kind`), never as consents. Operator writes through the `fga` CLI bypass the audit trail and are an operator break-glass, not a path; the Playground stays disabled. The agent has no path to any of them.
+
+Grant authority is a PDP rule, not an FGA relation:
+
+| Subject | May write | May revoke |
+|---|---|---|
+| patient on own record (self match) | `caregiver`, `caregiver_notes`, `blocked` | the same |
+| attending with a live `attending` tuple | `care_team`, `consultant` (referral) | only what they granted (`granted_by` on the audit row) |
+| care role, on duty, AAL2 | `emergency` via break-glass, fixed short window, typed justification, `BTG` | — |
+| compliance / admin dashboard role (not in the demo) | `blocked` | anything |
+| ingestion worker | `attending`, `care_team`, `researcher` (seed); `admitted_to`, `ward#staff` (placements) | `admitted_to` on discharge; `ward#staff` on roster change |
+| anyone, any path | `self` | rejected by the model |
+
+Write ordering (no transaction spans FGA and `audit_events`): grant = write tuple, then insert the audit row in its own short transaction (the hash-chain lock is held to commit); if the audit insert fails, delete the tuple and return 503, so access never persists without a record. Revoke = delete tuple, then `consent_revoked`; a failed audit insert after a successful delete leaves access correctly removed and is retried. An OpenFGA Write request is atomic. Reading grants back for the portal and the FHIR `Consent` export (FHIR plan §4.2) joins the OpenFGA Read API (`object = patient:p_xxx`: relation, grantee, `start`, `expiry`, i.e. what is enforced now) with `audit_events` (`granted_by`, justification, `recorded_at`, `revoked_at`, i.e. how it got that way); neither alone is the consent record, which is why there is no `consents` table.
+
+Reserved extensions, each a new model version with existing tuples unchanged: `imaging_study` / `document` with `parent: [patient]` if a grant ever needs to be narrower than a patient; per-dataset caregiver scopes (`caregiver_meds`, `caregiver_labs`, …) if consent scope should be tuples rather than a role rule. The `ward` type follows the same pattern and is the template for any other ward-scoped role (charge nurse, porter).
 
 ### 4.3 Run token
 
@@ -299,6 +347,21 @@ Orthanc and MinIO are reachable only from the proxy and the worker; the sandbox 
 
 Uploaded documents follow the quarantine path: the raw file is readable only by the worker credential; the agent sees nothing until the worker has produced sanitized text (`/tools/notes`, provenance `patient-reported`); the dashboard gets a signed URL to the sanitized copy only.
 
+### 5.2 Appointments: the agent proposes, a human books (Track A/B)
+
+Booking is a write, so it follows the break-glass pattern rather than the tool pattern. The agent may call a read-only `POST /tools/availability` (free slots by practitioner and department, opaque ids only) and answer with a structured `appointment_proposal`; the dashboard renders it with a Book button; the click calls `POST /appointments` with the session cookie. The PDP runs with `action = schedule`, applies the self match or the `can_schedule` check (§4.2), validates the practitioner as an active care-role row in `identity.users` (no user-to-user relation exists in FGA), inserts the row, and writes the audit row. Two independent walls stop the agent booking on its own: the run token's `aud = patient360-tools` is rejected by `/appointments` before the PDP, and the PDP denies any non-read action on the agent channel regardless.
+
+What Track A/B builds for it (the FGA permission and its tests already exist):
+
+- `clinical.appointments` (`cite_id`, `patient_key`, `practitioner_user_id`, `status` from the FHIR `Appointment.status` value set via `vs_appointment_status()`, `start_at`, `end_at`, `dept`, `service_type` code triple, `created_by`, `confidentiality = N`). `p360_app` gets `INSERT`/`UPDATE` on this table only: a narrow exception in `05-grants.sql`, the first clinical table the backend writes.
+- `audit.vs_event_type()` gains `appointment_booked`, `appointment_cancelled`; `purpose_of_event` is `TREAT` for staff, `PATRQT` for self and caregiver.
+- `Context.action: Literal["read", "schedule", "cancel", "consent_grant", "consent_revoke", "break_glass"]` in the PDP, so the agent-channel write deny is an explicit comparison rather than an inference from the endpoint.
+- `POST /appointments` and `PATCH /appointments/{id}` (cancel or reschedule; only the booker, the practitioner, or the patient may cancel, a PDP rule on the row).
+- `encounters` dataset in `/tools/query` includes `appointments` rows with `status IN (booked, pending)` behind `can_read_clinical` and the self rule, so "when is my next appointment" is a normal read.
+- Optional toggle, off by default: booking also writes a time-boxed `attending` or `care_team` tuple for the practitioner with `start = appointment start` plus a `consent_granted` row with `granted_by = booking`. Demo line if enabled: Dr Chen sees tomorrow's appointment with `p_205` in her schedule but cannot read the chart until the window opens. Off by default because it lets a scheduler create grants.
+
+Notes, medication changes, and any other clinical write stay out of scope (§16): they are the writes that make an injected instruction dangerous, and the judging story is stronger for a system that demonstrably cannot make them.
+
 ---
 
 ## 6. Data model
@@ -312,12 +375,13 @@ Element-level allowlists, label rules, dataset exposure per role, and the emitte
 - `02-clinical.sql`: `medications`, `allergies`, `notes` (metadata, `sanitized_ref` pointer, `internal`, `provenance`, `published` with a publish-gate CHECK), `diagnostic_reports` + `diagnostic_report_results` + view `imaging_reports`; optional empty `immunizations`, `procedures`, `diet_orders`; `concept_closure` for SNOMED subsumption; `column_policy` seed (quasi-identifiers, pointers, allowed aggregate dims).
 - `03-identity.sql`: `identity.users (user_id opaque, role, department, credential_level, active)`; `identity.sessions (session_hash = sha256(cookie token), user_id, created_at, last_seen_at, expires_at, absolute_expires_at, auth_level ∈ {1,2}, on_duty, self_patient_id without FK, sandbox_id, revoked_at)`. The session token itself is never stored (ASVS V7). Run tokens are stateless: tool endpoints check the `sid` claim against `identity.sessions`, so ending a session invalidates every token minted from it; `jti` is kept for audit correlation only. No names, no credentials, no consents.
 - `04-audit.sql`: `audit.audit_events (seq, id, recorded_at, event_type, agent_user, agent_software, purpose_of_event, entity_patient, entity_resource, entity_query, outcome ∈ {0,4,8,12}, outcome_desc, policy_id, policy_version, reason_code, session_id (hex of session_hash), jti, detail jsonb, prev_hash, row_hash)`; `event_type ∈ {decision, tool_call, consent_granted, consent_revoked, break_glass, login, logout, step_up, media_sign, media_fetch, ingest, upload, identity_resolve}`; `purpose_of_event ∈ {TREAT, HRESCH, BTG, PATRQT, HOPERAT}`; SHA-256 hash chain computed by a `BEFORE INSERT` trigger that takes an advisory lock, then draws `seq`, then reads the previous hash, so chain order equals `seq` order under concurrency; `verify_chain()`; triggers that raise on `UPDATE`, `DELETE`, `TRUNCATE`; `audit.aggregate_query_log` for overlap detection. Writers insert audit rows in their own short transaction because the lock is held to commit. immudb is retired (`--profile legacy`).
-- `05-grants.sql`: `p360_app` reads `clinical`, owns `identity`, inserts and reads `audit`; `p360_worker` inserts/updates `clinical`, seeds `identity.users`, inserts `audit`; `p360_auditor` reads `audit`. Nobody but the superuser owner can `DELETE` from `clinical` or mutate `audit`.
+- `05-grants.sql`: `CONNECT` on `fhir` revoked from `PUBLIC` and granted to the three service roles only; `p360_app` reads `clinical`, owns `identity`, inserts and reads `audit`; `p360_worker` inserts/updates `clinical`, seeds `identity.users`, inserts `audit`; `p360_auditor` reads `audit`. Nobody but the superuser owner can `DELETE` from `clinical` or mutate `audit`.
+- `98-openfga-datastore.sh`: login role `openfga` (password `PATIENT360_OPENFGA_DB_PASSWORD`) and database `openfga` owned by it, `CONNECT` revoked from `PUBLIC`. The OpenFGA datastore lives in the same instance but the `p360_*` roles cannot connect to it and `openfga` cannot connect to `fhir`.
 - `99-role-passwords.sh`: applies `PATIENT360_{APP,WORKER,AUDITOR}_PASSWORD` from the environment to the three roles. No service connects as the superuser `fhir_app`.
 
 Qdrant `note_chunks` payload: `{patient_key, note_id, confidentiality, sensitivity[], dept, published, provenance}`. Payload indexes on `patient_key`, `confidentiality`, `published`. Missing ACL metadata fails the batch.
 
-Compose changes: `openfga` → `OPENFGA_DATASTORE_ENGINE=postgres` with an `openfga-migrate` step; `openfga-init` replaced by an `openfga/cli` step that writes the model and seeds tuples from JSON; MinIO gains `quarantine`; new `backend` service; `ingest-worker` under a profile with no published port.
+Compose changes (OpenFGA part done): `postgres` health probe over TCP so `openfga-migrate` cannot start during the socket-only initdb phase; `openfga-migrate` one-shot (`openfga migrate` against `postgres://openfga:…@postgres:5432/openfga`); `openfga` on `OPENFGA_DATASTORE_ENGINE=postgres` with the check-query cache explicitly off and a `grpc_health_probe` healthcheck; `openfga-init` built from `stores/init/openfga-cli.Dockerfile` (the `fga` binary from the distroless `openfga/cli` image copied into Alpine with `jq`) running `stores/init/openfga.sh`, which finds the store by name and `fga store import`s `store.fga.yaml` idempotently. Still to do: MinIO gains `quarantine`; new `backend` service; `ingest-worker` under a profile with no published port.
 
 ---
 
@@ -344,7 +408,7 @@ Compose changes: `openfga` → `OPENFGA_DATASTORE_ENGINE=postgres` with an `open
 
 ---
 
-## 9. Demo: same question, six identities
+## 9. Demo: same question, seven identities
 
 Seed grants:
 
@@ -357,8 +421,12 @@ u_okafor  consultant       patient:p_102   start=2026-08-01  expiry=2026-08-15  
 u_diego   caregiver        patient:p_103   start=2026-06-01  expiry=2026-12-01
 u_diego   caregiver_notes  patient:p_103   start=2026-03-01  expiry=2026-06-01   (expired)
 u_nair    researcher       project:cohort_2026
+u_lindqvist  staff         ward:w_3b       start=shift-start expiry=shift-end       (placement, not consent)
+ward:w_3b admitted_to      patient:p_101   start=2026-09-10  expiry=2026-10-10       (expected discharge; worker-owned)
 vault: u_maria -> p_103 (no tuple)
 ```
+
+Seven personas: the six above plus Tomas Lindqvist, dietary staff on ward w_3b, who reaches `p_101` only through `staff from admitted_to` and only for `can_read_diet`.
 
 Script (question: "Latest labs and any notes about medication changes for p_101"):
 
@@ -375,6 +443,7 @@ Script (question: "Latest labs and any notes about medication changes for p_101"
 | 9 | Dr. Chen on p_205 | not_found, byte-identical to a nonexistent patient | — |
 | 10 | Dr. Chen break-glass on p_205 | human dialog, justification, permit with compliance flag | `BTG` audit row, auditor view |
 | 11 | Revoke Diego's consent live | next call not_found; portal shows revoked entry | `consent_revoked` |
+| 12 | Tomas Lindqvist, dietary staff, on shift | diet orders and food allergies for p_101; labs, notes, and p_103 not_found | ward chain `staff from admitted_to`; `category = food` obligation |
 
 ---
 
@@ -411,8 +480,8 @@ Runner emits JSON with the `audit_id` per case. `/redteam` shows pass / partial 
 | Direct store access from agent | closed | egress allowlist, no store credentials in sandbox | OpenShell policy |
 | Existence oracle | closed | uniform 404 | — |
 | Login → pseudonym link outside the vault | closed | session-only `self_patient_id`, opaque user ids | ISO 25237, Swiss EPDV Art. 10 |
-| Cross-user writes | partial | read-only tools; PDP-checked human writes | OWASP LLM06 |
-| Inference from authorized fields | partial | label-based redaction, output rails | HL7 HCS / DS4P |
+| Cross-user writes | partial | read-only tools; four PDP-checked human writes (consent grant, revoke, break-glass, appointment booking) on the session cookie; run-token `aud` and agent-channel rule reject agent-initiated writes | OWASP LLM06 |
+| Inference from authorized fields | partial | label-based redaction, output rails; diet orders imply diagnoses (renal diet → kidney disease) and are exposed to dietary staff only for the current ward and shift | HL7 HCS / DS4P |
 | Aggregate differencing | partial | k-min, complementary suppression, restricted dims, overlap log | CMS cell suppression |
 | Multi-turn k-anonymity decay | partial | per-session query log; residual acknowledged | Frontiers 2026 |
 | Third-party mentions inside notes | partial | ingestion de-identification; Presidio recall is not complete | HIPAA Safe Harbor |
@@ -468,6 +537,7 @@ Also on the page: the denied-request sequence diagram, the Swiss EPR mapping (va
 ## 14. Verification
 
 - Table-driven pytest matrix `persona × resource × expected effect × obligations`. The same matrix drives the demo script and the scoreboard.
+- Grant model: `fga model test --tests backend/deploy/patient360/stores/openfga/store.fga.yaml` runs the persona × permission matrix offline against the embedded OpenFGA (16 tests: every persona on own and foreign patients, expired windows, window boundaries, `blocked` over `emergency` and over the ward chain, break-glass window, dietary staff on and off shift, expired `admitted_to` placement, `list_objects` for the attending cohort and the chef's ward, `list_users` on the unassigned patient). No server, no Docker; runs in CI on every change to `model.fga` or `tuples.demo.yaml`.
 - Tool auth: missing, forged, expired, replayed, wrong `aud`, wrong `iss`, missing `act` → 401; identity in body ignored; logout invalidates outstanding run tokens.
 - Self rule: patient on own key permits without internal notes; on any other key hard-denies before OpenFGA; FGA `read` asserts no `self` tuples exist.
 - Sessions: id rotates on login and step-up; `V` read at AAL1 returns `step_up_required`; inactivity expiry ends the session.

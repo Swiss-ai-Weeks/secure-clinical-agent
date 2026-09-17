@@ -1,10 +1,59 @@
 model
   schema 1.1
 
+# Patient360 grant store. OpenFGA answers exactly one question: does user:u_xxx
+# hold relation R on patient:p_xxx (or project:..., ward:...) at current_time? Roles,
+# duty, authentication level, sensitivity labels, dataset allowlists, and self access
+# are PDP rules, not relations here. There is no `self` relation: the login-to-pseudonym
+# link lives only in the vault. Three object types: patient (every per-patient
+# permission), project (research cohorts), ward (placement for ward-scoped staff).
+# Companion files: tuples.demo.yaml (the demo seed) and store.fga.yaml (the persona
+# test matrix, also used by `fga store import`).
+
 type user
+
+type ward
+  relations
+    # Dietary (and later other ward-scoped) staff on shift. Placement, not consent:
+    # written by the worker from a roster, never by a human consent endpoint.
+    define staff: [user with active_window]
 
 type patient
   relations
-    define care_team: [user]
-    define consented: [user]
-    define viewer: care_team or consented
+    # Grants. Every grant carries a window; there is no unbounded grant and no self relation.
+    define attending: [user with active_window]
+    define care_team: [user with active_window]
+    define consultant: [user with active_window]
+    define caregiver: [user with active_window]
+    define caregiver_notes: [user with active_window]
+    define emergency: [user with active_window]
+    # Current ward placement; expiry is the expected discharge, refreshed by the worker,
+    # deleted on discharge. Windowed so a missed discharge expires instead of leaking.
+    define admitted_to: [ward with active_window]
+    # Explicit deny. Deny-overrides: beats every grant, including emergency.
+    define blocked: [user]
+
+    # Permissions the PDP checks. Relationship only; role, duty, AAL, labels, datasets are PDP rules.
+    define can_read_clinical: (attending or consultant or care_team or caregiver or emergency) but not blocked
+    define can_read_notes: (attending or consultant or care_team or caregiver_notes or emergency) but not blocked
+    define can_read_imaging_metadata: (attending or consultant or care_team or emergency) but not blocked
+    define can_read_imaging_report: (attending or consultant or emergency) but not blocked
+    define can_view_pixels: (attending or consultant or emergency) but not blocked
+    # Diet orders and food allergies. `staff from admitted_to` is the ward chain: anyone
+    # on shift for the ward this patient is admitted to. Consultant and researcher are
+    # not in the diet allowlist; the chef's food-only obligation is a PDP rule.
+    define can_read_diet: (attending or care_team or caregiver or emergency or staff from admitted_to) but not blocked
+    # Write prerequisite. Checked only by the dashboard booking endpoint, never by a tool.
+    # Self booking is the PDP self match; emergency is a read-only grant.
+    define can_schedule: (attending or care_team or caregiver) but not blocked
+
+type project
+  relations
+    define researcher: [user with active_window]
+    define can_query_aggregate: researcher
+
+# Start inclusive, expiry exclusive. start/expiry live on the tuple; current_time is
+# supplied in the request context by the PDP on every check.
+condition active_window(current_time: timestamp, start: timestamp, expiry: timestamp) {
+  current_time >= start && current_time < expiry
+}

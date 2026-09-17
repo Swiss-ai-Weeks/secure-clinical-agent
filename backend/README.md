@@ -31,9 +31,11 @@ To start the configured stores:
 
 ```bash
 docker compose --env-file backend/deploy/patient360/.env \
-  -f backend/deploy/patient360/compose.yaml up -d \
-  postgres openfga openfga-init qdrant qdrant-init openbao minio minio-init orthanc
+  -f backend/deploy/patient360/compose.yaml up -d --build \
+  postgres openfga-migrate openfga openfga-init qdrant qdrant-init openbao minio minio-init orthanc
 ```
+
+`--build` is needed once for `openfga-init`, which is built from `stores/init/openfga-cli.Dockerfile` (the `fga` binary copied out of the distroless `openfga/cli` image into Alpine).
 
 ### Postgres `fhir` database
 
@@ -54,7 +56,33 @@ Three schemas: `clinical` (FHIR R4 projections with HL7 HCS labels), `identity` 
 | FastAPI backend | `p360_app` | read `clinical`; read/write `identity`; insert and read `audit` |
 | Ingestion worker | `p360_worker` | insert/update `clinical`; insert/update `identity.users`; insert `audit` |
 | Auditor tooling | `p360_auditor` | read `audit` |
+| OpenFGA | `openfga` | owns the separate database `openfga` (its datastore); cannot connect to `fhir` |
 | initdb, operators | `fhir_app` | superuser; bypasses every `REVOKE`, so no service uses it |
+
+`CONNECT` on `fhir` is granted only to the three `p360_*` roles, and `CONNECT` on `openfga` only to `openfga`, so grants cannot be read or edited behind the OpenFGA API and the grant store cannot see clinical data.
+
+### OpenFGA grant store
+
+`backend/deploy/patient360/stores/openfga/` holds the authorization model (`model.fga`), the demo grants (`tuples.demo.yaml`, Build Plan §9), and the store file (`store.fga.yaml`) that binds both together with the persona test matrix. Three object types: `patient` carries every per-patient permission, `project` the research cohorts, and `ward` the placement chain (`staff from admitted_to`) that gives dietary staff `can_read_diet` on the patients of their ward for the length of a shift. `openfga-init` imports the store file into the store named `patient360-grants` on every `up`; it reuses the existing store, ignores tuples already present, and writes one new immutable model version per run. The backend pins the newest model id at startup and records it on audit rows as `policy_version`.
+
+Test the model offline, with no server and no Docker:
+
+```bash
+brew install openfga/tap/fga            # or a release binary from github.com/openfga/cli
+fga model validate --file backend/deploy/patient360/stores/openfga/model.fga
+fga model test --tests backend/deploy/patient360/stores/openfga/store.fga.yaml
+```
+
+Against the running instance (published on `127.0.0.1:8091`):
+
+```bash
+export FGA_API_URL=http://127.0.0.1:8091 FGA_API_TOKEN="$PATIENT360_OPENFGA_KEY"
+fga store list
+fga query check user:u_chen can_read_notes patient:p_101 \
+  --store-id "$STORE_ID" --context '{"current_time":"2026-09-18T12:00:00Z"}'
+```
+
+Every grant is conditioned on `active_window`, so `--context` with `current_time` is required on every check. Tuples change only through the OpenFGA API: the backend's consent, break-glass, and booking endpoints, and the ingestion worker's `seed_grants.py`. A manual `fga tuple write` bypasses the audit trail and is an operator break-glass, not a workflow. The schema change in `98-openfga-datastore.sh` applies only on an empty volume (see the reset commands above).
 
 To start all default services, including the local Nano, safety, and embedding models:
 

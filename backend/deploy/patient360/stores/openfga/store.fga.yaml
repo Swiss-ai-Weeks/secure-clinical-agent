@@ -1,0 +1,464 @@
+# Patient360 grant store: model + demo tuples + persona test matrix.
+#
+# One file, two uses:
+#   fga model test --tests store.fga.yaml     offline, embedded OpenFGA, no server
+#   fga store import --file store.fga.yaml    what openfga-init runs against the live store
+#
+# Reference instant for the demo is 2026-09-18T12:00:00Z. Every check passes
+# context.current_time because every grant is conditioned on active_window; a
+# conditioned tuple checked without its parameter is an error, not a false.
+# Rows here are the seed of the pytest matrix in Build Plan §14 (persona x resource
+# x effect); the PDP layers role, duty, AAL, labels, datasets, and self on top.
+
+name: patient360-grants
+model_file: ./model.fga
+tuple_file: ./tuples.demo.yaml
+
+tests:
+  - name: attending-chen
+    description: Attending holds every permission on own patients, nothing elsewhere; list_objects yields exactly the two patients
+    check:
+      - user: user:u_chen
+        objects:
+          - patient:p_101
+          - patient:p_102
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: true
+          can_read_notes: true
+          can_read_imaging_metadata: true
+          can_read_imaging_report: true
+          can_view_pixels: true
+          can_read_diet: true
+          can_schedule: true
+      - user: user:u_chen
+        object: patient:p_205
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: false
+          can_read_notes: false
+          can_read_imaging_metadata: false
+          can_read_imaging_report: false
+          can_view_pixels: false
+          can_read_diet: false
+          can_schedule: false
+    list_objects:
+      - user: user:u_chen
+        type: patient
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical:
+            - patient:p_101
+            - patient:p_102
+          can_view_pixels:
+            - patient:p_101
+            - patient:p_102
+
+  - name: care-team-rivera-in-window
+    description: Care team reads clinical, notes, imaging metadata and may schedule; no report text, no pixels
+    check:
+      - user: user:u_rivera
+        object: patient:p_101
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: true
+          can_read_notes: true
+          can_read_imaging_metadata: true
+          can_read_imaging_report: false
+          can_view_pixels: false
+          can_schedule: true
+      - user: user:u_rivera
+        object: patient:p_102
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: false
+          can_read_notes: false
+          can_schedule: false
+
+  - name: care-team-rivera-expired
+    description: The same tuple one day after expiry grants nothing
+    check:
+      - user: user:u_rivera
+        object: patient:p_101
+        context: { current_time: "2026-09-23T12:00:00Z" }
+        assertions:
+          can_read_clinical: false
+          can_read_notes: false
+          can_read_imaging_metadata: false
+          can_read_imaging_report: false
+          can_view_pixels: false
+          can_schedule: false
+
+  - name: consultant-okafor
+    description: Consultant in window reads everything but does not schedule; expired consult on p_102 grants nothing
+    check:
+      - user: user:u_okafor
+        object: patient:p_101
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: true
+          can_read_notes: true
+          can_read_imaging_metadata: true
+          can_read_imaging_report: true
+          can_view_pixels: true
+          can_schedule: false
+      - user: user:u_okafor
+        object: patient:p_102
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: false
+          can_read_notes: false
+          can_read_imaging_metadata: false
+          can_read_imaging_report: false
+          can_view_pixels: false
+          can_schedule: false
+
+  - name: caregiver-diego
+    description: Live clinical consent permits rows and booking; expired notes consent yields not_found on notes; no imaging, no pixels, nothing on other patients
+    check:
+      - user: user:u_diego
+        object: patient:p_103
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: true
+          can_schedule: true
+          can_read_notes: false
+          can_read_imaging_metadata: false
+          can_read_imaging_report: false
+          can_view_pixels: false
+      - user: user:u_diego
+        object: patient:p_101
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: false
+          can_read_notes: false
+          can_read_imaging_metadata: false
+          can_read_imaging_report: false
+          can_view_pixels: false
+          can_schedule: false
+      # Before the notes consent expired, both were live.
+      - user: user:u_diego
+        object: patient:p_103
+        context: { current_time: "2026-05-15T12:00:00Z" }
+        assertions:
+          can_read_notes: true
+          can_read_clinical: false
+
+  - name: researcher-nair
+    description: Researcher reaches only the project aggregate branch; no patient relation of any kind
+    check:
+      - user: user:u_nair
+        object: project:cohort_2026
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_query_aggregate: true
+      - user: user:u_nair
+        object: patient:p_101
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: false
+          can_read_notes: false
+          can_read_imaging_metadata: false
+          can_read_imaging_report: false
+          can_view_pixels: false
+          can_read_diet: false
+          can_schedule: false
+      - user: user:u_chen
+        object: project:cohort_2026
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_query_aggregate: false
+    list_objects:
+      - user: user:u_nair
+        type: patient
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: []
+
+  - name: patient-maria-no-tuples
+    description: Self access is identity, not a grant; FGA must say no on Maria's own record
+    check:
+      - user: user:u_maria
+        objects:
+          - patient:p_103
+          - patient:p_101
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: false
+          can_read_notes: false
+          can_read_imaging_metadata: false
+          can_read_imaging_report: false
+          can_view_pixels: false
+          can_read_diet: false
+          can_schedule: false
+
+  - name: blocked-overrides-everything
+    description: An explicit block beats attending and emergency on that patient and leaves other patients untouched
+    tuples:
+      - user: user:u_chen
+        relation: blocked
+        object: patient:p_102
+      - user: user:u_chen
+        relation: emergency
+        object: patient:p_102
+        condition:
+          name: active_window
+          context: { start: "2026-09-18T11:00:00Z", expiry: "2026-09-18T13:00:00Z" }
+    check:
+      - user: user:u_chen
+        object: patient:p_102
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: false
+          can_read_notes: false
+          can_read_imaging_metadata: false
+          can_read_imaging_report: false
+          can_view_pixels: false
+          can_read_diet: false
+          can_schedule: false
+      - user: user:u_chen
+        object: patient:p_101
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: true
+          can_read_diet: true
+          can_schedule: true
+    list_objects:
+      - user: user:u_chen
+        type: patient
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical:
+            - patient:p_101
+
+  - name: break-glass-emergency-window
+    description: A time-boxed emergency tuple grants every read tier inside its hour, never scheduling, and nothing at expiry
+    tuples:
+      - user: user:u_chen
+        relation: emergency
+        object: patient:p_205
+        condition:
+          name: active_window
+          context: { start: "2026-09-18T11:00:00Z", expiry: "2026-09-18T12:00:00Z" }
+    check:
+      - user: user:u_chen
+        object: patient:p_205
+        context: { current_time: "2026-09-18T11:30:00Z" }
+        assertions:
+          can_read_clinical: true
+          can_read_notes: true
+          can_read_imaging_metadata: true
+          can_read_imaging_report: true
+          can_view_pixels: true
+          can_read_diet: true
+          can_schedule: false
+      - user: user:u_chen
+        object: patient:p_205
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: false
+          can_read_notes: false
+          can_read_imaging_metadata: false
+          can_read_imaging_report: false
+          can_view_pixels: false
+          can_read_diet: false
+          can_schedule: false
+
+  - name: window-boundaries
+    description: Start is inclusive, expiry is exclusive, before start is nothing
+    check:
+      - user: user:u_rivera
+        object: patient:p_101
+        context: { current_time: "2026-09-15T00:00:00Z" }
+        assertions:
+          can_read_clinical: true
+      - user: user:u_rivera
+        object: patient:p_101
+        context: { current_time: "2026-09-22T00:00:00Z" }
+        assertions:
+          can_read_clinical: false
+      - user: user:u_rivera
+        object: patient:p_101
+        context: { current_time: "2026-09-14T23:59:59Z" }
+        assertions:
+          can_read_clinical: false
+      - user: user:u_rivera
+        object: patient:p_101
+        context: { current_time: "2026-09-21T23:59:59Z" }
+        assertions:
+          can_read_clinical: true
+
+  - name: unassigned-p205
+    description: Nobody holds anything on the unassigned patient; unauthorized and nonexistent look the same here
+    list_users:
+      - object: patient:p_205
+        user_filter:
+          - type: user
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical:
+            users: []
+          can_read_diet:
+            users: []
+          can_schedule:
+            users: []
+      - object: patient:p_101
+        user_filter:
+          - type: user
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical:
+            users:
+              - user:u_chen
+              - user:u_rivera
+              - user:u_okafor
+          can_view_pixels:
+            users:
+              - user:u_chen
+              - user:u_okafor
+          can_read_diet:
+            users:
+              - user:u_chen
+              - user:u_rivera
+              - user:u_lindqvist
+
+  - name: dietary-staff-lindqvist
+    description: The chef reaches p_101 only through the ward chain, only for diet, and sees no patient off the ward
+    check:
+      - user: user:u_lindqvist
+        object: patient:p_101
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_diet: true
+          can_read_clinical: false
+          can_read_notes: false
+          can_read_imaging_metadata: false
+          can_read_imaging_report: false
+          can_view_pixels: false
+          can_schedule: false
+      - user: user:u_lindqvist
+        objects:
+          - patient:p_102
+          - patient:p_103
+          - patient:p_205
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_diet: false
+          can_read_clinical: false
+          can_read_notes: false
+          can_schedule: false
+    list_objects:
+      - user: user:u_lindqvist
+        type: patient
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_diet:
+            - patient:p_101
+          can_read_clinical: []
+
+  - name: dietary-staff-off-shift
+    description: Outside the staff window the ward chain grants nothing even though the patient is still admitted
+    check:
+      - user: user:u_lindqvist
+        object: patient:p_101
+        context: { current_time: "2026-09-26T12:00:00Z" }
+        assertions:
+          can_read_diet: false
+          can_read_clinical: false
+    list_objects:
+      - user: user:u_lindqvist
+        type: patient
+        context: { current_time: "2026-09-26T12:00:00Z" }
+        assertions:
+          can_read_diet: []
+
+  - name: discharge-expires-placement
+    description: The admitted_to window is enforced; an expired placement grants nothing while a live one for a second patient works
+    tuples:
+      - user: ward:w_3b
+        relation: admitted_to
+        object: patient:p_102
+        condition:
+          name: active_window
+          context: { start: "2026-09-01T00:00:00Z", expiry: "2026-09-17T00:00:00Z" }
+      - user: ward:w_3b
+        relation: admitted_to
+        object: patient:p_103
+        condition:
+          name: active_window
+          context: { start: "2026-09-16T00:00:00Z", expiry: "2026-09-30T00:00:00Z" }
+    check:
+      - user: user:u_lindqvist
+        object: patient:p_102
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_diet: false
+      - user: user:u_lindqvist
+        object: patient:p_103
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_diet: true
+          can_read_clinical: false
+          can_read_notes: false
+      # Before the p_102 placement expired the chef could read its diet.
+      - user: user:u_lindqvist
+        object: patient:p_102
+        context: { current_time: "2026-09-16T12:00:00Z" }
+        assertions:
+          can_read_diet: true
+    list_objects:
+      - user: user:u_lindqvist
+        type: patient
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_diet:
+            - patient:p_101
+            - patient:p_103
+
+  - name: blocked-chef
+    description: An explicit block on the chef beats the ward chain
+    tuples:
+      - user: user:u_lindqvist
+        relation: blocked
+        object: patient:p_101
+    check:
+      - user: user:u_lindqvist
+        object: patient:p_101
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_diet: false
+    list_objects:
+      - user: user:u_lindqvist
+        type: patient
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_diet: []
+
+  - name: diet-across-roles
+    description: Attending, care team, and caregiver read diet on their patients; consultant, researcher, and self do not through FGA
+    check:
+      - object: patient:p_101
+        users:
+          - user:u_chen
+          - user:u_rivera
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_diet: true
+      - object: patient:p_101
+        users:
+          - user:u_okafor
+          - user:u_nair
+          - user:u_diego
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_diet: false
+      - user: user:u_diego
+        object: patient:p_103
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_diet: true
+      - user: user:u_maria
+        object: patient:p_103
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_diet: false
