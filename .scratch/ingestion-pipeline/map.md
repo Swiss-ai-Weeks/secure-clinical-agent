@@ -16,7 +16,7 @@ A reproducible batch worker for seeding Patient360 with linked synthetic patient
 - Architecture reference: /home/nvidia/Documents/patient360-architecture copy.html and the provided screenshot. Repository baseline: backend/deploy/patient360/compose.yaml, sql/fhir/01-init.sql, stores/init/qdrant.sh, stores/openfga/model.fga, and stores/init/openfga.sh. The hybrid RAG overlay is a separate deployment using Elasticsearch; its Milvus service is disabled.
 - Local branch: ingestion-pipeline, created from the current checkout while preserving pre-existing staged and unstaged work. The user subsequently requested publication of all pending repository changes, including the product documents, learning assets, and document moves. Ignored datasets and restricted local evidence remain local.
 - Proposed sequence and current-state evidence: [Ingestion planning guide](../../backend/ingestion/plan.md). That guide is a proposal; resolved decisions live only in their tickets.
-- Main schema integration: [checkpoint](../../backend/ingestion/schema-integration.md) records the imported FHIR plan/schema and the outstanding differences owned by the projection, note, and lifecycle tickets. A clean Git merge does not resolve those contracts or apply the SQL to existing stores.
+- Main schema integration: [checkpoint](../../backend/ingestion/schema-integration.md) records the user's reconciliation choices, the backed-up PostgreSQL volume replacement, runtime validation, and remaining adapter work. Database initialization does not load or publish the clinical seed.
 - Vocabulary for discussion: source FHIR bundle, opaque patient key, generated note, sanitized note, chunk, grant, and published batch. De-identification with linkable patient keys must not be represented as a guarantee of irreversible anonymization. New glossary entries wait for agreed meanings.
 
 ## Decisions so far
@@ -24,7 +24,7 @@ A reproducible batch worker for seeding Patient360 with linked synthetic patient
 - [Identify the synthetic-note generator and obtain its API contract](issues/01-note-generator-input.md): Synthea's pinned FHIR export supplies linked raw encounter notes; inspected contract and repeatable source-worker evidence recorded in the ticket.
 - [Verify Synthea, Presidio, and embedding integration contracts](issues/02-source-and-model-contracts.md): published source/export, de-identification, vector, and filter contracts documented; serving-profile limits and live readiness still require verification.
 - [Choose the first cohort and ingestion success criteria](issues/03-cohort-and-success.md#answer): approved the reproducible development cohort, structured resource scope, three source-grounded demonstrations with access checks, and a separate adversarial evaluation corpus.
-- [Define patient identity, linkage, and source provenance](issues/04-identity-and-provenance.md#answer): stable opaque identities with restricted retraceability; preserve synthetic clinical dates and structured birth dates without adding DOB to notes or embeddings.
+- [Define patient identity, linkage, and source provenance](issues/04-identity-and-provenance.md#answer): stable opaque patient identities, birth year only, temporary internal raw source resource IDs with a restricted-provenance follow-up, and an authorized demo database rebuild.
 
 ## Not yet specified
 

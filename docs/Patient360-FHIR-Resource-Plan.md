@@ -4,6 +4,8 @@ Companion to [Patient360-Build-Plan.md](Patient360-Build-Plan.md). This is the c
 
 **FHIR version pin:** ingest **R4 (4.0.1)** as produced by Synthea with US Core 6.1.0 profiles. Emit **R4** by default; R5 renames are a mapping table, not a second code path. Nothing here requires R5 or R6.
 
+**Ingestion alignment, 2026-09-17:** the user adopted this schema's birth-year-only representation and temporarily approved raw non-patient `source_id` values for internal upserts. Patient keys and application citations remain opaque. [Move source resource identifiers into restricted provenance](../.scratch/ingestion-pipeline/issues/12-restrict-source-resource-identifiers.md) tracks the required follow-up; until then, the first importer stays within the agreed source namespace. [Schema integration evidence](../backend/ingestion/schema-integration.md) records the backed-up demo database rebuild and distinguishes initialized tables from completed ingestion.
+
 ---
 
 ## 1. Principles

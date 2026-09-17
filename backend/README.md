@@ -37,7 +37,7 @@ docker compose --env-file backend/deploy/patient360/.env \
 
 ### Postgres `fhir` database
 
-`backend/deploy/patient360/sql/fhir/` is the schema. The files run once, in name order, when the `postgres-fhir-data` volume is empty; Postgres never re-runs them. After any change to those files, recreate the volume:
+`backend/deploy/patient360/sql/fhir/` is the schema. The files run once, in name order, when the `postgres-fhir-data` volume is empty; Postgres never re-runs them. For an explicitly approved disposable demo reset, back up the database and recreate the volume with the commands below. Normal worker retries must not run this reset. The [2026-09-17 replacement evidence](ingestion/schema-integration.md) records the current server's verified bootstrap and backup.
 
 ```bash
 docker compose --env-file backend/deploy/patient360/.env \
