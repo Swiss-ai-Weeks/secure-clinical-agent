@@ -1,10 +1,11 @@
 <template>
-  <ClinicalCard title="Today's patients"><div class="patients"><RouterLink v-for="patient in patients" :key="patient.id" class="patient" :to="`/patients/${patient.id}/overview`"><span class="avatar">{{ patient.avatarInitials }}</span><span><strong>{{ patient.fullName }}</strong><small>{{ patient.age }} years · {{ patient.appointmentTime }} · {{ patient.appointmentType }}</small><small>{{ patient.reasonForVisit }}</small><em v-if="patient.warning">{{ patient.warning }}</em></span><span aria-hidden="true">→</span></RouterLink></div></ClinicalCard>
+  <ClinicalCard title="Today's patients"><div class="patients"><RouterLink v-for="patient in patients" :key="patient.id" class="patient" :to="`/patients/${patient.id}/overview`"><span class="avatar">{{ patient.avatarInitials }}</span><span><strong>{{ patient.fullName }}</strong><small>{{ patient.age }} years · {{ patient.appointmentTime }} · {{ patient.appointmentType }}</small><small>{{ patient.reasonForVisit }}</small><AccessGate v-if="patient.warning" field="patientWarning"><em>{{ patient.warning }}</em></AccessGate></span><span aria-hidden="true">→</span></RouterLink></div></ClinicalCard>
 </template>
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import type { PatientSummary } from '../../types/patient360';
 import ClinicalCard from '../../components/ui/ClinicalCard.vue';
+import AccessGate from '../../components/access/AccessGate.vue';
 defineProps<{ patients: PatientSummary[] }>();
 </script>
 <style scoped>

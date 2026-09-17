@@ -1,5 +1,5 @@
 <template>
-  <section class="labs"><header><p>Patient 360</p><h1>Laboratory results</h1></header><div class="labs__grid"><ClinicalCard title="LDL cholesterol trend"><Line :data="chartData" :options="chartOptions" /><div class="actions"><button type="button" @click="ask">✦ Explain trend</button><button type="button" @click="ask">✦ Compare with previous results</button><button type="button" @click="ask">✦ Find related history</button></div></ClinicalCard><ClinicalCard title="Latest results"><div class="results"><article v-for="lab in patient?.labs" :key="lab.id"><div><h2>{{ lab.label }}</h2><p>{{ lab.date }} · source {{ lab.sourceId }}</p></div><div><strong>{{ lab.value }} {{ lab.unit }}</strong><span>Reference {{ lab.referenceRange }} · previous {{ lab.previousValue ?? '—' }}</span><StatusPill :label="lab.abnormal ? 'Above reference range' : 'Within reference range'" :tone="lab.abnormal ? 'danger' : 'success'" /></div></article></div></ClinicalCard></div></section>
+  <section class="labs"><header><p>Patient 360</p><h1>Laboratory results</h1></header><AccessGate field="labs"><div class="labs__grid"><ClinicalCard title="LDL cholesterol trend"><Line :data="chartData" :options="chartOptions" /><div class="actions"><button type="button" @click="ask">✦ Explain trend</button><button type="button" @click="ask">✦ Compare with previous results</button><button type="button" @click="ask">✦ Find related history</button></div></ClinicalCard><ClinicalCard title="Latest results"><div class="results"><article v-for="lab in patient?.labs" :key="lab.id"><div><h2>{{ lab.label }}</h2><p>{{ lab.date }} · source {{ lab.sourceId }}</p></div><div><strong>{{ lab.value }} {{ lab.unit }}</strong><span>Reference {{ lab.referenceRange }} · previous {{ lab.previousValue ?? '—' }}</span><StatusPill :label="lab.abnormal ? 'Above reference range' : 'Within reference range'" :tone="lab.abnormal ? 'danger' : 'success'" /></div></article></div></ClinicalCard></div></AccessGate></section>
 </template>
 
 <script setup lang="ts">
@@ -12,6 +12,7 @@ import type { Patient } from '../../types/patient360';
 import { useUiStore } from '../../stores/useUiStore';
 import ClinicalCard from '../../components/ui/ClinicalCard.vue';
 import StatusPill from '../../components/ui/StatusPill.vue';
+import AccessGate from '../../components/access/AccessGate.vue';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 const route = useRoute(); const ui = useUiStore(); const patient = ref<Patient | null>(null);
 const chartData = { labels: ['Mar', 'Aug'], datasets: [{ label: 'LDL cholesterol (mmol/L)', data: [3.7, 4.2], borderColor: '#b42318', backgroundColor: '#f6b8c8', tension: .35 }] };

@@ -1,6 +1,6 @@
 <template>
   <ClinicalCard title="✦ Clinical Brief" :ai="true">
-    <ul class="brief"><li v-for="statement in briefStatements" :key="statement">{{ statement }}</li></ul>
+    <AccessGateMulti :fields="['majorDiagnoses', 'labs']"><ul class="brief"><li v-for="statement in briefStatements" :key="statement">{{ statement }}</li></ul></AccessGateMulti>
     <div class="actions"><button type="button">View sources</button><button type="button">Regenerate summary</button><button type="button" class="actions__primary" @click="ui.openAskPanel(patient.id)">Ask follow-up</button></div>
   </ClinicalCard>
 </template>
@@ -8,6 +8,7 @@
 <script setup lang="ts">
 import type { Patient } from '../../types/patient360';
 import ClinicalCard from '../../components/ui/ClinicalCard.vue';
+import AccessGateMulti from '../../components/access/AccessGateMulti.vue';
 import { useUiStore } from '../../stores/useUiStore';
 defineProps<{ patient: Patient }>();
 const ui = useUiStore();

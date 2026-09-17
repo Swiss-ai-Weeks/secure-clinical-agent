@@ -10,7 +10,8 @@
       <button type="submit" :disabled="loading">Ask with sources</button>
     </form>
     <ol v-if="loading" class="steps"><li v-for="step in loadingSteps" :key="step">{{ step }}</li></ol>
-    <article v-if="answer" class="answer"><h3>✦ Answer</h3><p>{{ answer.answer }}</p><div class="citations"><button v-for="citation in answer.citations" :key="citation.id" type="button" @click="ui.highlightSource(citation.sourceId)">{{ citation.label }}</button></div></article>
+    <AccessDenialCard v-if="answer?.denied" :label="answer.deniedField ?? 'This answer'" :tier="answer.deniedTier" />
+    <article v-else-if="answer" class="answer"><h3>✦ Answer</h3><p>{{ answer.answer }}</p><div class="citations"><button v-for="citation in answer.citations" :key="citation.id" type="button" @click="ui.highlightSource(citation.sourceId)">{{ citation.label }}</button></div></article>
   </aside>
 </template>
 
@@ -19,8 +20,11 @@ import { ref } from 'vue';
 import { mockApi } from '../../services/mockApi';
 import type { AiAnswer } from '../../types/patient360';
 import { useUiStore } from '../../stores/useUiStore';
+import { useAccessControlStore } from '../../stores/useAccessControlStore';
+import AccessDenialCard from '../access/AccessDenialCard.vue';
 
 const ui = useUiStore();
+const access = useAccessControlStore();
 const question = ref("What changed with Emma's migraines over the last six months?");
 const loading = ref(false);
 const answer = ref<AiAnswer | null>(null);
@@ -29,7 +33,12 @@ const loadingSteps = ['Searching clinical history...', 'Reading relevant documen
 async function ask() {
   loading.value = true;
   answer.value = null;
-  answer.value = await mockApi.askPatient360({ scope: ui.selectedPatientId ? 'patient' : 'clinic', patientId: ui.selectedPatientId, question: question.value });
+  answer.value = await mockApi.askPatient360({
+    scope: ui.selectedPatientId ? 'patient' : 'clinic',
+    patientId: ui.selectedPatientId,
+    question: question.value,
+    role: access.role
+  });
   loading.value = false;
 }
 </script>

@@ -23,7 +23,9 @@ export const patients: Patient[] = [
       { id: 'doc-lab-aug', title: 'August lipid panel', type: 'Laboratory report', date: '2026-08-18', source: 'Limmat Lab', processingState: 'processed', uploadedBy: 'Clinic inbox' },
       { id: 'doc-neuro-sept', title: 'Neurology report', type: 'External medical report', date: '2026-09-14', source: 'Neurology Zentrum Zürich', processingState: 'pending-review', uploadedBy: 'Emma Laurent' }
     ],
-    notes: [{ id: 'note-consult-sept', title: 'Migraine follow-up', author: 'Dr. Müller', date: '2026-09-12', text: 'Migraine frequency increased to three episodes per month. No neurological red flags documented.' }]
+    notes: [{ id: 'note-consult-sept', title: 'Migraine follow-up', author: 'Dr. Müller', date: '2026-09-12', text: 'Migraine frequency increased to three episodes per month. No neurological red flags documented.' }],
+    // Demo-only T3 example field — see src/data/accessControl.ts.
+    riskAssessment: 'Risk-assessment screening on 3 Aug 2026: no acute risk identified; safety plan reviewed and current.'
   },
   {
     id: 'jonas-meier', fullName: 'Jonas Meier', age: 58, dateOfBirth: '1968-01-09', phone: '+41 79 555 0199', email: 'jonas.meier@example.ch', status: 'Active', appointmentTime: '11:00', appointmentType: 'Diabetes check', reasonForVisit: 'Dizziness reported after medication change', warning: 'New dizziness questionnaire', avatarInitials: 'JM', assignedClinician: 'Dr. Müller', sex: 'Male', patientId: 'P360-1068', bloodType: 'A+',
