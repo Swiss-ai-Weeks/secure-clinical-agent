@@ -47,7 +47,7 @@ docker compose --env-file backend/deploy/patient360/.env \
   -f backend/deploy/patient360/compose.yaml up -d postgres
 ```
 
-Three schemas: `clinical` (FHIR R4 projections with HL7 HCS labels), `identity` (opaque users, sessions, run tokens), `audit` (append-only, hash-chained `audit_events`; immudb is retired behind `--profile legacy`). Each process connects as its own role, never as the superuser `fhir_app`:
+Three schemas: `clinical` (FHIR R4 projections with HL7 HCS labels), `identity` (opaque users, hashed sessions), `audit` (append-only, hash-chained `audit_events`; immudb is retired behind `--profile legacy`). Each process connects as its own role, never as the superuser `fhir_app`:
 
 | Process | Role | Privileges |
 |---|---|---|

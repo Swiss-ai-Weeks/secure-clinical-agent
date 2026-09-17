@@ -54,7 +54,7 @@ CREATE TABLE audit.audit_events (
     policy_version   text,
     reason_code      text,                                                                 -- grant_expired, off_duty_step_up_required, aggregate_only, ...
     session_id       text,                                                                 -- hex of identity.sessions.session_hash; no FK: sessions are deleted, audit rows are not
-    jti              text,
+    jti              text,                                                                 -- jti of the run token that made the call; correlation only, there is no token registry
     detail           jsonb NOT NULL DEFAULT '{}' CHECK (jsonb_typeof(detail) = 'object'),  -- obligations, justification; for `ingest`: Synthea version, seeds, reference date, per-type counts, adversarial cite_ids; never names
     prev_hash        bytea,
     row_hash         bytea NOT NULL                                                        -- set by trigger; NOT NULL is checked after BEFORE triggers
