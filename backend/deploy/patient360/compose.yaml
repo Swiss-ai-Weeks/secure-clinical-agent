@@ -10,13 +10,19 @@ services:
     container_name: patient360-postgres
     restart: unless-stopped
     environment:
+      # fhir_app is the superuser owner: initdb and operators only. Services connect
+      # as the p360_* roles below, whose passwords 99-role-passwords.sh applies once.
       POSTGRES_USER: fhir_app
       POSTGRES_PASSWORD: ${PATIENT360_FHIR_PASSWORD:-patient360-fhir-dev}
       POSTGRES_DB: fhir
+      PATIENT360_APP_PASSWORD: ${PATIENT360_APP_PASSWORD:-patient360-app-dev}
+      PATIENT360_WORKER_PASSWORD: ${PATIENT360_WORKER_PASSWORD:-patient360-worker-dev}
+      PATIENT360_AUDITOR_PASSWORD: ${PATIENT360_AUDITOR_PASSWORD:-patient360-auditor-dev}
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
       - postgres-fhir-data:/var/lib/postgresql/data
+      # Runs only on an empty volume. After a schema change: docker volume rm patient360_postgres-fhir-data
       - ./sql/fhir:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U fhir_app -d fhir"]
@@ -59,6 +65,9 @@ services:
     restart: "no"
 
   immudb:
+    # Retired: audit_events lives in Postgres (schema audit, hash-chained, append-only).
+    # Kept under a profile so nothing starts it by default.
+    profiles: [legacy]
     image: codenotary/immudb:1.9.5
     container_name: patient360-immudb
     restart: unless-stopped

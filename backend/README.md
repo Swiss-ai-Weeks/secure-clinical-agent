@@ -32,8 +32,29 @@ To start the configured stores:
 ```bash
 docker compose --env-file backend/deploy/patient360/.env \
   -f backend/deploy/patient360/compose.yaml up -d \
-  postgres openfga openfga-init immudb qdrant qdrant-init openbao minio minio-init orthanc
+  postgres openfga openfga-init qdrant qdrant-init openbao minio minio-init orthanc
 ```
+
+### Postgres `fhir` database
+
+`backend/deploy/patient360/sql/fhir/` is the schema. The files run once, in name order, when the `postgres-fhir-data` volume is empty; Postgres never re-runs them. After any change to those files, recreate the volume:
+
+```bash
+docker compose --env-file backend/deploy/patient360/.env \
+  -f backend/deploy/patient360/compose.yaml rm -sf postgres
+docker volume rm patient360_postgres-fhir-data
+docker compose --env-file backend/deploy/patient360/.env \
+  -f backend/deploy/patient360/compose.yaml up -d postgres
+```
+
+Three schemas: `clinical` (FHIR R4 projections with HL7 HCS labels), `identity` (opaque users, sessions, run tokens), `audit` (append-only, hash-chained `audit_events`; immudb is retired behind `--profile legacy`). Each process connects as its own role, never as the superuser `fhir_app`:
+
+| Process | Role | Privileges |
+|---|---|---|
+| FastAPI backend | `p360_app` | read `clinical`; read/write `identity`; insert and read `audit` |
+| Ingestion worker | `p360_worker` | insert/update `clinical`; insert/update `identity.users`; insert `audit` |
+| Auditor tooling | `p360_auditor` | read `audit` |
+| initdb, operators | `fhir_app` | superuser; bypasses every `REVOKE`, so no service uses it |
 
 To start all default services, including the local Nano, safety, and embedding models:
 
