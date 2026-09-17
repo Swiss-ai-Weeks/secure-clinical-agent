@@ -56,15 +56,20 @@ function buildCandidateFacts(question: string, patient?: Patient): { primaryFiel
   // Default: the general clinical-narrative branch (e.g. the panel's own
   // suggested "what changed" question, or any other free-text question).
   // Derived from the actual patient's own most recent note and diagnoses —
-  // same fieldKey tagging as before (clinicalNarrative for the synthesized
-  // narrative, majorDiagnoses for the diagnosis summary), just no longer
-  // hardcoded to Emma's specific story regardless of who was asked about.
+  // no longer hardcoded to Emma's specific story regardless of who was asked
+  // about.
   const facts: CandidateFact[] = [];
 
   const mostRecentNote = [...patient.notes].sort((a, b) => b.date.localeCompare(a.date))[0];
+  // Same fallback as NotesView.vue's `note.category ?? 'clinicalNarrative'` —
+  // not a separate implementation of that default. A note's own category
+  // (e.g. behavioralHealthNote, substanceUseHistory, geneticData) has to be
+  // honored here too, or this path re-leaks exactly the content NotesView.vue
+  // gates, just through a different door.
+  const noteFieldKey = mostRecentNote?.category ?? 'clinicalNarrative';
   if (mostRecentNote) {
     facts.push({
-      fieldKey: 'clinicalNarrative',
+      fieldKey: noteFieldKey,
       text: mostRecentNote.text,
       citation: { id: `citation-${mostRecentNote.id}`, label: `${mostRecentNote.title}, ${mostRecentNote.date}`, sourceId: mostRecentNote.id, sourceType: 'note' }
     });
@@ -78,7 +83,14 @@ function buildCandidateFacts(question: string, patient?: Patient): { primaryFiel
     });
   }
 
-  return { primaryFieldKey: 'clinicalNarrative', facts };
+  // The denial message (composeAnswer, when every fact is denied) names
+  // whichever field is primaryFieldKey — this has to track the note's own
+  // category too, not stay hardcoded, or a fully-denied answer would name
+  // the wrong field/tier (e.g. "Clinical narrative (T1)" for a note that's
+  // actually geneticData (T3)).
+  const primaryFieldKey = mostRecentNote ? noteFieldKey : (patient.majorDiagnoses.length > 0 ? 'majorDiagnoses' : 'clinicalNarrative');
+
+  return { primaryFieldKey, facts };
 }
 
 function buildClinicCandidateFacts(): { primaryFieldKey: string; facts: CandidateFact[] } {

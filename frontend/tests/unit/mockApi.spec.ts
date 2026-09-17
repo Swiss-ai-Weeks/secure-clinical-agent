@@ -61,6 +61,56 @@ describe('mockApi', () => {
     expect(jonas.denied).toBeFalsy();
   });
 
+  it('honors a note\'s own category (not a hardcoded clinicalNarrative) when the default branch pulls it as a fallback fact', async () => {
+    const genericQuestion = "What's changed with this patient recently?";
+
+    // Sofia's only note is behavioralHealthNote (T2, override=behavioral):
+    // nurse's ceiling is T0-T2, so it reaches T2 on general ceiling alone —
+    // no override needed. Front desk (T0 only) is denied. Behavioral reaches
+    // it via the override, same as reading the note directly would.
+    const sofiaNurse = await mockApi.askPatient360({ scope: 'patient', patientId: 'sofia-rinaldi', question: genericQuestion, role: 'nurse' });
+    expect(sofiaNurse.denied).toBeFalsy();
+    expect(sofiaNurse.answer).toContain('low mood');
+
+    const sofiaFrontdesk = await mockApi.askPatient360({ scope: 'patient', patientId: 'sofia-rinaldi', question: genericQuestion, role: 'frontdesk' });
+    expect(sofiaFrontdesk.denied).toBe(true);
+    expect(sofiaFrontdesk.deniedField).toBe('Behavioral health note');
+
+    const sofiaBehavioral = await mockApi.askPatient360({ scope: 'patient', patientId: 'sofia-rinaldi', question: genericQuestion, role: 'behavioral' });
+    expect(sofiaBehavioral.denied).toBeFalsy();
+    expect(sofiaBehavioral.answer).toContain('low mood');
+
+    // Klaus's only note is substanceUseHistory (T2, no override): nurse
+    // reaches it on ceiling alone; behavioral does NOT (T0-T1 ceiling, no
+    // override for this field) — the opposite of Sofia's case.
+    const klausNurse = await mockApi.askPatient360({ scope: 'patient', patientId: 'klaus-bergmann', question: genericQuestion, role: 'nurse' });
+    expect(klausNurse.denied).toBeFalsy();
+    expect(klausNurse.answer).toContain('Liver enzymes');
+
+    // Klaus also has a majorDiagnoses fact (T1, within behavioral's reach),
+    // so this isn't a full denial — per the existing Fix 6 partial-exclusion
+    // rule, behavioral gets a partial answer: the diagnoses fact included,
+    // the substance-use note fact silently excluded (not shown, not hinted at).
+    const klausBehavioral = await mockApi.askPatient360({ scope: 'patient', patientId: 'klaus-bergmann', question: genericQuestion, role: 'behavioral' });
+    expect(klausBehavioral.denied).toBeFalsy();
+    expect(klausBehavioral.answer).toContain('Alcohol use disorder');
+    expect(klausBehavioral.answer).not.toContain('Liver enzymes');
+    expect(klausBehavioral.answer).not.toContain('abstinence');
+    expect(klausBehavioral.citations.map(c => c.sourceId)).not.toContain('note-klaus-followup');
+
+    // Erik's only note is geneticData (T3, no override): denied for nurse
+    // too (T3 exceeds its T0-T2 ceiling), and the denial names the right
+    // field/tier rather than the old hardcoded "Clinical narrative (T1)".
+    const erikNurse = await mockApi.askPatient360({ scope: 'patient', patientId: 'erik-lindqvist', question: genericQuestion, role: 'nurse' });
+    expect(erikNurse.denied).toBe(true);
+    expect(erikNurse.deniedField).toBe('Genetic data');
+    expect(erikNurse.deniedTier).toBe('T3');
+
+    const erikAttending = await mockApi.askPatient360({ scope: 'patient', patientId: 'erik-lindqvist', question: genericQuestion, role: 'attending' });
+    expect(erikAttending.denied).toBeFalsy();
+    expect(erikAttending.answer).toContain('genetic counseling protocol');
+  });
+
   it('denies a risk-assessment question for roles without T3 reach, but answers it for attending', async () => {
     const question = 'Has she ever expressed suicidal ideation?';
 

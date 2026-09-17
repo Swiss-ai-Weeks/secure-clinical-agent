@@ -18,28 +18,119 @@
       "sex": "Female",
       "patientId": "P360-1042",
       "bloodType": "O+",
-      "majorAllergies": ["Penicillin"],
-      "majorDiagnoses": ["Migraine without aura", "Hyperlipidemia"],
-      "riskIndicators": ["Elevated LDL", "Worsening headache frequency"],
+      "majorAllergies": [
+        "Penicillin"
+      ],
+      "majorDiagnoses": [
+        "Migraine without aura",
+        "Hyperlipidemia"
+      ],
+      "riskIndicators": [
+        "Elevated LDL",
+        "Worsening headache frequency"
+      ],
       "measurements": [
-        { "id": "m-bp", "label": "Blood pressure", "value": "128/82 mmHg", "date": "2026-09-12", "provenance": "clinical" },
-        { "id": "m-hr", "label": "Heart rate", "value": "74 bpm", "date": "2026-09-12", "provenance": "clinical" },
-        { "id": "m-weight", "label": "Weight", "value": "68 kg", "date": "2026-09-02", "provenance": "patient-reported" }
+        {
+          "id": "m-bp",
+          "label": "Blood pressure",
+          "value": "128/82 mmHg",
+          "date": "2026-09-12",
+          "provenance": "clinical"
+        },
+        {
+          "id": "m-hr",
+          "label": "Heart rate",
+          "value": "74 bpm",
+          "date": "2026-09-12",
+          "provenance": "clinical"
+        },
+        {
+          "id": "m-weight",
+          "label": "Weight",
+          "value": "68 kg",
+          "date": "2026-09-02",
+          "provenance": "patient-reported"
+        }
       ],
       "labs": [
-        { "id": "lab-ldl-sept", "label": "LDL cholesterol", "value": "4.2", "unit": "mmol/L", "referenceRange": "< 3.0", "previousValue": "3.7", "trend": "up", "abnormal": true, "date": "2026-08-18", "sourceId": "event-lab-aug-18" },
-        { "id": "lab-hba1c-sept", "label": "HbA1c", "value": "5.4", "unit": "%", "referenceRange": "4.0-5.6", "previousValue": "5.3", "trend": "stable", "abnormal": false, "date": "2026-08-18", "sourceId": "event-lab-aug-18" }
+        {
+          "id": "lab-ldl-sept",
+          "label": "LDL cholesterol",
+          "value": "4.2",
+          "unit": "mmol/L",
+          "referenceRange": "< 3.0",
+          "previousValue": "3.7",
+          "trend": "up",
+          "abnormal": true,
+          "date": "2026-08-18",
+          "sourceId": "event-lab-aug-18"
+        },
+        {
+          "id": "lab-hba1c-sept",
+          "label": "HbA1c",
+          "value": "5.4",
+          "unit": "%",
+          "referenceRange": "4.0-5.6",
+          "previousValue": "5.3",
+          "trend": "stable",
+          "abnormal": false,
+          "date": "2026-08-18",
+          "sourceId": "event-lab-aug-18"
+        }
       ],
       "medications": [
-        { "id": "med-sumatriptan", "name": "Sumatriptan", "dosage": "50 mg", "frequency": "As needed", "route": "Oral", "startDate": "2026-03-11", "prescriber": "Dr. Müller", "reason": "Migraine attacks", "current": true },
-        { "id": "med-magnesium", "name": "Magnesium", "dosage": "300 mg", "frequency": "Daily", "route": "Oral", "startDate": "2026-09-02", "prescriber": "Patient-reported", "reason": "Migraine prevention", "current": true }
+        {
+          "id": "med-sumatriptan",
+          "name": "Sumatriptan",
+          "dosage": "50 mg",
+          "frequency": "As needed",
+          "route": "Oral",
+          "startDate": "2026-03-11",
+          "prescriber": "Dr. Müller",
+          "reason": "Migraine attacks",
+          "current": true
+        },
+        {
+          "id": "med-magnesium",
+          "name": "Magnesium",
+          "dosage": "300 mg",
+          "frequency": "Daily",
+          "route": "Oral",
+          "startDate": "2026-09-02",
+          "prescriber": "Patient-reported",
+          "reason": "Migraine prevention",
+          "current": true
+        }
       ],
       "documents": [
-        { "id": "doc-lab-aug", "title": "August lipid panel", "type": "Laboratory report", "date": "2026-08-18", "source": "Limmat Lab", "processingState": "processed", "uploadedBy": "Clinic inbox" },
-        { "id": "doc-neuro-sept", "title": "Neurology report", "type": "External medical report", "date": "2026-09-14", "source": "Neurology Zentrum Zürich", "processingState": "pending-review", "uploadedBy": "Emma Laurent" }
+        {
+          "id": "doc-lab-aug",
+          "title": "August lipid panel",
+          "type": "Laboratory report",
+          "date": "2026-08-18",
+          "source": "Limmat Lab",
+          "processingState": "processed",
+          "uploadedBy": "Clinic inbox"
+        },
+        {
+          "id": "doc-neuro-sept",
+          "title": "Neurology report",
+          "type": "External medical report",
+          "date": "2026-09-14",
+          "source": "Neurology Zentrum Zürich",
+          "processingState": "pending-review",
+          "uploadedBy": "Emma Laurent"
+        }
       ],
       "notes": [
-        { "id": "note-consult-sept", "title": "Migraine follow-up", "author": "Dr. Müller", "date": "2026-09-12", "text": "Migraine frequency increased to three episodes per month. No neurological red flags documented." }
+        {
+          "id": "note-consult-sept",
+          "title": "Migraine follow-up",
+          "author": "Dr. Müller",
+          "date": "2026-09-12",
+          "text": "Migraine frequency increased to three episodes per month. No neurological red flags documented.",
+          "category": "clinicalNarrative"
+        }
       ],
       "riskAssessment": "Risk-assessment screening on 3 Aug 2026: no acute risk identified; safety plan reviewed and current."
     },
@@ -61,8 +152,13 @@
       "patientId": "P360-1068",
       "bloodType": "A+",
       "majorAllergies": [],
-      "majorDiagnoses": ["Type 2 diabetes", "Hypertension"],
-      "riskIndicators": ["Reported dizziness"],
+      "majorDiagnoses": [
+        "Type 2 diabetes",
+        "Hypertension"
+      ],
+      "riskIndicators": [
+        "Reported dizziness"
+      ],
       "measurements": [],
       "labs": [],
       "medications": [],
@@ -87,18 +183,47 @@
       "patientId": "P360-1101",
       "bloodType": "B+",
       "majorAllergies": [],
-      "majorDiagnoses": ["Major depressive disorder, recurrent", "Generalized anxiety disorder"],
-      "riskIndicators": ["Recent mood decline", "Sleep disruption reported"],
+      "majorDiagnoses": [
+        "Major depressive disorder, recurrent",
+        "Generalized anxiety disorder"
+      ],
+      "riskIndicators": [
+        "Recent mood decline",
+        "Sleep disruption reported"
+      ],
       "measurements": [
-        { "id": "m-sofia-weight", "label": "Weight", "value": "61 kg", "date": "2026-09-10", "provenance": "clinical" }
+        {
+          "id": "m-sofia-weight",
+          "label": "Weight",
+          "value": "61 kg",
+          "date": "2026-09-10",
+          "provenance": "clinical"
+        }
       ],
       "labs": [],
       "medications": [
-        { "id": "med-sofia-sertraline", "name": "Sertraline", "dosage": "100 mg", "frequency": "Daily", "route": "Oral", "startDate": "2026-05-02", "prescriber": "Dr. Müller", "reason": "Major depressive disorder", "current": true }
+        {
+          "id": "med-sofia-sertraline",
+          "name": "Sertraline",
+          "dosage": "100 mg",
+          "frequency": "Daily",
+          "route": "Oral",
+          "startDate": "2026-05-02",
+          "prescriber": "Dr. Müller",
+          "reason": "Major depressive disorder",
+          "current": true
+        }
       ],
       "documents": [],
       "notes": [
-        { "id": "note-sofia-bh-sept", "title": "Behavioral health follow-up", "author": "Dr. Müller", "date": "2026-09-10", "text": "Patient reports low mood most days over the past three weeks, with disrupted sleep. Continuing sertraline at current dose. Follow-up in one week." }
+        {
+          "id": "note-sofia-bh-sept",
+          "title": "Behavioral health follow-up",
+          "author": "Dr. Müller",
+          "date": "2026-09-10",
+          "text": "Patient reports low mood most days over the past three weeks, with disrupted sleep. Continuing sertraline at current dose. Follow-up in one week.",
+          "category": "behavioralHealthNote"
+        }
       ],
       "riskAssessment": "Patient endorsed passive suicidal ideation without plan or intent during today's visit; denies active intent or means. Safety plan reviewed and updated; outpatient follow-up in 1 week; crisis line information provided. No hospitalization indicated at this time.",
       "familyPsychiatricHistory": "Mother with history of major depressive disorder, treated; maternal aunt with bipolar I disorder. No known family history of suicide."
@@ -121,16 +246,39 @@
       "patientId": "P360-1102",
       "bloodType": "O-",
       "majorAllergies": [],
-      "majorDiagnoses": ["Alcohol use disorder, early remission", "Hepatic steatosis"],
-      "riskIndicators": ["Elevated liver enzymes, improving"],
+      "majorDiagnoses": [
+        "Alcohol use disorder, early remission",
+        "Hepatic steatosis"
+      ],
+      "riskIndicators": [
+        "Elevated liver enzymes, improving"
+      ],
       "measurements": [],
       "labs": [
-        { "id": "lab-klaus-alt", "label": "ALT", "value": "48", "unit": "U/L", "referenceRange": "7-56", "previousValue": "72", "trend": "down", "abnormal": false, "date": "2026-09-01", "sourceId": "event-klaus-liver-panel" }
+        {
+          "id": "lab-klaus-alt",
+          "label": "ALT",
+          "value": "48",
+          "unit": "U/L",
+          "referenceRange": "7-56",
+          "previousValue": "72",
+          "trend": "down",
+          "abnormal": false,
+          "date": "2026-09-01",
+          "sourceId": "event-klaus-liver-panel"
+        }
       ],
       "medications": [],
       "documents": [],
       "notes": [
-        { "id": "note-klaus-followup", "title": "Liver function follow-up", "author": "Dr. Müller", "date": "2026-09-01", "text": "Liver enzymes trending down since last visit. Patient continues to report abstinence, corroborated by family. Continue current monitoring interval." }
+        {
+          "id": "note-klaus-followup",
+          "title": "Liver function follow-up",
+          "author": "Dr. Müller",
+          "date": "2026-09-01",
+          "text": "Liver enzymes trending down since last visit. Patient continues to report abstinence, corroborated by family. Continue current monitoring interval.",
+          "category": "substanceUseHistory"
+        }
       ],
       "substanceUseHistory": "History of alcohol use disorder, diagnosed 2019; completed an inpatient treatment program in 2024; reports sustained abstinence since discharge, corroborated by patient and family. Father had a history of alcohol use disorder."
     },
@@ -152,18 +300,47 @@
       "patientId": "P360-1103",
       "bloodType": "A-",
       "majorAllergies": [],
-      "majorDiagnoses": ["Invasive ductal carcinoma, left breast, stage IIA"],
-      "riskIndicators": ["Newly diagnosed malignancy"],
+      "majorDiagnoses": [
+        "Invasive ductal carcinoma, left breast, stage IIA"
+      ],
+      "riskIndicators": [
+        "Newly diagnosed malignancy"
+      ],
       "measurements": [],
       "labs": [],
       "medications": [
-        { "id": "med-amara-tamoxifen", "name": "Tamoxifen", "dosage": "20 mg", "frequency": "Daily", "route": "Oral", "startDate": "2026-09-05", "prescriber": "Dr. Müller", "reason": "Hormone receptor-positive breast cancer", "current": true }
+        {
+          "id": "med-amara-tamoxifen",
+          "name": "Tamoxifen",
+          "dosage": "20 mg",
+          "frequency": "Daily",
+          "route": "Oral",
+          "startDate": "2026-09-05",
+          "prescriber": "Dr. Müller",
+          "reason": "Hormone receptor-positive breast cancer",
+          "current": true
+        }
       ],
       "documents": [
-        { "id": "doc-amara-mri", "title": "Breast MRI report", "type": "Imaging report", "date": "2026-08-28", "source": "Radiology Zürich", "processingState": "processed", "uploadedBy": "Clinic inbox" }
+        {
+          "id": "doc-amara-mri",
+          "title": "Breast MRI report",
+          "type": "Imaging report",
+          "date": "2026-08-28",
+          "source": "Radiology Zürich",
+          "processingState": "processed",
+          "uploadedBy": "Clinic inbox"
+        }
       ],
       "notes": [
-        { "id": "note-amara-imaging", "title": "Imaging findings summary", "author": "Dr. Müller", "date": "2026-08-28", "text": "MRI demonstrates a 2.3 cm irregular enhancing mass in the left breast, upper outer quadrant, consistent with known malignancy. No chest wall involvement identified. Three suspicious axillary lymph nodes noted; biopsy recommended. Oncology referral in progress." }
+        {
+          "id": "note-amara-imaging",
+          "title": "Imaging findings summary",
+          "author": "Dr. Müller",
+          "date": "2026-08-28",
+          "text": "MRI demonstrates a 2.3 cm irregular enhancing mass in the left breast, upper outer quadrant, consistent with known malignancy. No chest wall involvement identified. Three suspicious axillary lymph nodes noted; biopsy recommended. Oncology referral in progress.",
+          "category": "clinicalNarrative"
+        }
       ]
     },
     {
@@ -184,16 +361,34 @@
       "patientId": "P360-1104",
       "bloodType": "B-",
       "majorAllergies": [],
-      "majorDiagnoses": ["Mild cognitive impairment", "Osteoarthritis"],
-      "riskIndicators": ["Fall risk"],
+      "majorDiagnoses": [
+        "Mild cognitive impairment",
+        "Osteoarthritis"
+      ],
+      "riskIndicators": [
+        "Fall risk"
+      ],
       "measurements": [
-        { "id": "m-robert-gait", "label": "Timed up-and-go", "value": "14.2 s", "date": "2026-09-08", "provenance": "clinical" }
+        {
+          "id": "m-robert-gait",
+          "label": "Timed up-and-go",
+          "value": "14.2 s",
+          "date": "2026-09-08",
+          "provenance": "clinical"
+        }
       ],
       "labs": [],
       "medications": [],
       "documents": [],
       "notes": [
-        { "id": "note-robert-caregiver", "title": "Care coordination", "author": "Dr. Müller", "date": "2026-09-08", "text": "Daughter Linda Cheng is the designated caregiver and healthcare proxy for this patient; consented to receive summary-level updates on care plan and appointments. Reachable at +41 79 555 0177 for care coordination." }
+        {
+          "id": "note-robert-caregiver",
+          "title": "Care coordination",
+          "author": "Dr. Müller",
+          "date": "2026-09-08",
+          "text": "Daughter Linda Cheng is the designated caregiver and healthcare proxy for this patient; consented to receive summary-level updates on care plan and appointments. Reachable at +41 79 555 0177 for care coordination.",
+          "category": "clinicalNarrative"
+        }
       ]
     },
     {
@@ -214,14 +409,32 @@
       "patientId": "P360-1109",
       "bloodType": "A+",
       "majorAllergies": [],
-      "majorDiagnoses": ["Seasonal allergic rhinitis"],
+      "majorDiagnoses": [
+        "Seasonal allergic rhinitis"
+      ],
       "riskIndicators": [],
       "measurements": [
-        { "id": "m-nina-height", "label": "Height", "value": "116 cm", "date": "2026-09-05", "provenance": "clinical" }
+        {
+          "id": "m-nina-height",
+          "label": "Height",
+          "value": "116 cm",
+          "date": "2026-09-05",
+          "provenance": "clinical"
+        }
       ],
       "labs": [],
       "medications": [
-        { "id": "med-nina-cetirizine", "name": "Cetirizine", "dosage": "5 mg", "frequency": "Daily as needed", "route": "Oral", "startDate": "2026-04-01", "prescriber": "Dr. Müller", "reason": "Seasonal allergic rhinitis", "current": true }
+        {
+          "id": "med-nina-cetirizine",
+          "name": "Cetirizine",
+          "dosage": "5 mg",
+          "frequency": "Daily as needed",
+          "route": "Oral",
+          "startDate": "2026-04-01",
+          "prescriber": "Dr. Müller",
+          "reason": "Seasonal allergic rhinitis",
+          "current": true
+        }
       ],
       "documents": [],
       "notes": [],
@@ -246,13 +459,22 @@
       "bloodType": "AB+",
       "majorAllergies": [],
       "majorDiagnoses": [],
-      "riskIndicators": ["Family history of Huntington's disease"],
+      "riskIndicators": [
+        "Family history of Huntington's disease"
+      ],
       "measurements": [],
       "labs": [],
       "medications": [],
       "documents": [],
       "notes": [
-        { "id": "note-erik-counseling", "title": "Post-test genetic counseling", "author": "Dr. Müller", "date": "2026-08-14", "text": "Result reviewed with patient in person, per genetic counseling protocol. Patient is coping well and has elected to inform first-degree relatives personally over the coming weeks. Follow-up counseling offered." }
+        {
+          "id": "note-erik-counseling",
+          "title": "Post-test genetic counseling",
+          "author": "Dr. Müller",
+          "date": "2026-08-14",
+          "text": "Result reviewed with patient in person, per genetic counseling protocol. Patient is coping well and has elected to inform first-degree relatives personally over the coming weeks. Follow-up counseling offered.",
+          "category": "geneticData"
+        }
       ],
       "geneticData": "Predictive genetic testing performed 12 Aug 2026 due to family history of Huntington's disease (father affected, symptom onset age 45). CAG repeat analysis: 42 repeats (pathogenic range, ≥40), confirming presymptomatic gene-positive status. Patient counseled pre- and post-test. This result has direct implications for first-degree relatives (siblings, children)."
     },
@@ -273,16 +495,46 @@
       "sex": "Female",
       "patientId": "P360-1105",
       "bloodType": "O+",
-      "majorAllergies": ["Dust mites"],
-      "majorDiagnoses": ["Mild persistent asthma"],
+      "majorAllergies": [
+        "Dust mites"
+      ],
+      "majorDiagnoses": [
+        "Mild persistent asthma"
+      ],
       "riskIndicators": [],
       "measurements": [
-        { "id": "m-yasmin-spo2", "label": "Oxygen saturation", "value": "98%", "date": "2026-09-11", "provenance": "clinical" }
+        {
+          "id": "m-yasmin-spo2",
+          "label": "Oxygen saturation",
+          "value": "98%",
+          "date": "2026-09-11",
+          "provenance": "clinical"
+        }
       ],
       "labs": [],
       "medications": [
-        { "id": "med-yasmin-albuterol", "name": "Albuterol", "dosage": "90 mcg", "frequency": "As needed", "route": "Inhaled", "startDate": "2025-11-01", "prescriber": "Dr. Müller", "reason": "Asthma symptom relief", "current": true },
-        { "id": "med-yasmin-fluticasone", "name": "Fluticasone", "dosage": "44 mcg", "frequency": "Twice daily", "route": "Inhaled", "startDate": "2025-11-01", "prescriber": "Dr. Müller", "reason": "Asthma maintenance", "current": true }
+        {
+          "id": "med-yasmin-albuterol",
+          "name": "Albuterol",
+          "dosage": "90 mcg",
+          "frequency": "As needed",
+          "route": "Inhaled",
+          "startDate": "2025-11-01",
+          "prescriber": "Dr. Müller",
+          "reason": "Asthma symptom relief",
+          "current": true
+        },
+        {
+          "id": "med-yasmin-fluticasone",
+          "name": "Fluticasone",
+          "dosage": "44 mcg",
+          "frequency": "Twice daily",
+          "route": "Inhaled",
+          "startDate": "2025-11-01",
+          "prescriber": "Dr. Müller",
+          "reason": "Asthma maintenance",
+          "current": true
+        }
       ],
       "documents": [],
       "notes": []
@@ -305,23 +557,93 @@
       "patientId": "P360-1106",
       "bloodType": "A+",
       "majorAllergies": [],
-      "majorDiagnoses": ["ST-elevation myocardial infarction, status post PCI", "Hyperlipidemia"],
-      "riskIndicators": ["Recent acute cardiac event"],
+      "majorDiagnoses": [
+        "ST-elevation myocardial infarction, status post PCI",
+        "Hyperlipidemia"
+      ],
+      "riskIndicators": [
+        "Recent acute cardiac event"
+      ],
       "measurements": [
-        { "id": "m-marco-bp", "label": "Blood pressure", "value": "122/78 mmHg", "date": "2026-09-09", "provenance": "clinical" }
+        {
+          "id": "m-marco-bp",
+          "label": "Blood pressure",
+          "value": "122/78 mmHg",
+          "date": "2026-09-09",
+          "provenance": "clinical"
+        }
       ],
       "labs": [
-        { "id": "lab-marco-troponin", "label": "Troponin", "value": "0.02", "unit": "ng/mL", "referenceRange": "< 0.04", "previousValue": "2.8", "trend": "down", "abnormal": false, "date": "2026-09-09", "sourceId": "event-marco-troponin" },
-        { "id": "lab-marco-ldl", "label": "LDL cholesterol", "value": "2.1", "unit": "mmol/L", "referenceRange": "< 1.8", "previousValue": "3.9", "trend": "down", "abnormal": true, "date": "2026-09-09", "sourceId": "event-marco-lipids" }
+        {
+          "id": "lab-marco-troponin",
+          "label": "Troponin",
+          "value": "0.02",
+          "unit": "ng/mL",
+          "referenceRange": "< 0.04",
+          "previousValue": "2.8",
+          "trend": "down",
+          "abnormal": false,
+          "date": "2026-09-09",
+          "sourceId": "event-marco-troponin"
+        },
+        {
+          "id": "lab-marco-ldl",
+          "label": "LDL cholesterol",
+          "value": "2.1",
+          "unit": "mmol/L",
+          "referenceRange": "< 1.8",
+          "previousValue": "3.9",
+          "trend": "down",
+          "abnormal": true,
+          "date": "2026-09-09",
+          "sourceId": "event-marco-lipids"
+        }
       ],
       "medications": [
-        { "id": "med-marco-aspirin", "name": "Aspirin", "dosage": "81 mg", "frequency": "Daily", "route": "Oral", "startDate": "2026-08-20", "prescriber": "Dr. Müller", "reason": "Post-MI secondary prevention", "current": true },
-        { "id": "med-marco-atorvastatin", "name": "Atorvastatin", "dosage": "80 mg", "frequency": "Daily", "route": "Oral", "startDate": "2026-08-20", "prescriber": "Dr. Müller", "reason": "Hyperlipidemia", "current": true },
-        { "id": "med-marco-metoprolol", "name": "Metoprolol", "dosage": "25 mg", "frequency": "Twice daily", "route": "Oral", "startDate": "2026-08-20", "prescriber": "Dr. Müller", "reason": "Post-MI secondary prevention", "current": true }
+        {
+          "id": "med-marco-aspirin",
+          "name": "Aspirin",
+          "dosage": "81 mg",
+          "frequency": "Daily",
+          "route": "Oral",
+          "startDate": "2026-08-20",
+          "prescriber": "Dr. Müller",
+          "reason": "Post-MI secondary prevention",
+          "current": true
+        },
+        {
+          "id": "med-marco-atorvastatin",
+          "name": "Atorvastatin",
+          "dosage": "80 mg",
+          "frequency": "Daily",
+          "route": "Oral",
+          "startDate": "2026-08-20",
+          "prescriber": "Dr. Müller",
+          "reason": "Hyperlipidemia",
+          "current": true
+        },
+        {
+          "id": "med-marco-metoprolol",
+          "name": "Metoprolol",
+          "dosage": "25 mg",
+          "frequency": "Twice daily",
+          "route": "Oral",
+          "startDate": "2026-08-20",
+          "prescriber": "Dr. Müller",
+          "reason": "Post-MI secondary prevention",
+          "current": true
+        }
       ],
       "documents": [],
       "notes": [
-        { "id": "note-marco-followup", "title": "Post-MI follow-up", "author": "Dr. Müller", "date": "2026-09-09", "text": "Recovering well following PCI three weeks ago. Troponin normalized. LDL still above target; continuing high-intensity statin therapy. Cardiac rehab referral in place." }
+        {
+          "id": "note-marco-followup",
+          "title": "Post-MI follow-up",
+          "author": "Dr. Müller",
+          "date": "2026-09-09",
+          "text": "Recovering well following PCI three weeks ago. Troponin normalized. LDL still above target; continuing high-intensity statin therapy. Cardiac rehab referral in place.",
+          "category": "clinicalNarrative"
+        }
       ]
     },
     {
@@ -342,19 +664,51 @@
       "patientId": "P360-1107",
       "bloodType": "B+",
       "majorAllergies": [],
-      "majorDiagnoses": ["Pregnancy, 28 weeks gestation", "Gestational diabetes, diet-controlled"],
+      "majorDiagnoses": [
+        "Pregnancy, 28 weeks gestation",
+        "Gestational diabetes, diet-controlled"
+      ],
       "riskIndicators": [],
       "measurements": [
-        { "id": "m-priya-fundal", "label": "Fundal height", "value": "27 cm", "date": "2026-09-13", "provenance": "clinical" },
-        { "id": "m-priya-fhr", "label": "Fetal heart rate", "value": "142 bpm", "date": "2026-09-13", "provenance": "clinical" }
+        {
+          "id": "m-priya-fundal",
+          "label": "Fundal height",
+          "value": "27 cm",
+          "date": "2026-09-13",
+          "provenance": "clinical"
+        },
+        {
+          "id": "m-priya-fhr",
+          "label": "Fetal heart rate",
+          "value": "142 bpm",
+          "date": "2026-09-13",
+          "provenance": "clinical"
+        }
       ],
       "labs": [
-        { "id": "lab-priya-glucose", "label": "Glucose tolerance test", "value": "138", "unit": "mg/dL", "referenceRange": "< 140", "trend": "stable", "abnormal": false, "date": "2026-08-30", "sourceId": "event-priya-glucose" }
+        {
+          "id": "lab-priya-glucose",
+          "label": "Glucose tolerance test",
+          "value": "138",
+          "unit": "mg/dL",
+          "referenceRange": "< 140",
+          "trend": "stable",
+          "abnormal": false,
+          "date": "2026-08-30",
+          "sourceId": "event-priya-glucose"
+        }
       ],
       "medications": [],
       "documents": [],
       "notes": [
-        { "id": "note-priya-prenatal", "title": "Prenatal check-up", "author": "Dr. Müller", "date": "2026-09-13", "text": "Fundal height appropriate for gestational age. Fetal heart rate normal. Gestational diabetes remains diet-controlled; glucose readings within target range." }
+        {
+          "id": "note-priya-prenatal",
+          "title": "Prenatal check-up",
+          "author": "Dr. Müller",
+          "date": "2026-09-13",
+          "text": "Fundal height appropriate for gestational age. Fetal heart rate normal. Gestational diabetes remains diet-controlled; glucose readings within target range.",
+          "category": "clinicalNarrative"
+        }
       ]
     },
     {
@@ -375,20 +729,53 @@
       "patientId": "P360-1108",
       "bloodType": "O+",
       "majorAllergies": [],
-      "majorDiagnoses": ["Osteoarthritis, right knee, status post total knee arthroplasty"],
+      "majorDiagnoses": [
+        "Osteoarthritis, right knee, status post total knee arthroplasty"
+      ],
       "riskIndicators": [],
       "measurements": [
-        { "id": "m-henrik-rom", "label": "Knee range of motion", "value": "0-110 degrees", "date": "2026-09-07", "provenance": "clinical" }
+        {
+          "id": "m-henrik-rom",
+          "label": "Knee range of motion",
+          "value": "0-110 degrees",
+          "date": "2026-09-07",
+          "provenance": "clinical"
+        }
       ],
       "labs": [],
       "medications": [
-        { "id": "med-henrik-paracetamol", "name": "Paracetamol", "dosage": "1 g", "frequency": "As needed", "route": "Oral", "startDate": "2026-08-15", "prescriber": "Dr. Müller", "reason": "Post-operative pain management", "current": true }
+        {
+          "id": "med-henrik-paracetamol",
+          "name": "Paracetamol",
+          "dosage": "1 g",
+          "frequency": "As needed",
+          "route": "Oral",
+          "startDate": "2026-08-15",
+          "prescriber": "Dr. Müller",
+          "reason": "Post-operative pain management",
+          "current": true
+        }
       ],
       "documents": [
-        { "id": "doc-henrik-operative", "title": "Operative report", "type": "Surgical report", "date": "2026-08-15", "source": "Universitätsspital Zürich", "processingState": "processed", "uploadedBy": "Clinic inbox" }
+        {
+          "id": "doc-henrik-operative",
+          "title": "Operative report",
+          "type": "Surgical report",
+          "date": "2026-08-15",
+          "source": "Universitätsspital Zürich",
+          "processingState": "processed",
+          "uploadedBy": "Clinic inbox"
+        }
       ],
       "notes": [
-        { "id": "note-henrik-ptreferral", "title": "Post-operative follow-up", "author": "Dr. Müller", "date": "2026-09-07", "text": "Recovering as expected six weeks post total knee arthroplasty. Range of motion improving. Referred to physical therapy for continued rehabilitation." }
+        {
+          "id": "note-henrik-ptreferral",
+          "title": "Post-operative follow-up",
+          "author": "Dr. Müller",
+          "date": "2026-09-07",
+          "text": "Recovering as expected six weeks post total knee arthroplasty. Range of motion improving. Referred to physical therapy for continued rehabilitation.",
+          "category": "clinicalNarrative"
+        }
       ]
     }
   ]

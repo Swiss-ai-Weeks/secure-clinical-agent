@@ -94,6 +94,12 @@ export const FIELD_TIERS: Record<string, FieldTierTag> = {
   // history is the same category by analogy.
   familyPsychiatricHistory: { field: 'familyPsychiatricHistory', label: 'Family psychiatric history', tier: 'T2' },
   substanceUseHistory: { field: 'substanceUseHistory', label: 'Substance use history', tier: 'T2' },
+  // Per-note classification (see ClinicalNote.category, NotesView.vue):
+  // ongoing behavioral-health treatment documentation (session/med-management
+  // notes) — distinct from riskAssessment, which is crisis-specific (T3).
+  // Taxonomy doc §6 defaults this category to T2 when it isn't one of the
+  // explicitly-T3-flagged items (risk assessment, trauma, involuntary treatment).
+  behavioralHealthNote: { field: 'behavioralHealthNote', label: 'Behavioral health note', tier: 'T2' },
   // Attending-only T3 fields — deliberately NOT in FIELD_ROLE_OVERRIDES below.
   // Unlike riskAssessment, neither of these has a role whose own domain
   // justifies a named exception, so only the general T3 tier ceiling reaches them.
@@ -113,9 +119,16 @@ export const FIELD_TIERS: Record<string, FieldTierTag> = {
  * else. (There's no T2-tagged field in the current seed data, so a
  * distinct T2 authorization for this role isn't demonstrable here — see
  * the accompanying summary.)
+ *
+ * behavioralHealthNote follows the same pattern at T2: Behavioral health's
+ * own ceiling stops at T1, so without this override the role couldn't read
+ * its own specialty's routine treatment notes on a patient in its care —
+ * which would be a self-defeating bug, not a safeguard. Same mechanism as
+ * riskAssessment, one tier down.
  */
 export const FIELD_ROLE_OVERRIDES: Record<string, AccessRole[]> = {
-  riskAssessment: ['behavioral']
+  riskAssessment: ['behavioral'],
+  behavioralHealthNote: ['behavioral']
 };
 
 export interface AccessDecision {

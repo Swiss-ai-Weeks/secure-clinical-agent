@@ -130,7 +130,8 @@ export const patients: Patient[] = [
         title: "Migraine follow-up",
         author: "Dr. Müller",
         date: "2026-09-12",
-        text: "Migraine frequency increased to three episodes per month. No neurological red flags documented."
+        text: "Migraine frequency increased to three episodes per month. No neurological red flags documented.",
+        category: "clinicalNarrative"
       }
     ],
     riskAssessment: "Risk-assessment screening on 3 Aug 2026: no acute risk identified; safety plan reviewed and current."
@@ -211,7 +212,8 @@ export const patients: Patient[] = [
         title: "Behavioral health follow-up",
         author: "Dr. Müller",
         date: "2026-09-10",
-        text: "Patient reports low mood most days over the past three weeks, with disrupted sleep. Continuing sertraline at current dose. Follow-up in one week."
+        text: "Patient reports low mood most days over the past three weeks, with disrupted sleep. Continuing sertraline at current dose. Follow-up in one week.",
+        category: "behavioralHealthNote"
       }
     ],
     riskAssessment: "Patient endorsed passive suicidal ideation without plan or intent during today's visit; denies active intent or means. Safety plan reviewed and updated; outpatient follow-up in 1 week; crisis line information provided. No hospitalization indicated at this time.",
@@ -260,7 +262,8 @@ export const patients: Patient[] = [
         title: "Liver function follow-up",
         author: "Dr. Müller",
         date: "2026-09-01",
-        text: "Liver enzymes trending down since last visit. Patient continues to report abstinence, corroborated by family. Continue current monitoring interval."
+        text: "Liver enzymes trending down since last visit. Patient continues to report abstinence, corroborated by family. Continue current monitoring interval.",
+        category: "substanceUseHistory"
       }
     ],
     substanceUseHistory: "History of alcohol use disorder, diagnosed 2019; completed an inpatient treatment program in 2024; reports sustained abstinence since discharge, corroborated by patient and family. Father had a history of alcohol use disorder."
@@ -317,7 +320,8 @@ export const patients: Patient[] = [
         title: "Imaging findings summary",
         author: "Dr. Müller",
         date: "2026-08-28",
-        text: "MRI demonstrates a 2.3 cm irregular enhancing mass in the left breast, upper outer quadrant, consistent with known malignancy. No chest wall involvement identified. Three suspicious axillary lymph nodes noted; biopsy recommended. Oncology referral in progress."
+        text: "MRI demonstrates a 2.3 cm irregular enhancing mass in the left breast, upper outer quadrant, consistent with known malignancy. No chest wall involvement identified. Three suspicious axillary lymph nodes noted; biopsy recommended. Oncology referral in progress.",
+        category: "clinicalNarrative"
       }
     ]
   },
@@ -359,7 +363,8 @@ export const patients: Patient[] = [
         title: "Care coordination",
         author: "Dr. Müller",
         date: "2026-09-08",
-        text: "Daughter Linda Cheng is the designated caregiver and healthcare proxy for this patient; consented to receive summary-level updates on care plan and appointments. Reachable at +41 79 555 0177 for care coordination."
+        text: "Daughter Linda Cheng is the designated caregiver and healthcare proxy for this patient; consented to receive summary-level updates on care plan and appointments. Reachable at +41 79 555 0177 for care coordination.",
+        category: "clinicalNarrative"
       }
     ]
   },
@@ -440,7 +445,8 @@ export const patients: Patient[] = [
         title: "Post-test genetic counseling",
         author: "Dr. Müller",
         date: "2026-08-14",
-        text: "Result reviewed with patient in person, per genetic counseling protocol. Patient is coping well and has elected to inform first-degree relatives personally over the coming weeks. Follow-up counseling offered."
+        text: "Result reviewed with patient in person, per genetic counseling protocol. Patient is coping well and has elected to inform first-degree relatives personally over the coming weeks. Follow-up counseling offered.",
+        category: "geneticData"
       }
     ],
     geneticData: "Predictive genetic testing performed 12 Aug 2026 due to family history of Huntington's disease (father affected, symptom onset age 45). CAG repeat analysis: 42 repeats (pathogenic range, ≥40), confirming presymptomatic gene-positive status. Patient counseled pre- and post-test. This result has direct implications for first-degree relatives (siblings, children)."
@@ -599,7 +605,8 @@ export const patients: Patient[] = [
         title: "Post-MI follow-up",
         author: "Dr. Müller",
         date: "2026-09-09",
-        text: "Recovering well following PCI three weeks ago. Troponin normalized. LDL still above target; continuing high-intensity statin therapy. Cardiac rehab referral in place."
+        text: "Recovering well following PCI three weeks ago. Troponin normalized. LDL still above target; continuing high-intensity statin therapy. Cardiac rehab referral in place.",
+        category: "clinicalNarrative"
       }
     ]
   },
@@ -660,7 +667,8 @@ export const patients: Patient[] = [
         title: "Prenatal check-up",
         author: "Dr. Müller",
         date: "2026-09-13",
-        text: "Fundal height appropriate for gestational age. Fetal heart rate normal. Gestational diabetes remains diet-controlled; glucose readings within target range."
+        text: "Fundal height appropriate for gestational age. Fetal heart rate normal. Gestational diabetes remains diet-controlled; glucose readings within target range.",
+        category: "clinicalNarrative"
       }
     ]
   },
@@ -724,7 +732,8 @@ export const patients: Patient[] = [
         title: "Post-operative follow-up",
         author: "Dr. Müller",
         date: "2026-09-07",
-        text: "Recovering as expected six weeks post total knee arthroplasty. Range of motion improving. Referred to physical therapy for continued rehabilitation."
+        text: "Recovering as expected six weeks post total knee arthroplasty. Range of motion improving. Referred to physical therapy for continued rehabilitation.",
+        category: "clinicalNarrative"
       }
     ]
   }

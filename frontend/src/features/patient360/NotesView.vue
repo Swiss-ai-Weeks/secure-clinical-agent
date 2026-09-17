@@ -1,5 +1,5 @@
 <template>
-  <section class="notes"><header><p>Patient 360</p><h1>Notes</h1></header><ClinicalCard v-for="note in patient?.notes" :key="note.id" :title="note.title" :eyebrow="`${note.author} · ${note.date}`"><p class="note-text">{{ note.text }}</p><div class="actions"><button v-for="action in actions" :key="action" type="button" @click="ui.openAskPanel(patientId)">{{ action }}</button></div></ClinicalCard></section>
+  <section class="notes"><header><p>Patient 360</p><h1>Notes</h1></header><ClinicalCard v-for="note in patient?.notes" :key="note.id" :title="note.title" :eyebrow="`${note.author} · ${note.date}`"><AccessGate :field="note.category ?? 'clinicalNarrative'"><p class="note-text">{{ note.text }}</p></AccessGate><div class="actions"><button v-for="action in actions" :key="action" type="button" @click="ui.openAskPanel(patientId)">{{ action }}</button></div></ClinicalCard></section>
 </template>
 
 <script setup lang="ts">
@@ -9,6 +9,7 @@ import { mockApi } from '../../services/mockApi';
 import type { Patient } from '../../types/patient360';
 import { useUiStore } from '../../stores/useUiStore';
 import ClinicalCard from '../../components/ui/ClinicalCard.vue';
+import AccessGate from '../../components/access/AccessGate.vue';
 const route = useRoute(); const ui = useUiStore(); const patient = ref<Patient | null>(null); const patientId = String(route.params.patientId);
 const actions = ['✦ Summarize note', '✦ Convert to structured fields', '✦ Extract follow-up tasks', '✦ Draft consultation summary', '✦ Find previous related notes'];
 onMounted(async () => { patient.value = await mockApi.getPatient(patientId); });

@@ -118,6 +118,13 @@ export interface ClinicalNote {
   author: string;
   date: string;
   text: string;
+  /**
+   * Which FIELD_TIERS key this note's content is gated by — an explicit,
+   * authored classification (not inferred from the note's title/text at
+   * render time), since note sensitivity varies per note, not per patient.
+   * Defaults to 'clinicalNarrative' (T1) when omitted. See NotesView.vue.
+   */
+  category?: string;
 }
 
 export interface TimelineEvent {
