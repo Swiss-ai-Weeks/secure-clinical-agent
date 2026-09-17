@@ -1,6 +1,11 @@
 # Synthetic ingestion pipeline
 
-This directory is the home for Patient360 ingestion work. It currently contains the implementation plan and source-contract research; no ingestion worker has been implemented yet.
+This directory is the home for Patient360 ingestion work. The first worker stage now generates reproducible Synthea FHIR source batches and extracts linked raw clinical notes. Downstream de-identification, PostgreSQL loading, embedding, Qdrant writes, grants, and publication remain to be implemented.
+
+- [Start here next session: vector storage and search handoff](NEXT-STEPS.md)
+- [Worker commands and steps to complete the pipeline](RUNBOOK.md)
+- [Source worker](worker.py) and [pinned configuration](config/synthea.json)
+- [Inspected Synthea generator contract](research/synthea-generator-contract.md)
 
 - [Ordered GitHub implementation backlog](issues.md)
 - [Ingestion roadmap](https://github.com/Swiss-ai-Weeks/secure-clinical-agent/issues/2)
@@ -13,4 +18,4 @@ The planned paths are Synthea FHIR → de-identified structured projection → P
 
 Put future generators/adapters, FHIR transforms, de-identification, chunking, embedding clients, grant integration, batch orchestration, and their tests here. Add package/layout details when the open decisions settle. Keep synthetic fixtures small; generated datasets, raw notes, credentials, and model caches belong in ignored local storage rather than source control.
 
-Next inputs are the note-generator project/API and the initial cohort choice. See the map for dependencies and decisions already researched.
+The user selected Synthea and approved 10 smoke patients / 100 seed patients. Remaining cohort and security decisions stay explicit in the map. Generated source artifacts live under ignored `.data/ingestion/`; they are unsanitized and unpublished.

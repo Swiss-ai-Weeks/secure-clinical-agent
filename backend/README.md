@@ -9,7 +9,7 @@ backend/
 │   ├── compose.hybrid.yaml
 │   ├── hybrid.env       # Non-secret shell configuration for the legacy RAG overlay
 │   └── blueprint.ref    # Pinned upstream NVIDIA RAG revision
-├── ingestion/           # Plan, research, and future ingestion implementation
+├── ingestion/           # Synthea source worker, tests, research, and remaining pipeline plan
 ├── docs/                # Backend architecture, runbooks, and historical verification
 └── examples/            # Synthetic backend demo fixtures
 ```
@@ -54,6 +54,8 @@ The optional `--profile ingest` enables VISTA-3D and MedGemma imaging services. 
 ## Ingestion
 
 Start with [ingestion/README.md](ingestion/README.md) and [the proposed pipeline sequence](ingestion/plan.md). Future generation, FHIR projection, note processing, embedding, ACL metadata, worker code, and ingestion tests belong in `backend/ingestion/`. Deployment definitions remain in `backend/deploy/`.
+
+The first source stage is implemented: `python3 backend/ingestion/worker.py run --profile smoke` generates or verifies/reuses a pinned 10-patient raw batch; `--profile seed` selects 100 patients. See [the worker runbook](ingestion/RUNBOOK.md) for artifact verification and remaining stages. This command does not populate the existing stores.
 
 ## NVIDIA RAG overlay
 

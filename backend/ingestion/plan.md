@@ -1,12 +1,12 @@
 # Patient360 synthetic ingestion: proposed sequence
 
-This is the reading guide for [Plan the Patient360 synthetic ingestion pipeline](../../.scratch/ingestion-pipeline/map.md), the canonical local wayfinder map. It charts implementation order; it does not resolve the open decisions. Each linked issue holds its eventual answer. Branch: `ingestion-pipeline`. No pipeline execution or store population has happened as part of this plan.
+This is the reading guide for [Plan the Patient360 synthetic ingestion pipeline](../../.scratch/ingestion-pipeline/map.md), the canonical local wayfinder map. It charts implementation order; it does not resolve the open decisions. Each linked issue holds its eventual answer. Branch: `ingestion-pipeline`. On 2026-09-17 the user authorized implementation using Synthea. The [source worker](worker.py) now generates and verifies restricted raw batches; no ingestion records have been written to stores. See the [runbook](RUNBOOK.md) for commands, evidence, and remaining stages.
 
 The [ordered GitHub implementation backlog](issues.md) tracks execution, with the `ingestion` label on every issue. The local wayfinder tickets below retain the design questions that each implementation step must resolve.
 
 ## Destination and first slice
 
-Prepare a reproducible seed of synthetic patients and linked clinical notes in Patient360's existing PostgreSQL and Qdrant stores, with consistent opaque patient keys, traceable transformations, and access checks. Proposed size: 10 patients for smoke checks, then 100 for the first seed; the user has not yet selected the size. Start with a batch job and Patient/Condition/Observation. The clinical-note generator project/API is still awaiting the user's URL.
+Prepare a reproducible seed of synthetic patients and linked clinical notes in Patient360's existing PostgreSQL and Qdrant stores, with consistent opaque patient keys, traceable transformations, and access checks. Approved size: 10 patients for smoke checks, then 100 for the first seed (2026-09-17; [partial scope decision](../../.scratch/ingestion-pipeline/issues/03-cohort-and-success.md)). The proposed starting scope is a batch job and Patient/Condition/Observation; remaining cohort choices are open. The user supplied Synthea; its FHIR export already includes linked template-generated clinical notes. The [inspected contract](research/synthea-generator-contract.md) replaces the earlier unknown note-generator prerequisite.
 
 Treat the user-supplied `/home/nvidia/Documents/patient360-architecture copy.html` as the architecture reference. Its ingestion and quarantine details are newer than the repository's `architecture.html`. Here, “vector database” means Patient360 Qdrant; the separate hybrid RAG overlay selects Elasticsearch and disables Milvus.
 
@@ -18,7 +18,7 @@ flowchart TD
     R --> V["Validate FHIR; normalize references and patient keys"]
     V --> F["Apply structured de-identification; flatten allowed fields"]
     F --> P["PostgreSQL: patients, conditions, observations"]
-    V --> G["Generate notes from matching patient histories"]
+    V --> G["Extract Synthea DocumentReference notes from the same bundles"]
     G --> N["Validate provenance and clinical consistency"]
     N --> D["Presidio de-identification and identifier checks"]
     D --> C["Token-aware chunks and ACL metadata"]
@@ -44,7 +44,7 @@ A publication gate is a required design choice, not an existing service. The wor
 | 1. Pin the synthetic inputs | Fixed Synthea version/configuration/seed/date, explicit FHIR R4 output, actual-count manifest, and a known note-generator contract | [Identify the synthetic-note generator and obtain its API contract](../../.scratch/ingestion-pipeline/issues/01-note-generator-input.md); [Verify Synthea, Presidio, and embedding integration contracts](../../.scratch/ingestion-pipeline/issues/02-source-and-model-contracts.md); [Choose the first cohort and ingestion success criteria](../../.scratch/ingestion-pipeline/issues/03-cohort-and-success.md) |
 | 2. Establish common identity | Resolve FHIR references; assign one opaque patient key across both stores and grants; preserve source lineage separately | [Define patient identity, linkage, and source provenance](../../.scratch/ingestion-pipeline/issues/04-identity-and-provenance.md) |
 | 3. Load structured records | De-identify/project allowed FHIR fields and upsert Patient/Condition/Observation without duplicates | [Choose the FHIR-to-PostgreSQL projection and update rules](../../.scratch/ingestion-pipeline/issues/05-fhir-projection.md) |
-| 4. Generate matching notes | Produce notes grounded in those patient histories, retaining source references and generation version | [Define clinically linked synthetic-note generation](../../.scratch/ingestion-pipeline/issues/06-note-generation-contract.md) |
+| 4. Prepare matching notes | Source worker extracts Synthea notes from DocumentReference once, retaining patient/encounter/source references; downstream clinical acceptance and sanitized processing remain | [Define clinically linked synthetic-note generation](../../.scratch/ingestion-pipeline/issues/06-note-generation-contract.md) |
 | 5. Sanitize and chunk notes | Validate Presidio output; reject/quarantine failures; split sanitized text within the actual embedding token budget | [Choose note de-identification and chunk boundaries](../../.scratch/ingestion-pipeline/issues/07-deid-and-chunking.md) |
 | 6. Seed access and stamp metadata | Load the authorization model and grants; attach required patient/security metadata to every chunk | [Define grants, chunk ACL metadata, and retrieval enforcement](../../.scratch/ingestion-pipeline/issues/08-grants-and-acl.md) |
 | 7. Embed and write Qdrant | Use the pinned passage-embedding contract; verify dimension/distance; upsert stable chunk IDs with safe payloads | [Choose the embedding and Qdrant note-chunk contract](../../.scratch/ingestion-pipeline/issues/09-vector-contract.md) |
@@ -82,4 +82,4 @@ These are configuration observations, not live readiness results.
 
 ## How to continue
 
-Inspect the map's child metadata to find open, unassigned issues whose blockers are resolved. Start with the generator URL and cohort choice; the source/model research can run independently. Claim one decision before working it, resolve through the appropriate human exchange, append its answer, and update the map's decision index. Keep implementation work for the approved handoff.
+Inspect the map's child metadata to find open, unassigned issues whose blockers are resolved. The generator contract and patient counts are now known; confirm the remaining cohort choices, then resolve the identity/provenance boundary before adding downstream store writes. Claim one decision before working it, resolve through the appropriate human exchange, append its answer, and update the map's decision index. [Handoff acceptance scenarios and executable worker tests](tests/README.md) document verification; the [runbook](RUNBOOK.md) lists the remaining implementation stages.
