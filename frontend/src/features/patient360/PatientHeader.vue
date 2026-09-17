@@ -7,6 +7,10 @@
       <section><h2>Conditions</h2><AccessGate field="majorDiagnoses"><ul><li v-for="condition in patient.majorDiagnoses" :key="condition">{{ condition }}</li></ul></AccessGate></section>
       <section><h2>Risk indicators</h2><AccessGateMulti :fields="['labs', 'majorDiagnoses']"><ul><li v-for="risk in patient.riskIndicators" :key="risk">{{ risk }}</li></ul></AccessGateMulti></section>
       <section class="patient-header__restricted"><h2>Risk assessment</h2><AccessGate field="riskAssessment"><p>{{ patient.riskAssessment ?? 'No risk-assessment note on file.' }}</p></AccessGate></section>
+      <section><h2>Family psychiatric history</h2><AccessGate field="familyPsychiatricHistory"><p>{{ patient.familyPsychiatricHistory ?? 'No family psychiatric history on file.' }}</p></AccessGate></section>
+      <section><h2>Substance use history</h2><AccessGate field="substanceUseHistory"><p>{{ patient.substanceUseHistory ?? 'No substance-use history on file.' }}</p></AccessGate></section>
+      <section class="patient-header__restricted"><h2>Legal status</h2><AccessGate field="legalStatus"><p>{{ patient.legalStatus ?? 'No legal-status note on file.' }}</p></AccessGate></section>
+      <section class="patient-header__restricted"><h2>Genetic data</h2><AccessGate field="geneticData"><p>{{ patient.geneticData ?? 'No genetic-testing note on file.' }}</p></AccessGate></section>
     </div>
   </header>
 </template>

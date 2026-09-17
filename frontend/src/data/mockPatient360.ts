@@ -1,35 +1,732 @@
+/**
+ * GENERATED FILE — do not edit by hand.
+ *
+ * Source of truth: .scratch/patient-scenarios/patients.json
+ * Generator:       frontend/scripts/generate-mock-patients.mjs
+ * Regenerate with: npm run generate:mock
+ *
+ * Edit patient data in patients.json, then re-run the generator. Changes
+ * made directly to the `patients` array below will be overwritten.
+ */
 import type { AttentionItem, HomeDashboard, Patient, TimelineEvent } from '../types/patient360';
 
 export const patients: Patient[] = [
   {
-    id: 'emma-laurent', fullName: 'Emma Laurent', age: 34, dateOfBirth: '1992-04-18', phone: '+41 79 555 0134', email: 'emma.laurent@example.ch', status: 'Active', appointmentTime: '09:30', appointmentType: 'Follow-up consultation', reasonForVisit: 'Migraine review and new LDL result', warning: 'Penicillin allergy; LDL increased 12%', avatarInitials: 'EL', assignedClinician: 'Dr. Müller', sex: 'Female', patientId: 'P360-1042', bloodType: 'O+',
-    majorAllergies: ['Penicillin'],
-    majorDiagnoses: ['Migraine without aura', 'Hyperlipidemia'],
-    riskIndicators: ['Elevated LDL', 'Worsening headache frequency'],
+    id: "emma-laurent",
+    fullName: "Emma Laurent",
+    age: 34,
+    dateOfBirth: "1992-04-18",
+    phone: "+41 79 555 0134",
+    email: "emma.laurent@example.ch",
+    status: "Active",
+    appointmentTime: "09:30",
+    appointmentType: "Follow-up consultation",
+    reasonForVisit: "Migraine review and new LDL result",
+    warning: "Penicillin allergy; LDL increased 12%",
+    avatarInitials: "EL",
+    assignedClinician: "Dr. Müller",
+    sex: "Female",
+    patientId: "P360-1042",
+    bloodType: "O+",
+    majorAllergies: ["Penicillin"],
+    majorDiagnoses: ["Migraine without aura", "Hyperlipidemia"],
+    riskIndicators: ["Elevated LDL", "Worsening headache frequency"],
     measurements: [
-      { id: 'm-bp', label: 'Blood pressure', value: '128/82 mmHg', date: '2026-09-12', provenance: 'clinical' },
-      { id: 'm-hr', label: 'Heart rate', value: '74 bpm', date: '2026-09-12', provenance: 'clinical' },
-      { id: 'm-weight', label: 'Weight', value: '68 kg', date: '2026-09-02', provenance: 'patient-reported' }
+      {
+        id: "m-bp",
+        label: "Blood pressure",
+        value: "128/82 mmHg",
+        date: "2026-09-12",
+        provenance: "clinical"
+      },
+      {
+        id: "m-hr",
+        label: "Heart rate",
+        value: "74 bpm",
+        date: "2026-09-12",
+        provenance: "clinical"
+      },
+      {
+        id: "m-weight",
+        label: "Weight",
+        value: "68 kg",
+        date: "2026-09-02",
+        provenance: "patient-reported"
+      }
     ],
     labs: [
-      { id: 'lab-ldl-sept', label: 'LDL cholesterol', value: '4.2', unit: 'mmol/L', referenceRange: '< 3.0', previousValue: '3.7', trend: 'up', abnormal: true, date: '2026-08-18', sourceId: 'event-lab-aug-18' },
-      { id: 'lab-hba1c-sept', label: 'HbA1c', value: '5.4', unit: '%', referenceRange: '4.0-5.6', previousValue: '5.3', trend: 'stable', abnormal: false, date: '2026-08-18', sourceId: 'event-lab-aug-18' }
+      {
+        id: "lab-ldl-sept",
+        label: "LDL cholesterol",
+        value: "4.2",
+        unit: "mmol/L",
+        referenceRange: "< 3.0",
+        previousValue: "3.7",
+        trend: "up",
+        abnormal: true,
+        date: "2026-08-18",
+        sourceId: "event-lab-aug-18"
+      },
+      {
+        id: "lab-hba1c-sept",
+        label: "HbA1c",
+        value: "5.4",
+        unit: "%",
+        referenceRange: "4.0-5.6",
+        previousValue: "5.3",
+        trend: "stable",
+        abnormal: false,
+        date: "2026-08-18",
+        sourceId: "event-lab-aug-18"
+      }
     ],
     medications: [
-      { id: 'med-sumatriptan', name: 'Sumatriptan', dosage: '50 mg', frequency: 'As needed', route: 'Oral', startDate: '2026-03-11', prescriber: 'Dr. Müller', reason: 'Migraine attacks', current: true },
-      { id: 'med-magnesium', name: 'Magnesium', dosage: '300 mg', frequency: 'Daily', route: 'Oral', startDate: '2026-09-02', prescriber: 'Patient-reported', reason: 'Migraine prevention', current: true }
+      {
+        id: "med-sumatriptan",
+        name: "Sumatriptan",
+        dosage: "50 mg",
+        frequency: "As needed",
+        route: "Oral",
+        startDate: "2026-03-11",
+        prescriber: "Dr. Müller",
+        reason: "Migraine attacks",
+        current: true
+      },
+      {
+        id: "med-magnesium",
+        name: "Magnesium",
+        dosage: "300 mg",
+        frequency: "Daily",
+        route: "Oral",
+        startDate: "2026-09-02",
+        prescriber: "Patient-reported",
+        reason: "Migraine prevention",
+        current: true
+      }
     ],
     documents: [
-      { id: 'doc-lab-aug', title: 'August lipid panel', type: 'Laboratory report', date: '2026-08-18', source: 'Limmat Lab', processingState: 'processed', uploadedBy: 'Clinic inbox' },
-      { id: 'doc-neuro-sept', title: 'Neurology report', type: 'External medical report', date: '2026-09-14', source: 'Neurology Zentrum Zürich', processingState: 'pending-review', uploadedBy: 'Emma Laurent' }
+      {
+        id: "doc-lab-aug",
+        title: "August lipid panel",
+        type: "Laboratory report",
+        date: "2026-08-18",
+        source: "Limmat Lab",
+        processingState: "processed",
+        uploadedBy: "Clinic inbox"
+      },
+      {
+        id: "doc-neuro-sept",
+        title: "Neurology report",
+        type: "External medical report",
+        date: "2026-09-14",
+        source: "Neurology Zentrum Zürich",
+        processingState: "pending-review",
+        uploadedBy: "Emma Laurent"
+      }
     ],
-    notes: [{ id: 'note-consult-sept', title: 'Migraine follow-up', author: 'Dr. Müller', date: '2026-09-12', text: 'Migraine frequency increased to three episodes per month. No neurological red flags documented.' }],
-    // Demo-only T3 example field — see src/data/accessControl.ts.
-    riskAssessment: 'Risk-assessment screening on 3 Aug 2026: no acute risk identified; safety plan reviewed and current.'
+    notes: [
+      {
+        id: "note-consult-sept",
+        title: "Migraine follow-up",
+        author: "Dr. Müller",
+        date: "2026-09-12",
+        text: "Migraine frequency increased to three episodes per month. No neurological red flags documented."
+      }
+    ],
+    riskAssessment: "Risk-assessment screening on 3 Aug 2026: no acute risk identified; safety plan reviewed and current."
   },
   {
-    id: 'jonas-meier', fullName: 'Jonas Meier', age: 58, dateOfBirth: '1968-01-09', phone: '+41 79 555 0199', email: 'jonas.meier@example.ch', status: 'Active', appointmentTime: '11:00', appointmentType: 'Diabetes check', reasonForVisit: 'Dizziness reported after medication change', warning: 'New dizziness questionnaire', avatarInitials: 'JM', assignedClinician: 'Dr. Müller', sex: 'Male', patientId: 'P360-1068', bloodType: 'A+',
-    majorAllergies: [], majorDiagnoses: ['Type 2 diabetes', 'Hypertension'], riskIndicators: ['Reported dizziness'], measurements: [], labs: [], medications: [], documents: [], notes: []
+    id: "jonas-meier",
+    fullName: "Jonas Meier",
+    age: 58,
+    dateOfBirth: "1968-01-09",
+    phone: "+41 79 555 0199",
+    email: "jonas.meier@example.ch",
+    status: "Active",
+    appointmentTime: "11:00",
+    appointmentType: "Diabetes check",
+    reasonForVisit: "Dizziness reported after medication change",
+    warning: "New dizziness questionnaire",
+    avatarInitials: "JM",
+    assignedClinician: "Dr. Müller",
+    sex: "Male",
+    patientId: "P360-1068",
+    bloodType: "A+",
+    majorAllergies: [],
+    majorDiagnoses: ["Type 2 diabetes", "Hypertension"],
+    riskIndicators: ["Reported dizziness"],
+    measurements: [],
+    labs: [],
+    medications: [],
+    documents: [],
+    notes: []
+  },
+  {
+    id: "sofia-rinaldi",
+    fullName: "Sofia Rinaldi",
+    age: 27,
+    dateOfBirth: "1999-02-11",
+    phone: "+41 79 555 0211",
+    email: "sofia.rinaldi@example.ch",
+    status: "Active",
+    appointmentTime: "10:00",
+    appointmentType: "Behavioral health follow-up",
+    reasonForVisit: "Depression and anxiety follow-up",
+    warning: "Recent mood decline reported",
+    avatarInitials: "SR",
+    assignedClinician: "Dr. Müller",
+    sex: "Female",
+    patientId: "P360-1101",
+    bloodType: "B+",
+    majorAllergies: [],
+    majorDiagnoses: ["Major depressive disorder, recurrent", "Generalized anxiety disorder"],
+    riskIndicators: ["Recent mood decline", "Sleep disruption reported"],
+    measurements: [
+      {
+        id: "m-sofia-weight",
+        label: "Weight",
+        value: "61 kg",
+        date: "2026-09-10",
+        provenance: "clinical"
+      }
+    ],
+    labs: [],
+    medications: [
+      {
+        id: "med-sofia-sertraline",
+        name: "Sertraline",
+        dosage: "100 mg",
+        frequency: "Daily",
+        route: "Oral",
+        startDate: "2026-05-02",
+        prescriber: "Dr. Müller",
+        reason: "Major depressive disorder",
+        current: true
+      }
+    ],
+    documents: [],
+    notes: [
+      {
+        id: "note-sofia-bh-sept",
+        title: "Behavioral health follow-up",
+        author: "Dr. Müller",
+        date: "2026-09-10",
+        text: "Patient reports low mood most days over the past three weeks, with disrupted sleep. Continuing sertraline at current dose. Follow-up in one week."
+      }
+    ],
+    riskAssessment: "Patient endorsed passive suicidal ideation without plan or intent during today's visit; denies active intent or means. Safety plan reviewed and updated; outpatient follow-up in 1 week; crisis line information provided. No hospitalization indicated at this time.",
+    familyPsychiatricHistory: "Mother with history of major depressive disorder, treated; maternal aunt with bipolar I disorder. No known family history of suicide."
+  },
+  {
+    id: "klaus-bergmann",
+    fullName: "Klaus Bergmann",
+    age: 61,
+    dateOfBirth: "1965-06-23",
+    phone: "+41 79 555 0223",
+    email: "klaus.bergmann@example.ch",
+    status: "Active",
+    appointmentTime: "13:30",
+    appointmentType: "Liver function follow-up",
+    reasonForVisit: "Routine liver function monitoring",
+    warning: "",
+    avatarInitials: "KB",
+    assignedClinician: "Dr. Müller",
+    sex: "Male",
+    patientId: "P360-1102",
+    bloodType: "O-",
+    majorAllergies: [],
+    majorDiagnoses: ["Alcohol use disorder, early remission", "Hepatic steatosis"],
+    riskIndicators: ["Elevated liver enzymes, improving"],
+    measurements: [],
+    labs: [
+      {
+        id: "lab-klaus-alt",
+        label: "ALT",
+        value: "48",
+        unit: "U/L",
+        referenceRange: "7-56",
+        previousValue: "72",
+        trend: "down",
+        abnormal: false,
+        date: "2026-09-01",
+        sourceId: "event-klaus-liver-panel"
+      }
+    ],
+    medications: [],
+    documents: [],
+    notes: [
+      {
+        id: "note-klaus-followup",
+        title: "Liver function follow-up",
+        author: "Dr. Müller",
+        date: "2026-09-01",
+        text: "Liver enzymes trending down since last visit. Patient continues to report abstinence, corroborated by family. Continue current monitoring interval."
+      }
+    ],
+    substanceUseHistory: "History of alcohol use disorder, diagnosed 2019; completed an inpatient treatment program in 2024; reports sustained abstinence since discharge, corroborated by patient and family. Father had a history of alcohol use disorder."
+  },
+  {
+    id: "amara-okafor",
+    fullName: "Amara Okafor",
+    age: 52,
+    dateOfBirth: "1974-03-30",
+    phone: "+41 79 555 0230",
+    email: "amara.okafor@example.ch",
+    status: "Active",
+    appointmentTime: "14:00",
+    appointmentType: "Oncology follow-up",
+    reasonForVisit: "Post-diagnosis treatment planning",
+    warning: "New cancer diagnosis; treatment planning in progress",
+    avatarInitials: "AO",
+    assignedClinician: "Dr. Müller",
+    sex: "Female",
+    patientId: "P360-1103",
+    bloodType: "A-",
+    majorAllergies: [],
+    majorDiagnoses: ["Invasive ductal carcinoma, left breast, stage IIA"],
+    riskIndicators: ["Newly diagnosed malignancy"],
+    measurements: [],
+    labs: [],
+    medications: [
+      {
+        id: "med-amara-tamoxifen",
+        name: "Tamoxifen",
+        dosage: "20 mg",
+        frequency: "Daily",
+        route: "Oral",
+        startDate: "2026-09-05",
+        prescriber: "Dr. Müller",
+        reason: "Hormone receptor-positive breast cancer",
+        current: true
+      }
+    ],
+    documents: [
+      {
+        id: "doc-amara-mri",
+        title: "Breast MRI report",
+        type: "Imaging report",
+        date: "2026-08-28",
+        source: "Radiology Zürich",
+        processingState: "processed",
+        uploadedBy: "Clinic inbox"
+      }
+    ],
+    notes: [
+      {
+        id: "note-amara-imaging",
+        title: "Imaging findings summary",
+        author: "Dr. Müller",
+        date: "2026-08-28",
+        text: "MRI demonstrates a 2.3 cm irregular enhancing mass in the left breast, upper outer quadrant, consistent with known malignancy. No chest wall involvement identified. Three suspicious axillary lymph nodes noted; biopsy recommended. Oncology referral in progress."
+      }
+    ]
+  },
+  {
+    id: "robert-cheng",
+    fullName: "Robert Cheng",
+    age: 79,
+    dateOfBirth: "1947-11-02",
+    phone: "+41 79 555 0279",
+    email: "robert.cheng@example.ch",
+    status: "Active",
+    appointmentTime: "08:30",
+    appointmentType: "Geriatric follow-up",
+    reasonForVisit: "Cognitive and mobility review",
+    warning: "Fall risk; caregiver present at visits",
+    avatarInitials: "RC",
+    assignedClinician: "Dr. Müller",
+    sex: "Male",
+    patientId: "P360-1104",
+    bloodType: "B-",
+    majorAllergies: [],
+    majorDiagnoses: ["Mild cognitive impairment", "Osteoarthritis"],
+    riskIndicators: ["Fall risk"],
+    measurements: [
+      {
+        id: "m-robert-gait",
+        label: "Timed up-and-go",
+        value: "14.2 s",
+        date: "2026-09-08",
+        provenance: "clinical"
+      }
+    ],
+    labs: [],
+    medications: [],
+    documents: [],
+    notes: [
+      {
+        id: "note-robert-caregiver",
+        title: "Care coordination",
+        author: "Dr. Müller",
+        date: "2026-09-08",
+        text: "Daughter Linda Cheng is the designated caregiver and healthcare proxy for this patient; consented to receive summary-level updates on care plan and appointments. Reachable at +41 79 555 0177 for care coordination."
+      }
+    ]
+  },
+  {
+    id: "nina-schmid",
+    fullName: "Nina Schmid",
+    age: 6,
+    dateOfBirth: "2020-04-02",
+    phone: "+41 79 555 0402",
+    email: "guardian.schmid@example.ch",
+    status: "Active",
+    appointmentTime: "09:00",
+    appointmentType: "Pediatric well-check",
+    reasonForVisit: "Seasonal allergy symptoms",
+    warning: "",
+    avatarInitials: "NS",
+    assignedClinician: "Dr. Müller",
+    sex: "Female",
+    patientId: "P360-1109",
+    bloodType: "A+",
+    majorAllergies: [],
+    majorDiagnoses: ["Seasonal allergic rhinitis"],
+    riskIndicators: [],
+    measurements: [
+      {
+        id: "m-nina-height",
+        label: "Height",
+        value: "116 cm",
+        date: "2026-09-05",
+        provenance: "clinical"
+      }
+    ],
+    labs: [],
+    medications: [
+      {
+        id: "med-nina-cetirizine",
+        name: "Cetirizine",
+        dosage: "5 mg",
+        frequency: "Daily as needed",
+        route: "Oral",
+        startDate: "2026-04-01",
+        prescriber: "Dr. Müller",
+        reason: "Seasonal allergic rhinitis",
+        current: true
+      }
+    ],
+    documents: [],
+    notes: [],
+    legalStatus: "Per family court order dated 14 Jun 2026, biological father Peter Schmid does not have legal custody or authorized access to this patient's medical information or care decisions. Custodial parent is Anja Schmid. Any contact or information requests from Peter Schmid must be declined and referred to the practice's safeguarding lead."
+  },
+  {
+    id: "erik-lindqvist",
+    fullName: "Erik Lindqvist",
+    age: 38,
+    dateOfBirth: "1988-07-19",
+    phone: "+41 79 555 0719",
+    email: "erik.lindqvist@example.ch",
+    status: "Active",
+    appointmentTime: "15:00",
+    appointmentType: "Genetic counseling follow-up",
+    reasonForVisit: "Review of predictive genetic testing result",
+    warning: "",
+    avatarInitials: "EL",
+    assignedClinician: "Dr. Müller",
+    sex: "Male",
+    patientId: "P360-1110",
+    bloodType: "AB+",
+    majorAllergies: [],
+    majorDiagnoses: [],
+    riskIndicators: ["Family history of Huntington's disease"],
+    measurements: [],
+    labs: [],
+    medications: [],
+    documents: [],
+    notes: [
+      {
+        id: "note-erik-counseling",
+        title: "Post-test genetic counseling",
+        author: "Dr. Müller",
+        date: "2026-08-14",
+        text: "Result reviewed with patient in person, per genetic counseling protocol. Patient is coping well and has elected to inform first-degree relatives personally over the coming weeks. Follow-up counseling offered."
+      }
+    ],
+    geneticData: "Predictive genetic testing performed 12 Aug 2026 due to family history of Huntington's disease (father affected, symptom onset age 45). CAG repeat analysis: 42 repeats (pathogenic range, ≥40), confirming presymptomatic gene-positive status. Patient counseled pre- and post-test. This result has direct implications for first-degree relatives (siblings, children)."
+  },
+  {
+    id: "yasmin-elsayed",
+    fullName: "Yasmin El-Sayed",
+    age: 8,
+    dateOfBirth: "2018-05-14",
+    phone: "+41 79 555 0514",
+    email: "guardian.elsayed@example.ch",
+    status: "Active",
+    appointmentTime: "08:00",
+    appointmentType: "Asthma review",
+    reasonForVisit: "Routine asthma check-up",
+    warning: "",
+    avatarInitials: "YE",
+    assignedClinician: "Dr. Müller",
+    sex: "Female",
+    patientId: "P360-1105",
+    bloodType: "O+",
+    majorAllergies: ["Dust mites"],
+    majorDiagnoses: ["Mild persistent asthma"],
+    riskIndicators: [],
+    measurements: [
+      {
+        id: "m-yasmin-spo2",
+        label: "Oxygen saturation",
+        value: "98%",
+        date: "2026-09-11",
+        provenance: "clinical"
+      }
+    ],
+    labs: [],
+    medications: [
+      {
+        id: "med-yasmin-albuterol",
+        name: "Albuterol",
+        dosage: "90 mcg",
+        frequency: "As needed",
+        route: "Inhaled",
+        startDate: "2025-11-01",
+        prescriber: "Dr. Müller",
+        reason: "Asthma symptom relief",
+        current: true
+      },
+      {
+        id: "med-yasmin-fluticasone",
+        name: "Fluticasone",
+        dosage: "44 mcg",
+        frequency: "Twice daily",
+        route: "Inhaled",
+        startDate: "2025-11-01",
+        prescriber: "Dr. Müller",
+        reason: "Asthma maintenance",
+        current: true
+      }
+    ],
+    documents: [],
+    notes: []
+  },
+  {
+    id: "marco-antonelli",
+    fullName: "Marco Antonelli",
+    age: 45,
+    dateOfBirth: "1981-01-27",
+    phone: "+41 79 555 0127",
+    email: "marco.antonelli@example.ch",
+    status: "Active",
+    appointmentTime: "10:30",
+    appointmentType: "Cardiology follow-up",
+    reasonForVisit: "Post-MI follow-up",
+    warning: "Recent myocardial infarction",
+    avatarInitials: "MA",
+    assignedClinician: "Dr. Müller",
+    sex: "Male",
+    patientId: "P360-1106",
+    bloodType: "A+",
+    majorAllergies: [],
+    majorDiagnoses: ["ST-elevation myocardial infarction, status post PCI", "Hyperlipidemia"],
+    riskIndicators: ["Recent acute cardiac event"],
+    measurements: [
+      {
+        id: "m-marco-bp",
+        label: "Blood pressure",
+        value: "122/78 mmHg",
+        date: "2026-09-09",
+        provenance: "clinical"
+      }
+    ],
+    labs: [
+      {
+        id: "lab-marco-troponin",
+        label: "Troponin",
+        value: "0.02",
+        unit: "ng/mL",
+        referenceRange: "< 0.04",
+        previousValue: "2.8",
+        trend: "down",
+        abnormal: false,
+        date: "2026-09-09",
+        sourceId: "event-marco-troponin"
+      },
+      {
+        id: "lab-marco-ldl",
+        label: "LDL cholesterol",
+        value: "2.1",
+        unit: "mmol/L",
+        referenceRange: "< 1.8",
+        previousValue: "3.9",
+        trend: "down",
+        abnormal: true,
+        date: "2026-09-09",
+        sourceId: "event-marco-lipids"
+      }
+    ],
+    medications: [
+      {
+        id: "med-marco-aspirin",
+        name: "Aspirin",
+        dosage: "81 mg",
+        frequency: "Daily",
+        route: "Oral",
+        startDate: "2026-08-20",
+        prescriber: "Dr. Müller",
+        reason: "Post-MI secondary prevention",
+        current: true
+      },
+      {
+        id: "med-marco-atorvastatin",
+        name: "Atorvastatin",
+        dosage: "80 mg",
+        frequency: "Daily",
+        route: "Oral",
+        startDate: "2026-08-20",
+        prescriber: "Dr. Müller",
+        reason: "Hyperlipidemia",
+        current: true
+      },
+      {
+        id: "med-marco-metoprolol",
+        name: "Metoprolol",
+        dosage: "25 mg",
+        frequency: "Twice daily",
+        route: "Oral",
+        startDate: "2026-08-20",
+        prescriber: "Dr. Müller",
+        reason: "Post-MI secondary prevention",
+        current: true
+      }
+    ],
+    documents: [],
+    notes: [
+      {
+        id: "note-marco-followup",
+        title: "Post-MI follow-up",
+        author: "Dr. Müller",
+        date: "2026-09-09",
+        text: "Recovering well following PCI three weeks ago. Troponin normalized. LDL still above target; continuing high-intensity statin therapy. Cardiac rehab referral in place."
+      }
+    ]
+  },
+  {
+    id: "priya-sharma",
+    fullName: "Priya Sharma",
+    age: 31,
+    dateOfBirth: "1995-10-05",
+    phone: "+41 79 555 1005",
+    email: "priya.sharma@example.ch",
+    status: "Active",
+    appointmentTime: "11:30",
+    appointmentType: "Prenatal visit",
+    reasonForVisit: "Routine 28-week prenatal check-up",
+    warning: "",
+    avatarInitials: "PS",
+    assignedClinician: "Dr. Müller",
+    sex: "Female",
+    patientId: "P360-1107",
+    bloodType: "B+",
+    majorAllergies: [],
+    majorDiagnoses: ["Pregnancy, 28 weeks gestation", "Gestational diabetes, diet-controlled"],
+    riskIndicators: [],
+    measurements: [
+      {
+        id: "m-priya-fundal",
+        label: "Fundal height",
+        value: "27 cm",
+        date: "2026-09-13",
+        provenance: "clinical"
+      },
+      {
+        id: "m-priya-fhr",
+        label: "Fetal heart rate",
+        value: "142 bpm",
+        date: "2026-09-13",
+        provenance: "clinical"
+      }
+    ],
+    labs: [
+      {
+        id: "lab-priya-glucose",
+        label: "Glucose tolerance test",
+        value: "138",
+        unit: "mg/dL",
+        referenceRange: "< 140",
+        trend: "stable",
+        abnormal: false,
+        date: "2026-08-30",
+        sourceId: "event-priya-glucose"
+      }
+    ],
+    medications: [],
+    documents: [],
+    notes: [
+      {
+        id: "note-priya-prenatal",
+        title: "Prenatal check-up",
+        author: "Dr. Müller",
+        date: "2026-09-13",
+        text: "Fundal height appropriate for gestational age. Fetal heart rate normal. Gestational diabetes remains diet-controlled; glucose readings within target range."
+      }
+    ]
+  },
+  {
+    id: "henrik-solberg",
+    fullName: "Henrik Solberg",
+    age: 70,
+    dateOfBirth: "1956-02-08",
+    phone: "+41 79 555 0208",
+    email: "henrik.solberg@example.ch",
+    status: "Active",
+    appointmentTime: "13:00",
+    appointmentType: "Orthopedic follow-up",
+    reasonForVisit: "Post-operative knee check",
+    warning: "",
+    avatarInitials: "HS",
+    assignedClinician: "Dr. Müller",
+    sex: "Male",
+    patientId: "P360-1108",
+    bloodType: "O+",
+    majorAllergies: [],
+    majorDiagnoses: ["Osteoarthritis, right knee, status post total knee arthroplasty"],
+    riskIndicators: [],
+    measurements: [
+      {
+        id: "m-henrik-rom",
+        label: "Knee range of motion",
+        value: "0-110 degrees",
+        date: "2026-09-07",
+        provenance: "clinical"
+      }
+    ],
+    labs: [],
+    medications: [
+      {
+        id: "med-henrik-paracetamol",
+        name: "Paracetamol",
+        dosage: "1 g",
+        frequency: "As needed",
+        route: "Oral",
+        startDate: "2026-08-15",
+        prescriber: "Dr. Müller",
+        reason: "Post-operative pain management",
+        current: true
+      }
+    ],
+    documents: [
+      {
+        id: "doc-henrik-operative",
+        title: "Operative report",
+        type: "Surgical report",
+        date: "2026-08-15",
+        source: "Universitätsspital Zürich",
+        processingState: "processed",
+        uploadedBy: "Clinic inbox"
+      }
+    ],
+    notes: [
+      {
+        id: "note-henrik-ptreferral",
+        title: "Post-operative follow-up",
+        author: "Dr. Müller",
+        date: "2026-09-07",
+        text: "Recovering as expected six weeks post total knee arthroplasty. Range of motion improving. Referred to physical therapy for continued rehabilitation."
+      }
+    ]
   }
 ];
 

@@ -87,7 +87,18 @@ export const FIELD_TIERS: Record<string, FieldTierTag> = {
   recentActivity: { field: 'recentActivity', label: 'Recent patient activity', tier: 'T1' },
   // Free-text synthesized narrative (e.g. the Ask Patient360 answer path) —
   // clinical judgment drawn from notes/timeline, same tier as the fields it's drawn from.
-  clinicalNarrative: { field: 'clinicalNarrative', label: 'Clinical narrative', tier: 'T1' }
+  clinicalNarrative: { field: 'clinicalNarrative', label: 'Clinical narrative', tier: 'T1' },
+  // Patient360-Data-Taxonomy.md section 6 (Mental & Behavioral Health Data —
+  // T2/T3): the one item in that list not flagged (T3) is substance-use
+  // history, making it the doc-grounded T2 example. Family psychiatric
+  // history is the same category by analogy.
+  familyPsychiatricHistory: { field: 'familyPsychiatricHistory', label: 'Family psychiatric history', tier: 'T2' },
+  substanceUseHistory: { field: 'substanceUseHistory', label: 'Substance use history', tier: 'T2' },
+  // Attending-only T3 fields — deliberately NOT in FIELD_ROLE_OVERRIDES below.
+  // Unlike riskAssessment, neither of these has a role whose own domain
+  // justifies a named exception, so only the general T3 tier ceiling reaches them.
+  legalStatus: { field: 'legalStatus', label: 'Legal status', tier: 'T3' },
+  geneticData: { field: 'geneticData', label: 'Genetic data', tier: 'T3' }
 };
 
 /**

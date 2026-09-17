@@ -42,6 +42,14 @@ export interface Patient extends PatientSummary {
   notes: ClinicalNote[];
   /** Demo-only, T3-tagged field — see src/data/accessControl.ts. */
   riskAssessment?: string;
+  /** Demo-only, T2-tagged field — see src/data/accessControl.ts. */
+  familyPsychiatricHistory?: string;
+  /** Demo-only, T2-tagged field — see src/data/accessControl.ts. */
+  substanceUseHistory?: string;
+  /** Demo-only, T3-tagged field, Attending-only (no override) — see src/data/accessControl.ts. */
+  legalStatus?: string;
+  /** Demo-only, T3-tagged field, Attending-only (no override) — see src/data/accessControl.ts. */
+  geneticData?: string;
 }
 
 /**

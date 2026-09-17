@@ -1,5 +1,5 @@
 <template>
-  <div v-if="patient" class="overview"><PatientHeader :patient="patient" /><section class="overview__grid"><ClinicalBrief :patient="patient" /><SinceLastVisit /><CurrentSnapshot :patient="patient" /></section></div>
+  <div v-if="patient" class="overview"><PatientHeader :patient="patient" /><section class="overview__grid"><ClinicalBrief :patient="patient" /><SinceLastVisit :patient="patient" /><CurrentSnapshot :patient="patient" /></section></div>
   <p v-else class="loading">Loading Patient 360…</p>
 </template>
 
