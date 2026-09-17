@@ -25,7 +25,12 @@ import AccessDenialCard from '../access/AccessDenialCard.vue';
 
 const ui = useUiStore();
 const access = useAccessControlStore();
-const question = ref("What changed with Emma's migraines over the last six months?");
+// The panel is v-if-gated in the template, so a fresh instance (and a fresh
+// default here) is created every time it opens — no watcher needed to
+// "reset" this. The one thing that mattered was not hardcoding a specific
+// patient's name into that default, since whichever patient is actually
+// open when this text was written stays visible until the user edits it.
+const question = ref("What's changed with this patient over the last six months?");
 const loading = ref(false);
 const answer = ref<AiAnswer | null>(null);
 const loadingSteps = ['Searching clinical history...', 'Reading relevant documents...', 'Preparing cited summary...'];

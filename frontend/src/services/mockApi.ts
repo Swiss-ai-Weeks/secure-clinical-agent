@@ -55,26 +55,30 @@ function buildCandidateFacts(question: string, patient?: Patient): { primaryFiel
 
   // Default: the general clinical-narrative branch (e.g. the panel's own
   // suggested "what changed" question, or any other free-text question).
-  return {
-    primaryFieldKey: 'clinicalNarrative',
-    facts: [
-      {
-        fieldKey: 'clinicalNarrative',
-        text: "Emma's migraine pattern changed from about once per month to about three episodes per month.",
-        citation: { id: 'citation-consult', label: '12 Sep consultation', sourceId: 'event-consult-sept-12', sourceType: 'visit' }
-      },
-      {
-        fieldKey: 'clinicalNarrative',
-        text: 'The increase is supported by the patient update reporting headaches on four of the previous seven days.',
-        citation: { id: 'citation-update', label: '2 Sep patient update', sourceId: 'event-patient-update-sept-02', sourceType: 'patient-update' }
-      },
-      {
-        fieldKey: 'majorDiagnoses',
-        text: 'No neurological red flags have been documented.',
-        citation: { id: 'citation-problem-list', label: 'Problem list', sourceId: `${patient.id}-diagnoses`, sourceType: 'note' }
-      }
-    ]
-  };
+  // Derived from the actual patient's own most recent note and diagnoses —
+  // same fieldKey tagging as before (clinicalNarrative for the synthesized
+  // narrative, majorDiagnoses for the diagnosis summary), just no longer
+  // hardcoded to Emma's specific story regardless of who was asked about.
+  const facts: CandidateFact[] = [];
+
+  const mostRecentNote = [...patient.notes].sort((a, b) => b.date.localeCompare(a.date))[0];
+  if (mostRecentNote) {
+    facts.push({
+      fieldKey: 'clinicalNarrative',
+      text: mostRecentNote.text,
+      citation: { id: `citation-${mostRecentNote.id}`, label: `${mostRecentNote.title}, ${mostRecentNote.date}`, sourceId: mostRecentNote.id, sourceType: 'note' }
+    });
+  }
+
+  if (patient.majorDiagnoses.length > 0) {
+    facts.push({
+      fieldKey: 'majorDiagnoses',
+      text: `Active diagnoses: ${patient.majorDiagnoses.join(', ')}.`,
+      citation: { id: 'citation-problem-list', label: 'Problem list', sourceId: `${patient.id}-diagnoses`, sourceType: 'note' }
+    });
+  }
+
+  return { primaryFieldKey: 'clinicalNarrative', facts };
 }
 
 function buildClinicCandidateFacts(): { primaryFieldKey: string; facts: CandidateFact[] } {

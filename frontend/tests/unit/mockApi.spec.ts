@@ -22,7 +22,7 @@ describe('mockApi', () => {
     expect(results[0].reason).toContain('AI matched');
   });
 
-  it('returns cited AI answers for patient-specific questions', async () => {
+  it('returns cited AI answers for patient-specific questions, derived from that patient\'s own note and diagnoses', async () => {
     const answer = await mockApi.askPatient360({
       scope: 'patient',
       patientId: 'emma-laurent',
@@ -30,10 +30,35 @@ describe('mockApi', () => {
       role: 'attending'
     });
 
+    // Emma's own most-recent note + her own problem list — not the old
+    // hardcoded event ids from before this branch derived from real data.
     expect(answer.citations.map(citation => citation.sourceId)).toEqual(
-      expect.arrayContaining(['event-consult-sept-12', 'event-patient-update-sept-02'])
+      expect.arrayContaining(['note-consult-sept', 'emma-laurent-diagnoses'])
     );
+    expect(answer.answer).toContain('Migraine frequency increased');
     expect(answer.denied).toBeFalsy();
+  });
+
+  it('derives the default (non-keyword) branch from each patient\'s own data, not a hardcoded Emma narrative', async () => {
+    const genericQuestion = "What's changed with this patient recently?";
+
+    const marco = await mockApi.askPatient360({ scope: 'patient', patientId: 'marco-antonelli', question: genericQuestion, role: 'attending' });
+    expect(marco.answer).toContain('Recovering well following PCI');
+    expect(marco.answer).toContain('ST-elevation myocardial infarction');
+    expect(marco.answer).not.toContain('Emma');
+    expect(marco.citations.map(c => c.sourceId)).toEqual(expect.arrayContaining(['note-marco-followup', 'marco-antonelli-diagnoses']));
+
+    const klaus = await mockApi.askPatient360({ scope: 'patient', patientId: 'klaus-bergmann', question: genericQuestion, role: 'attending' });
+    expect(klaus.answer).toContain('Liver enzymes trending down');
+    expect(klaus.answer).toContain('Alcohol use disorder');
+    expect(klaus.answer).not.toContain('Emma');
+
+    // Jonas has no notes on file at all — should still surface his own
+    // diagnoses (not fall back to Emma's, and not a false "denied").
+    const jonas = await mockApi.askPatient360({ scope: 'patient', patientId: 'jonas-meier', question: genericQuestion, role: 'attending' });
+    expect(jonas.answer).toContain('Type 2 diabetes');
+    expect(jonas.answer).not.toContain('Emma');
+    expect(jonas.denied).toBeFalsy();
   });
 
   it('denies a risk-assessment question for roles without T3 reach, but answers it for attending', async () => {
