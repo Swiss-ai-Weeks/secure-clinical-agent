@@ -1,0 +1,17 @@
+# Main schema integration checkpoint
+
+Compared the ingestion branch with main commit `1e20850a17a93054ecf449ea4a92358f910cf3b6` on 2026-09-17. The branches merge without Git conflicts. The source worker's 18 automated tests pass in the merged checkout; Compose configuration validation and shell syntax validation of the role-password initializer also pass. These checks do not execute the new SQL or migrate a running database.
+
+The colleague's [FHIR resource plan](../../docs/Patient360-FHIR-Resource-Plan.md), [build plan](../../docs/Patient360-Build-Plan.md), and [SQL schema](../deploy/patient360/sql/fhir/) are now available to inform the ingestion projection. They add `clinical`, `identity`, and `audit` schemas, resource field allowlists, component observations, patient-scoped foreign keys, source uniqueness, citations, and separate application roles. The `identity` schema holds application users/sessions/tokens, not the ingestion source-to-opaque registry. PostgreSQL audit replaces immudb as the default deployment; immudb is under the `legacy` profile.
+
+## Differences to resolve before structured ingestion
+
+| Area | Imported main contract | Approved ingestion contract / next work |
+| --- | --- | --- |
+| Synthetic birth dates | `clinical.patients` has `birth_year`; its JSONB constraint accepts only a four-digit birthDate. | Full synthetic DOB is approved for authorized structured records only. The projection decision must reconcile the column, JSONB constraint, and read policy before writing full dates. Do not add DOB to notes or embedding payloads. |
+| Source identity | Non-patient clinical tables store unique raw `ResourceType/id` strings in `source_id`, without a source namespace. | Raw identifiers belong in restricted provenance; public clinical linkage uses persistent opaque mappings and explicit namespaces. Decide the compatible schema/upsert representation before using these fields. |
+| Migration and lifecycle | Init scripts run on empty volumes; README describes volume replacement. Worker has insert/update, but no clinical delete privilege. | Existing data/services must be preserved. Define an in-place migration and changed/deleted-source handling; no volume deletion or grant expansion is authorized by this merge. |
+| Key representation and citations | Patient keys must match `p_[0-9a-z]+`; resource UUIDs and short random `cite_id` values are separate. | Encode registry-issued opaque patient identities in the schema's accepted format, keep citations stable on replay, and retain resource lineage separately. A plain hyphenated UUID cannot be inserted as patient_key. |
+| Scope and note policy | Schema covers more resources than the initial cohort projection; the broader plan caps ages at 90+ and describes vault integration. | Initial ingestion scope and synthetic age/date choices remain recorded in the resolved tickets. Reconcile minimum Encounter linkage, note policy, and restricted mapping access with the broader plan; importing the schema does not approve or implement every resource adapter. |
+
+These are open integration decisions, not silently resolved merge conflicts. Their primary home is [Choose the FHIR-to-PostgreSQL projection and update rules](../../.scratch/ingestion-pipeline/issues/05-fhir-projection.md); note sanitization, grants, and batch lifecycle retain their existing tickets. The source worker still stops at `source_ready`, and no database volume or service was changed during this integration check.

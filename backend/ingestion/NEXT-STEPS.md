@@ -34,6 +34,8 @@ The last server inspection found PostgreSQL and Qdrant running, Qdrant `/readyz`
 
 ## Immediate next step: safe projection and sanitized artifacts
 
+Main's [FHIR resource plan](../../docs/Patient360-FHIR-Resource-Plan.md) and expanded SQL schema have been merged into this branch. Read the [schema integration checkpoint](schema-integration.md): Git merged cleanly, but DOB precision, source-ID storage, and migration/lifecycle assumptions differ from the approved ingestion plan. Those differences remain for the projection decision; schema files are not evidence that existing database volumes have been migrated.
+
 Begin with [Choose the FHIR-to-PostgreSQL projection and update rules](../../.scratch/ingestion-pipeline/issues/05-fhir-projection.md), the next unblocked decision. Generator identification, [cohort scope](../../.scratch/ingestion-pipeline/issues/03-cohort-and-success.md#answer), and [identity/provenance](../../.scratch/ingestion-pipeline/issues/04-identity-and-provenance.md#answer) are resolved. Detailed sanitization and access contracts remain open; approved designs are not implemented adapters.
 
 1. Preserve the approved cohort and demonstration scope recorded in the [cohort resolution](../../.scratch/ingestion-pipeline/issues/03-cohort-and-success.md#answer). A small, separately labelled synthetic prompt-injection evaluation corpus is approved, kept separate from the clinical seed; it is not implemented.
