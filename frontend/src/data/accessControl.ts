@@ -88,6 +88,10 @@ export const FIELD_TIERS: Record<string, FieldTierTag> = {
   // Free-text synthesized narrative (e.g. the Ask Patient360 answer path) —
   // clinical judgment drawn from notes/timeline, same tier as the fields it's drawn from.
   clinicalNarrative: { field: 'clinicalNarrative', label: 'Clinical narrative', tier: 'T1' },
+  // A document's title/type alone can name the clinical reason for it (e.g.
+  // "Breast MRI report") even with no body text rendered — same tier as the
+  // clinical fields that title would otherwise leak (majorDiagnoses, labs).
+  documents: { field: 'documents', label: 'Patient documents', tier: 'T1' },
   // Patient360-Data-Taxonomy.md section 6 (Mental & Behavioral Health Data —
   // T2/T3): the one item in that list not flagged (T3) is substance-use
   // history, making it the doc-grounded T2 example. Family psychiatric
