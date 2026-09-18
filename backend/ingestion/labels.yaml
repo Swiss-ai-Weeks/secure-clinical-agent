@@ -1,0 +1,4505 @@
+{
+  "version": "synthea-structured-v1",
+  "scope": "Reviewed exact codes and fixed display strings from the pinned 100-patient synthetic fixture. Not a terminology closure or production classifier. Unknown codes fail preparation. JSON syntax is valid YAML and needs no YAML dependency.",
+  "concepts": [
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "C02.9",
+      "display": "Malignant neoplasm of tongue, unspecified",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "C31.0",
+      "display": "Malignant neoplasm of maxillary sinus",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "C32.9",
+      "display": "Malignant neoplasm of larynx, unspecified",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "D16.5",
+      "display": "Benign neoplasm of lower jaw bone",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K00.6",
+      "display": "Disturbances in tooth eruption",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K02.62",
+      "display": "Dental caries on smooth surface penetrating into dentin",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K02.9",
+      "display": "Dental caries, unspecified",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K04.1",
+      "display": "Necrosis of pulp",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K04.7",
+      "display": "Periapical abscess without sinus",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K05.10",
+      "display": "Chronic gingivitis, plaque induced",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K05.30",
+      "display": "Chronic periodontitis, unspecified",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K05.312",
+      "display": "Chronic periodontitis, localized, moderate",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K08.404",
+      "display": "Partial loss of teeth, unspecified cause, class IV",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K08.409",
+      "display": "Partial loss of teeth, unspecified cause, unspecified class",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K08.429",
+      "display": "Partial loss of teeth due to periodontal diseases, unspecified class",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K08.9",
+      "display": "Disorder of teeth and supporting structures, unspecified",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K09.0",
+      "display": "Developmental odontogenic cysts",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K12.2",
+      "display": "Cellulitis and abscess of mouth",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "K13.70",
+      "display": "Unspecified lesions of oral mucosa",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "M26.60",
+      "display": "Temporomandibular joint disorder, unspecified",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "M26.63",
+      "display": "Articular disc disorder of temporomandibular joint",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "M27.8",
+      "display": "Other specified diseases of jaws",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://hl7.org/fhir/sid/icd-10",
+      "code": "S02.66XA",
+      "display": "Fracture of symphysis of mandible, initial encounter for closed fracture",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "10230-1",
+      "display": "Left ventricular Ejection fraction",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "10834-0",
+      "display": "Globulin [Mass/volume] in Serum by calculation",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "13945-1",
+      "display": "Erythrocytes [#/area] in Urine sediment by Microscopy high power field",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "14627-4",
+      "display": "Bicarbonate [Moles/volume] in Venous blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "14804-9",
+      "display": "Lactate dehydrogenase [Enzymatic activity/volume] in Serum or Plasma by Lactate to pyruvate reaction",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "14959-1",
+      "display": "Microalbumin/Creatinine [Mass Ratio] in Urine",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "1742-6",
+      "display": "Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "1751-7",
+      "display": "Albumin [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "17861-6",
+      "display": "Calcium [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "18262-6",
+      "display": "Cholesterol in LDL [Mass/volume] in Serum or Plasma by Direct assay",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "18752-6",
+      "display": "Exercise stress test study",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "19123-9",
+      "display": "Magnesium [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "1920-8",
+      "display": "Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "1960-4",
+      "display": "Bicarbonate [Moles/volume] in Arterial blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "1975-2",
+      "display": "Bilirubin.total [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "1988-5",
+      "display": "C reactive protein [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "19926-5",
+      "display": "FEV1/FVC",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2019-8",
+      "display": "Carbon dioxide [Partial pressure] in Arterial blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2021-4",
+      "display": "Carbon dioxide [Partial pressure] in Venous blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2027-1",
+      "display": "Carbon dioxide, total [Moles/volume] in Venous blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2028-9",
+      "display": "Carbon dioxide, total [Moles/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "20447-9",
+      "display": "HIV 1 RNA [#/volume] (viral load) in Serum or Plasma by NAA with probe detection",
+      "confidentiality": "V",
+      "sensitivity": [
+        "HIV"
+      ],
+      "basis": "Exact synthetic HIV viral-load concept; repository HIV rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "20454-5",
+      "display": "Protein [Presence] in Urine by Test strip",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "20505-4",
+      "display": "Bilirubin.total [Mass/volume] in Urine by Test strip",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "20565-8",
+      "display": "Carbon dioxide, total [Moles/volume] in Blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "20570-8",
+      "display": "Hematocrit [Volume Fraction] of Blood by calculation",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2069-3",
+      "display": "Chloride [Moles/volume] in Blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2075-0",
+      "display": "Chloride [Moles/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2085-9",
+      "display": "Cholesterol in HDL [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2093-3",
+      "display": "Cholesterol [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2106-3",
+      "display": "Choriogonadotropin [Presence] in Urine",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic pregnancy-test/status concepts; repository SEX rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "21377-7",
+      "display": "Magnesium [Mass/volume] in Blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2157-6",
+      "display": "Creatine kinase [Enzymatic activity/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2160-0",
+      "display": "Creatinine [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2276-4",
+      "display": "Ferritin [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2339-0",
+      "display": "Glucose [Mass/volume] in Blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2345-7",
+      "display": "Glucose [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "24124-0",
+      "display": "Casts [Presence] in Urine sediment by Light microscopy",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "24467-3",
+      "display": "CD3+CD4+ (T4 helper) cells [#/volume] in Blood",
+      "confidentiality": "R",
+      "sensitivity": [],
+      "basis": "Conservative demo restriction for nonspecific immune, cognitive, psychosocial or safety information; no diagnostic sensitivity inferred."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2498-4",
+      "display": "Iron [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2500-7",
+      "display": "Iron binding capacity [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2502-3",
+      "display": "Iron saturation [Mass Fraction] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2514-8",
+      "display": "Ketones [Presence] in Urine by Test strip",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2532-0",
+      "display": "Lactate dehydrogenase [Enzymatic activity/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "25428-4",
+      "display": "Glucose [Presence] in Urine by Test strip",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2571-8",
+      "display": "Triglyceride [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2703-7",
+      "display": "Oxygen [Partial pressure] in Arterial blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2705-2",
+      "display": "Oxygen [Partial pressure] in Venous blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2708-6",
+      "display": "Oxygen saturation in Arterial blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2744-1",
+      "display": "pH of Arterial blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2746-6",
+      "display": "pH of Venous blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2777-1",
+      "display": "Phosphate [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2823-3",
+      "display": "Potassium [Moles/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2885-2",
+      "display": "Protein [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "29463-7",
+      "display": "Body Weight",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2947-0",
+      "display": "Sodium [Moles/volume] in Blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "2951-2",
+      "display": "Sodium [Moles/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "29554-3",
+      "display": "Procedure Narrative",
+      "confidentiality": "N",
+      "sensitivity": [],
+      "safe_strings": [
+        "CABG Arterial Conduits: 1",
+        "CABG Grafts: 2"
+      ]
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "3016-3",
+      "display": "Thyrotropin [Units/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "3024-7",
+      "display": "Thyroxine (T4) free [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "3094-0",
+      "display": "Urea nitrogen [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "3173-2",
+      "display": "aPTT in Blood by Coagulation assay",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "3184-9",
+      "display": "Activated clotting time (ACT) of Blood by Coagulation assay",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "32167-9",
+      "display": "Clarity of Urine",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "32207-3",
+      "display": "Platelet distribution width [Entitic volume] in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "32623-1",
+      "display": "Platelet [Entitic mean volume] in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "32624-9",
+      "display": "Race",
+      "confidentiality": "N",
+      "sensitivity": [],
+      "exclude": true
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "33756-8",
+      "display": "Polyp size greatest dimension",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "33762-6",
+      "display": "Natriuretic peptide.B prohormone N-Terminal [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "33914-3",
+      "display": "Glomerular filtration rate [Volume Rate/Area] in Serum or Plasma by Creatinine-based formula (MDRD)/1.73 sq M",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "33959-8",
+      "display": "Procalcitonin [Mass/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "34533-0",
+      "display": "Odor of Urine",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "38208-5",
+      "display": "Pain severity - Reported",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "38265-5",
+      "display": "DXA Radius and Ulna [T-score] Bone density",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "38483-4",
+      "display": "Creatinine [Mass/volume] in Blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "39156-5",
+      "display": "Body mass index (BMI) [Ratio]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "41633001",
+      "display": "Intraocular pressure (observable entity)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "44261-6",
+      "display": "Patient Health Questionnaire 9 item (PHQ-9) total score [Reported]",
+      "confidentiality": "R",
+      "sensitivity": [
+        "PSY"
+      ],
+      "basis": "Repository explicit PSY rule or exact synthetic mental health/stress concept."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "4544-3",
+      "display": "Hematocrit [Volume Fraction] of Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "4548-4",
+      "display": "Hemoglobin A1c/Hemoglobin.total in Blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "48065-7",
+      "display": "Fibrin D-dimer FEU [Mass/volume] in Platelet poor plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "49765-1",
+      "display": "Calcium [Mass/volume] in Blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "54899-0",
+      "display": "Preferred language",
+      "confidentiality": "N",
+      "sensitivity": [],
+      "exclude": true
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "55758-7",
+      "display": "Patient Health Questionnaire 2 item (PHQ-2) total score [Reported]",
+      "confidentiality": "R",
+      "sensitivity": [
+        "PSY"
+      ],
+      "basis": "Repository explicit PSY rule or exact synthetic mental health/stress concept."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "56051-6",
+      "display": "Hispanic or Latino",
+      "confidentiality": "N",
+      "sensitivity": [],
+      "exclude": true
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "56799-0",
+      "display": "Address",
+      "confidentiality": "N",
+      "sensitivity": [],
+      "exclude": true
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5767-9",
+      "display": "Appearance of Urine",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5769-5",
+      "display": "Bacteria [#/area] in Urine sediment by Microscopy high power field",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5770-3",
+      "display": "Bilirubin.total [Presence] in Urine by Test strip",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5778-6",
+      "display": "Color of Urine",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5787-7",
+      "display": "Epithelial cells [#/area] in Urine sediment by Microscopy high power field",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "57905-2",
+      "display": "Hemoglobin.gastrointestinal.lower [Presence] in Stool by Immunoassay --1st specimen",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5792-7",
+      "display": "Glucose [Mass/volume] in Urine by Test strip",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5794-3",
+      "display": "Hemoglobin [Presence] in Urine by Test strip",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5797-6",
+      "display": "Ketones [Mass/volume] in Urine by Test strip",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5799-2",
+      "display": "Leukocyte esterase [Presence] in Urine by Test strip",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5802-4",
+      "display": "Nitrite [Presence] in Urine by Test strip",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5803-2",
+      "display": "pH of Urine by Test strip",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5804-0",
+      "display": "Protein [Mass/volume] in Urine by Test strip",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5811-5",
+      "display": "Specific gravity of Urine by Test strip",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5821-4",
+      "display": "Leukocytes [#/area] in Urine sediment by Microscopy high power field",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5902-2",
+      "display": "Prothrombin time (PT)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "5905-5",
+      "display": "Monocytes/Leukocytes in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "59408-5",
+      "display": "Oxygen saturation in Arterial blood by Pulse oximetry",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "59460-6",
+      "display": "Fall risk total [Morse Fall Scale]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "59461-4",
+      "display": "Fall risk level [Morse Fall Scale]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "59576-9",
+      "display": "Body mass index (BMI) [Percentile] Per age and sex",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6075-6",
+      "display": "Cladosporium herbarum IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6082-2",
+      "display": "Codfish IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6085-5",
+      "display": "Common Ragweed IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6095-4",
+      "display": "American house dust mite IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6106-9",
+      "display": "Egg white IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6158-0",
+      "display": "Latex IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6189-5",
+      "display": "White oak IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6206-7",
+      "display": "Peanut IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6246-3",
+      "display": "Shrimp IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6248-9",
+      "display": "Soybean IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6273-7",
+      "display": "Walnut IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6276-0",
+      "display": "Wheat IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6298-4",
+      "display": "Potassium [Moles/volume] in Blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6299-2",
+      "display": "Urea nitrogen [Mass/volume] in Blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "630-4",
+      "display": "Bacteria identified in Urine by Culture",
+      "confidentiality": "N",
+      "sensitivity": [],
+      "safe_strings": [
+        "Greater than 100,000 colony forming units per mL Escherichia coli",
+        "Greater than 100,000 colony forming units per mL Klebsiella pneumoniae"
+      ]
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6301-6",
+      "display": "INR in Platelet poor plasma by Coagulation assay",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "63512-8",
+      "display": "How many people are living or staying at this address [#]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "63586-2",
+      "display": "What was your best estimate of the total income of all family members from all sources, before taxes, in last year [PhenX]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "65750-2",
+      "display": "Drugs of abuse 5 panel - Urine by Screen method",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "66519-0",
+      "display": "Percentage area affected by eczema Head and Neck [PhenX]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "66524-0",
+      "display": "Percentage area affected by eczema Upper extremity - bilateral [PhenX]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "66529-9",
+      "display": "Percentage area affected by eczema Trunk [PhenX]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "66534-9",
+      "display": "Percentage area affected by eczema Lower extremity - bilateral [PhenX]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6690-2",
+      "display": "Leukocytes [#/volume] in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6768-6",
+      "display": "Alkaline phosphatase [Enzymatic activity/volume] in Serum or Plasma",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "67875-5",
+      "display": "Employment status - current",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6833-8",
+      "display": "Cat dander IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "6844-5",
+      "display": "Honey bee IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "69453-9",
+      "display": "Cause of Death [US Standard Certificate of Death]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "70274-6",
+      "display": "Generalized anxiety disorder 7 item (GAD-7) total score [Reported.PHQ]",
+      "confidentiality": "R",
+      "sensitivity": [
+        "PSY"
+      ],
+      "basis": "Repository explicit PSY rule or exact synthetic mental health/stress concept."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "704-7",
+      "display": "Basophils [#/volume] in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "706-2",
+      "display": "Basophils/Leukocytes in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "711-2",
+      "display": "Eosinophils [#/volume] in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "713-8",
+      "display": "Eosinophils/Leukocytes in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "71425-3",
+      "display": "Natriuretic peptide.B prohormone N-Terminal [Mass/volume] in Blood by Immunoassay",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "71490-7",
+      "display": "Left eye Diabetic retinopathy severity level by Ophthalmoscopy",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "71491-5",
+      "display": "Right eye Diabetic retinopathy severity level by Ophthalmoscopy",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "718-7",
+      "display": "Hemoglobin [Mass/volume] in Blood",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "71802-3",
+      "display": "Housing status",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "72106-8",
+      "display": "Total score [MMSE]",
+      "confidentiality": "R",
+      "sensitivity": [],
+      "basis": "Conservative demo restriction for nonspecific immune, cognitive, psychosocial or safety information; no diagnostic sensitivity inferred."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "72166-2",
+      "display": "Tobacco smoking status",
+      "confidentiality": "N",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Repository explicit tobacco exception: sensitivity ETH without raised confidentiality."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "72514-3",
+      "display": "Pain severity - 0-10 verbal numeric rating [Score] - Reported",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "7258-7",
+      "display": "Cow milk IgE Ab [Units/volume] in Serum",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "731-0",
+      "display": "Lymphocytes [#/volume] in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "736-9",
+      "display": "Lymphocytes/Leukocytes in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "742-7",
+      "display": "Monocytes [#/volume] in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "751-8",
+      "display": "Neutrophils [#/volume] in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "75325-1",
+      "display": "Symptom",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "75443-2",
+      "display": "Mental health Outpatient Note",
+      "confidentiality": "R",
+      "sensitivity": [
+        "PSY"
+      ],
+      "basis": "Repository explicit PSY rule or exact synthetic mental health/stress concept."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "75626-2",
+      "display": "Total score [AUDIT-C]",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "75636-1",
+      "display": "Emergency severity index [ESI]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "75893-8",
+      "display": "Pain severity in the past week - 0-10 numeric rating [Reported]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "76437-3",
+      "display": "Primary insurance",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "76501-6",
+      "display": "Within the last year, have you been afraid of your partner or ex-partner",
+      "confidentiality": "R",
+      "sensitivity": [
+        "SDV"
+      ],
+      "basis": "Exact synthetic HARK/partner-fear screening concepts; repository SDV sensitivity."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "76504-0",
+      "display": "Total score [HARK]",
+      "confidentiality": "R",
+      "sensitivity": [
+        "SDV"
+      ],
+      "basis": "Exact synthetic HARK/partner-fear screening concepts; repository SDV sensitivity."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "770-8",
+      "display": "Neutrophils/Leukocytes in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "77606-2",
+      "display": "Weight-for-length Per age and sex",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "777-3",
+      "display": "Platelets [#/volume] in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "785-6",
+      "display": "MCH [Entitic mass] by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "786-4",
+      "display": "MCHC [Entitic Mass/volume] in Red Blood Cells by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "787-2",
+      "display": "MCV [Entitic mean volume] in Red Blood Cells by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "788-0",
+      "display": "Erythrocyte [DistWidth] in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "789-8",
+      "display": "Erythrocytes [#/volume] in Blood by Automated count",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "79818-1",
+      "display": "Study observation Right retina by OCT",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "79819-9",
+      "display": "Study observation Left retina by OCT",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "79892-6",
+      "display": "Right eye Intraocular pressure",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "79893-4",
+      "display": "Left eye Intraocular pressure",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "80382-5",
+      "display": "Influenza virus A Ag [Presence] in Upper respiratory specimen by Rapid immunoassay",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "80383-3",
+      "display": "Influenza virus B Ag [Presence] in Upper respiratory specimen by Rapid immunoassay",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "8247-9",
+      "display": "Mucus [Presence] in Urine sediment by Light microscopy",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "82589-3",
+      "display": "Highest level of education",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "82667-7",
+      "display": "Total score [DAST-10]",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "82810-3",
+      "display": "Pregnancy status",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic pregnancy-test/status concepts; repository SEX rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "8289-1",
+      "display": "Head Occipital-frontal circumference Percentile",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "8302-2",
+      "display": "Body Height",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "8310-5",
+      "display": "Body temperature",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "8331-1",
+      "display": "Oral temperature",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "84215-3",
+      "display": "Mental health Telehealth Note",
+      "confidentiality": "R",
+      "sensitivity": [
+        "PSY"
+      ],
+      "basis": "Repository explicit PSY rule or exact synthetic mental health/stress concept."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "8462-4",
+      "display": "Diastolic Blood Pressure",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "8480-6",
+      "display": "Systolic Blood Pressure",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "85354-9",
+      "display": "Blood Pressure panel with all children optional",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "88020-3",
+      "display": "Functional capacity NYHA",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "88021-1",
+      "display": "Objective assessment of cardiovascular disease NYHA",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "8867-4",
+      "display": "Heart rate",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "89204-2",
+      "display": "Patient Health Questionnaire-9: Modified for Teens total score [Reported.PHQ.Teen]",
+      "confidentiality": "R",
+      "sensitivity": [
+        "PSY"
+      ],
+      "basis": "Repository explicit PSY rule or exact synthetic mental health/stress concept."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "89579-7",
+      "display": "Troponin I.cardiac [Mass/volume] in Serum or Plasma by High sensitivity method",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "91145-3",
+      "display": "What number best describes how pain has interfered with your enjoyment of life during the past week",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "91146-1",
+      "display": "What number best describes how pain has interfered with your general activity during the past week",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "91148-7",
+      "display": "Pain intensity, Enjoyment of life, General activity scale [PEG]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "92130-4",
+      "display": "Rhinovirus RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "92131-2",
+      "display": "Respiratory syncytial virus RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "92134-6",
+      "display": "Human metapneumovirus RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "92138-7",
+      "display": "Parainfluenza virus 3 RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "92139-5",
+      "display": "Parainfluenza virus 2 RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "92140-3",
+      "display": "Parainfluenza virus 1 RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "92141-1",
+      "display": "Influenza virus B RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "92142-9",
+      "display": "Influenza virus A RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "9279-1",
+      "display": "Respiratory rate",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "93025-5",
+      "display": "Protocol for Responding to and Assessing Patients' Assets, Risks, and Experiences [PRAPARE]",
+      "confidentiality": "R",
+      "sensitivity": [
+        "PSY"
+      ],
+      "basis": "Repository explicit PSY rule or exact synthetic mental health/stress concept."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "93026-3",
+      "display": "Do you feel physically and emotionally safe where you currently live [PRAPARE]",
+      "confidentiality": "R",
+      "sensitivity": [],
+      "basis": "Conservative demo restriction for nonspecific immune, cognitive, psychosocial or safety information; no diagnostic sensitivity inferred."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "93027-1",
+      "display": "Are you a refugee",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "93028-9",
+      "display": "Have you spent more than 2 nights in a row in a jail, prison, detention center, or juvenile correctional facility in past 1 year [PRAPARE]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "93029-7",
+      "display": "How often do you see or talk to people that you care about and feel close to [PRAPARE]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "93030-5",
+      "display": "Has lack of transportation kept you from medical appointments, meetings, work, or from getting things needed for daily living",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "93031-3",
+      "display": "Have you or any family members you live with been unable to get any of the following when it was really needed in past 1 year [PRAPARE]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "93033-9",
+      "display": "Are you worried about losing your housing [PRAPARE]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "93034-7",
+      "display": "Discharged from the U.S. Armed Forces",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "93035-4",
+      "display": "Has season or migrant farm work been your or your family's main source of income at any point in past 2 years [PRAPARE]",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "93038-8",
+      "display": "Stress level",
+      "confidentiality": "R",
+      "sensitivity": [
+        "PSY"
+      ],
+      "basis": "Repository explicit PSY rule or exact synthetic mental health/stress concept."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "94040-3",
+      "display": "Adenovirus A+B+C+D+E DNA [Presence] in Respiratory system specimen by NAA with probe detection",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "94531-1",
+      "display": "SARS-CoV-2 (COVID-19) RNA panel - Respiratory system specimen by NAA with probe detection",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "9843-4",
+      "display": "Head Occipital-frontal circumference",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "98498-9",
+      "display": "Visual acuity uncorrected Left eye",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "98499-7",
+      "display": "Visual acuity uncorrected Right eye",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "99999-0",
+      "display": "DSM-5 Clinical Diagnostic Criteria for Opioid Use Disorder",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "99999-1",
+      "display": "Opioids are often taken in larger amounts or over a longer period than was intended",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "99999-10",
+      "display": "Tolerance,as defined by either of the following: a) Need for markedly increased amounts of opioids to achieve intoxication or desired effect b) Markedly diminished effect with continued use of the same amount of opioid",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "99999-11",
+      "display": "Withdrawal,* as manifested by either of the following: a) Characteristic opioid withdrawal syndrome b) Same (or a closely related) substance is taken to relieve or avoid withdrawal symptoms",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "99999-2",
+      "display": "There is a persistent desire or unsuccessful efforts to cut down or control opioid use",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "99999-3",
+      "display": "A great deal of time is spent in activities necessary to obtain the opioid, use the opioid, or recover from its effects",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "99999-4",
+      "display": "Craving or a strong desire to use opioids",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "99999-5",
+      "display": "Recurrent opioid use resulting in a failure to fulfill major role obligations at work, school, or home",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "99999-6",
+      "display": "Continued opioid use despite having persistent or recurrent social or interpersonal problems caused or exacerbated by the effects of opioids",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "99999-7",
+      "display": "Important social, occupational, or recreational activities are given up or reduced because of opioid use",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "99999-8",
+      "display": "Recurrent opioid use in situations in which it is physically hazardous",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "99999-9",
+      "display": "Continued use despite knowledge of having a persistent or recurrent physical or psychological problem that is likely to have been caused or exacerbated by opioids.",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic AUDIT-C/DAST/drug-screen/opioid criteria concepts; repository ETH rule."
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA13038-7",
+      "display": "Low Risk (MFS Score 0 - 24)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA13039-5",
+      "display": "Moderate Risk (MFS Score 25 - 45)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA13040-3",
+      "display": "High Risk (MFS Score 50+)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA13863-8",
+      "display": "A little bit",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA13902-4",
+      "display": "Quite a bit",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA13909-9",
+      "display": "Somewhat",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA13914-9",
+      "display": "Very much",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA14042-8",
+      "display": "Black/African American",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA14072-5",
+      "display": "Unsure",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA15652-3",
+      "display": "Medicare",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA17849-3",
+      "display": "Medicaid",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA17956-6",
+      "display": "Unemployed",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA18643-9",
+      "display": "No apparent retinopathy",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA18645-4",
+      "display": "Moderate non-proliferative retinopathy",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA21754-9",
+      "display": "Needs 1 resource",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA21755-6",
+      "display": "Needs no resources",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA27722-0",
+      "display": "Less than once a week",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA28404-4",
+      "display": "Class I",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA28406-9",
+      "display": "Class III",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA28409-3",
+      "display": "Objective evidence of minimal cardiovascular disease",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA28409-8",
+      "display": "No abnormal findings",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30122-8",
+      "display": "I choose not to answer this question",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30124-4",
+      "display": "Utilities",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30125-1",
+      "display": "Food",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30126-9",
+      "display": "Clothing",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30127-7",
+      "display": "Child care",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30128-5",
+      "display": "Medicine or Any Health Care (Medical, Dental, Mental Health, Vision)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30129-3",
+      "display": "Phone",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30130-1",
+      "display": "1 or 2 times a week",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30131-9",
+      "display": "3 to 5 times a week",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30132-7",
+      "display": "5 or more times a week",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30133-5",
+      "display": "Yes, it has kept me from medical appointments or from getting my medications",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30134-3",
+      "display": "Yes, it has kept me from non-medical meetings, appointments, work, or from getting things that I need",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30136-8",
+      "display": "Full-time work",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30137-6",
+      "display": "Otherwise unemployed but not seeking work (ex: student, retired, disabled, unpaid primary care giver)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30138-4",
+      "display": "Part-time or temporary work",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30188-9",
+      "display": "Language other than English",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30189-7",
+      "display": "I have housing",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30191-3",
+      "display": "Less than high school degree",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30192-1",
+      "display": "High school diploma or GED",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30193-9",
+      "display": "More than high school",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA30194-7",
+      "display": "None/uninsured",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA32-8",
+      "display": "No",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA33-6",
+      "display": "Yes",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA4-4",
+      "display": "American Indian/Alaskan Native",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA43-5",
+      "display": "English",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA4457-3",
+      "display": "White",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA46-8",
+      "display": "Other",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA6156-9",
+      "display": "Asian",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA6350-8",
+      "display": "Private insurance",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "LA6568-5",
+      "display": "Not at all",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "X9999-0",
+      "display": "Operative Status",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "X9999-1",
+      "display": "Operative Status Value",
+      "confidentiality": "N",
+      "sensitivity": [],
+      "safe_strings": [
+        "elective",
+        "urgent"
+      ]
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "X9999-2",
+      "display": "Priority Level",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "102263004",
+      "display": "Eggs (edible) (substance)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "103697008",
+      "display": "Patient referral for dental care (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "10509002",
+      "display": "Acute bronchitis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "105531004",
+      "display": "Housing unsatisfactory (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "105995000",
+      "display": "Disorder of teeth AND/OR supporting structures",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "10828004",
+      "display": "Positive (qualifier value)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "1085991000119107",
+      "display": "Dental caries on smooth surface penetrating into dentin",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "1086001000119108",
+      "display": "Dental caries on smooth surface penetrating into pulp",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "1086881000119107",
+      "display": "Fractured dental restorative material",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "10939881000119105",
+      "display": "Unhealthy alcohol drinking behavior (finding)",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic source concept denotes alcohol/drug misuse or rehabilitation; repository ETH rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "110030002",
+      "display": "Concussion injury of brain (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "1121000119107",
+      "display": "Chronic neck pain (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "1149222004",
+      "display": "Overdose (disorder)",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact fixture concept reviewed against the repository label policy; no inferred ancestry."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "1172608001",
+      "display": "Accretion on tooth",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "1187604002",
+      "display": "Serving in military service (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "124171000119105",
+      "display": "Chronic intractable migraine without aura (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "125605004",
+      "display": "Fracture of bone (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "127013003",
+      "display": "Disorder of kidney due to diabetes mellitus (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "128613002",
+      "display": "Seizure disorder (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "1290882004",
+      "display": "History of seizure (situation)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "132281000119108",
+      "display": "Acute deep venous thrombosis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "1505002",
+      "display": "Hospital admission for isolation (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "1551000119108",
+      "display": "Nonproliferative diabetic retinopathy due to type II diabetes mellitus",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "156073000",
+      "display": "Complete miscarriage (disorder)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "157141000119108",
+      "display": "Proteinuria due to type 2 diabetes mellitus (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "160701002",
+      "display": "Social migrant (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "160903007",
+      "display": "Full-time employment (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "160904001",
+      "display": "Part-time employment (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "160968000",
+      "display": "Risk activity involvement (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "16114001",
+      "display": "Fracture of ankle (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "161665007",
+      "display": "History of renal transplant (situation)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "161744009",
+      "display": "Past pregnancy history of miscarriage (situation)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "162673000",
+      "display": "General examination of patient (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "162864005",
+      "display": "Body mass index 30+ - obesity (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "167248002",
+      "display": "Urine smell ammoniacal (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "167265006",
+      "display": "Urine glucose test = ++ (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "167275009",
+      "display": "Urine protein test = + (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "167276005",
+      "display": "Urine protein test = ++ (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "167277001",
+      "display": "Urine protein test = +++ (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "167287002",
+      "display": "Urine ketones not detected (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "167288007",
+      "display": "Urine ketone test = trace (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "167289004",
+      "display": "Urine ketone test = + (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "167290008",
+      "display": "Urine ketone test = ++ (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "167291007",
+      "display": "Urine ketone test = +++ (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "167297006",
+      "display": "Blood not detected in urine (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "167300001",
+      "display": "Urine blood test = + (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "167336003",
+      "display": "Urine microscopy: no casts (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "169762003",
+      "display": "Postnatal visit (regime/therapy)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "170837001",
+      "display": "Allergic disorder initial assessment (regime/therapy)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "170838006",
+      "display": "Allergic disorder follow-up assessment (regime/therapy)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "183452005",
+      "display": "Emergency hospital admission (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "183460006",
+      "display": "Obstetric emergency hospital admission (procedure)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "183478001",
+      "display": "Emergency hospital admission for asthma (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "183996000",
+      "display": "Sterilization requested (situation)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "185086009",
+      "display": "Chronic obstructive bronchitis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "185317003",
+      "display": "Telephone encounter (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "185345009",
+      "display": "Encounter for symptom (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "185347001",
+      "display": "Encounter for problem (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "185349003",
+      "display": "Encounter for check up (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "185389009",
+      "display": "Follow-up visit (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "19169002",
+      "display": "Miscarriage in first trimester (disorder)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "192127007",
+      "display": "Child attention deficit disorder (disorder)",
+      "confidentiality": "R",
+      "sensitivity": [
+        "PSY"
+      ],
+      "basis": "Exact synthetic source concept denotes psychiatric disorder or psychiatric encounter; repository PSY rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "195662009",
+      "display": "Acute viral pharyngitis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "195967001",
+      "display": "Asthma (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "196273001",
+      "display": "Supplemental tooth",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "196416002",
+      "display": "Impacted molars (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "197927001",
+      "display": "Recurrent urinary tract infection (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "198992004",
+      "display": "Eclampsia in pregnancy (disorder)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "201834006",
+      "display": "Localized, primary osteoarthritis of the hand (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "203646004",
+      "display": "Adolescent idiopathic scoliosis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "22298006",
+      "display": "Myocardial infarction (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "224295006",
+      "display": "Only received primary school education (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "224299000",
+      "display": "Received higher education (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "232353008",
+      "display": "Perennial allergic rhinitis with seasonal variation (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "233604007",
+      "display": "Pneumonia (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "233678006",
+      "display": "Childhood asthma (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "234949000",
+      "display": "Tooth eruption disorder",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "235104008",
+      "display": "Impacted tooth",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "236077008",
+      "display": "Protracted diarrhea (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "237602007",
+      "display": "Metabolic syndrome X (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "239872002",
+      "display": "Osteoarthritis of hip (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "239873007",
+      "display": "Osteoarthritis of knee (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "24079001",
+      "display": "Atopic dermatitis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "241929008",
+      "display": "Acute allergic reaction (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "248595008",
+      "display": "Sputum finding (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "249497008",
+      "display": "Vomiting symptom (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "25064002",
+      "display": "Headache (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "254837009",
+      "display": "Malignant neoplasm of breast (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "2556008",
+      "display": "Periodontal disease",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "256355007",
+      "display": "Glycine max (substance)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "25675004",
+      "display": "Patient transfer to skilled nursing facility (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "260373001",
+      "display": "Detected (qualifier value)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "260385009",
+      "display": "Negative (qualifier value)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "260415000",
+      "display": "Not detected (qualifier value)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "262574004",
+      "display": "Bullet wound (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "263102004",
+      "display": "Fracture subluxation of wrist (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "263172003",
+      "display": "Fracture of mandible (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "266919005",
+      "display": "Never smoked tobacco (finding)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact tobacco-status coded value; same tobacco exception."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "266934004",
+      "display": "Transport problem (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "266948004",
+      "display": "Has a criminal record (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "267020005",
+      "display": "History of tubal ligation (situation)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "267036007",
+      "display": "Dyspnea (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "267038008",
+      "display": "Edema (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "267102003",
+      "display": "Sore throat (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "267253006",
+      "display": "Fetus with chromosomal abnormality (disorder)",
+      "confidentiality": "R",
+      "sensitivity": [
+        "GDIS",
+        "SEX"
+      ],
+      "basis": "Exact fixture concept reviewed against the repository label policy; no inferred ancestry."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "26929004",
+      "display": "Alzheimer's disease (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "270427003",
+      "display": "Patient-initiated encounter (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "271605009",
+      "display": "Position of body and posture (observable entity)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "271737000",
+      "display": "Anemia (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "271825005",
+      "display": "Respiratory distress (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "274531002",
+      "display": "Abnormal findings diagnostic imaging heart+coronary circulat (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "275778006",
+      "display": "Finding of bilirubin in urine (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "275978004",
+      "display": "Screening for malignant neoplasm of colon (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "276409005",
+      "display": "Mucus in urine (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "278860009",
+      "display": "Chronic low back pain (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "27942005",
+      "display": "Shock (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "281036007",
+      "display": "Follow-up consultation (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "283371005",
+      "display": "Laceration of forearm (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "283385000",
+      "display": "Laceration of thigh (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "283545005",
+      "display": "Gunshot wound (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "284549007",
+      "display": "Laceration of hand (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "284551006",
+      "display": "Laceration of foot (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "285285000",
+      "display": "Cobb angle (observable entity)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "300828005",
+      "display": "Translucent (qualifier value)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "302870006",
+      "display": "Hypertriglyceridemia (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "305336008",
+      "display": "Admission to hospice (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "305342007",
+      "display": "Admission to ward (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "305351004",
+      "display": "Admission to intensive care unit (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "305408004",
+      "display": "Admission to surgical department (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "305411003",
+      "display": "Admission to thoracic surgery department (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "305432006",
+      "display": "Admission to surgical transplant department (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "307426000",
+      "display": "Acute infective cystitis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "307731004",
+      "display": "Injury of tendon of the rotator cuff of shoulder (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "308335008",
+      "display": "Patient encounter procedure (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "308646001",
+      "display": "Death Certification",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "312608009",
+      "display": "Laceration - injury (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "314137006",
+      "display": "Nitrite detected in urine (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "314138001",
+      "display": "Nitrite not detected in urine (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "314529007",
+      "display": "Medication review due (situation)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "31642005",
+      "display": "Acute gingivitis",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "32485007",
+      "display": "Hospital admission (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "33737001",
+      "display": "Fracture of rib (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "33879002",
+      "display": "Administration of vaccine to produce active immunity (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "35999006",
+      "display": "Blighted ovum (disorder)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "361055000",
+      "display": "Misuses drugs (finding)",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic source concept denotes alcohol/drug misuse or rehabilitation; repository ETH rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "36228007",
+      "display": "Ophthalmic examination and evaluation (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "363406005",
+      "display": "Malignant neoplasm of colon (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "365691004",
+      "display": "Finding of presence of bacteria (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "368581000119106",
+      "display": "Neuropathy due to type 2 diabetes mellitus (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "36923009",
+      "display": "Major depression, single episode (disorder)",
+      "confidentiality": "R",
+      "sensitivity": [
+        "PSY"
+      ],
+      "basis": "Exact synthetic source concept denotes psychiatric disorder or psychiatric encounter; repository PSY rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "36955009",
+      "display": "Loss of taste (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "36971009",
+      "display": "Sinusitis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "370143000",
+      "display": "Major depressive disorder (disorder)",
+      "confidentiality": "R",
+      "sensitivity": [
+        "PSY"
+      ],
+      "basis": "Exact synthetic source concept denotes psychiatric disorder or psychiatric encounter; repository PSY rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "370247008",
+      "display": "Facial laceration (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "371254008",
+      "display": "Brown color (qualifier value)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "3718001",
+      "display": "Cow's milk (substance)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "371883000",
+      "display": "Outpatient procedure (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "37849005",
+      "display": "Congenital uterine anomaly (disorder)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact fixture concept reviewed against the repository label policy; no inferred ancestry."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "384709000",
+      "display": "Sprain (morphologic abnormality)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "386661006",
+      "display": "Fever (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "389087006",
+      "display": "Hypoxemia (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "389095005",
+      "display": "Contraception care (regime/therapy)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "390906007",
+      "display": "Follow-up encounter (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "394701000",
+      "display": "Asthma follow-up (regime/therapy)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "394712000",
+      "display": "Urine leukocyte test one plus (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "394717006",
+      "display": "Urine leukocytes not detected (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "397821002",
+      "display": "Patient transfer to intensive care unit (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "398254007",
+      "display": "Pre-eclampsia (disorder)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "39848009",
+      "display": "Whiplash injury to neck (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "39898005",
+      "display": "Sleep disorder (disorder)",
+      "confidentiality": "R",
+      "sensitivity": [],
+      "basis": "Conservative demo restriction for nonspecific immune, cognitive, psychosocial or safety information; no diagnostic sensitivity inferred."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "399211009",
+      "display": "History of myocardial infarction (situation)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "399261000",
+      "display": "History of coronary artery bypass grafting (situation)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "40055000",
+      "display": "Chronic sinusitis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "401303003",
+      "display": "Acute ST segment elevation myocardial infarction (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "401314000",
+      "display": "Acute non-ST segment elevation myocardial infarction (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "40275004",
+      "display": "Contact dermatitis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "403190006",
+      "display": "Epidermal burn of skin (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "403191005",
+      "display": "Partial thickness burn (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "410410006",
+      "display": "Screening surveillance (regime/therapy)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "410620009",
+      "display": "Well child visit (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "412071004",
+      "display": "Wheat (substance)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "413077008",
+      "display": "LogMAR visual acuity left eye (observable entity)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "413078003",
+      "display": "LogMAR visual acuity right eye (observable entity)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "414545008",
+      "display": "Ischemic heart disease (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "422587007",
+      "display": "Nausea (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "422650009",
+      "display": "Social isolation (finding)",
+      "confidentiality": "R",
+      "sensitivity": [],
+      "basis": "Conservative demo restriction for nonspecific immune, cognitive, psychosocial or safety information; no diagnostic sensitivity inferred."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "423315002",
+      "display": "Limited social contact (finding)",
+      "confidentiality": "R",
+      "sensitivity": [],
+      "basis": "Conservative demo restriction for nonspecific immune, cognitive, psychosocial or safety information; no diagnostic sensitivity inferred."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "424393004",
+      "display": "Reports of violence in the environment (finding)",
+      "confidentiality": "R",
+      "sensitivity": [],
+      "basis": "Conservative demo restriction for nonspecific immune, cognitive, psychosocial or safety information; no diagnostic sensitivity inferred."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "424441002",
+      "display": "Prenatal initial visit (regime/therapy)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "424619006",
+      "display": "Prenatal visit (regime/therapy)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "427419006",
+      "display": "Transformed migraine (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "428251008",
+      "display": "History of appendectomy (situation)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "431855005",
+      "display": "Chronic kidney disease stage 1 (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "431856006",
+      "display": "Chronic kidney disease stage 2 (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "431857002",
+      "display": "Chronic kidney disease stage 4 (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "433144002",
+      "display": "Chronic kidney disease stage 3 (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "43724002",
+      "display": "Chill (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "43878008",
+      "display": "Streptococcal sore throat (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "439590007",
+      "display": "Cardiovascular stress test abnormal (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "439740005",
+      "display": "Postoperative follow-up visit (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "44054006",
+      "display": "Diabetes mellitus type 2 (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "442571000124108",
+      "display": "Tree nut (substance)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "44465007",
+      "display": "Sprain of ankle (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "444814009",
+      "display": "Viral sinusitis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "446096008",
+      "display": "Perennial allergic rhinitis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "446654005",
+      "display": "Refugee (person)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "448337001",
+      "display": "Telemedicine consultation with patient (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "449868002",
+      "display": "Smokes tobacco daily (finding)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact tobacco-status coded value; same tobacco exception."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "453131000124105",
+      "display": "Videotelephony encounter (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "46177005",
+      "display": "End-stage renal disease (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "473461003",
+      "display": "Educated to high school level (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "47505003",
+      "display": "Posttraumatic stress disorder (disorder)",
+      "confidentiality": "R",
+      "sensitivity": [
+        "PSY"
+      ],
+      "basis": "Exact synthetic source concept denotes psychiatric disorder or psychiatric encounter; repository PSY rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "47693006",
+      "display": "Rupture of appendix (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "48333001",
+      "display": "Burn injury (morphologic abnormality)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "48409008",
+      "display": "Respiratory crackles (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "49727002",
+      "display": "Cough (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "50849002",
+      "display": "Emergency room admission (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "53963006",
+      "display": "Excessive attrition of teeth",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "54711002",
+      "display": "Gingival enlargement",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "55822004",
+      "display": "Hyperlipidemia (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "5602001",
+      "display": "Opioid abuse",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic source concept denotes alcohol/drug misuse or rehabilitation; repository ETH rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "56876005",
+      "display": "Drug rehabilitation and detoxification (regime/therapy)",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic source concept denotes alcohol/drug misuse or rehabilitation; repository ETH rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "5689008",
+      "display": "Chronic periodontitis",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "57676002",
+      "display": "Joint pain",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "58150001",
+      "display": "Fracture of clavicle (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "59265000",
+      "display": "Paroxysmal dyspnea (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "59621000",
+      "display": "Essential hypertension (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "6072007",
+      "display": "Bleeding from anus (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "60845006",
+      "display": "Dyspnea on exertion (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "609328004",
+      "display": "Allergic disposition (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "62106007",
+      "display": "Concussion with no loss of consciousness (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "62479008",
+      "display": "Acquired immune deficiency syndrome (disorder)",
+      "confidentiality": "V",
+      "sensitivity": [
+        "HIV"
+      ],
+      "basis": "Exact synthetic source AIDS concept; repository HIV rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "62564004",
+      "display": "Concussion with loss of consciousness (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "62744007",
+      "display": "Orthopnea (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "64859006",
+      "display": "Osteoporosis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "6525002",
+      "display": "Dependent drug abuse (disorder)",
+      "confidentiality": "R",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Exact synthetic source concept denotes alcohol/drug misuse or rehabilitation; repository ETH rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "65363002",
+      "display": "Otitis media (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "65966004",
+      "display": "Fracture of forearm (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "66383009",
+      "display": "Gingivitis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "66569006",
+      "display": "Retained dental root",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "66857006",
+      "display": "Hemoptysis (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "68235000",
+      "display": "Nasal congestion (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "68496003",
+      "display": "Polyp of colon (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "68962001",
+      "display": "Muscle pain (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "698306007",
+      "display": "Awaiting transplantation of kidney (situation)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "698314001",
+      "display": "Consultation for treatment (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "69896004",
+      "display": "Rheumatoid arthritis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "702927004",
+      "display": "Urgent care clinic (environment)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "706893006",
+      "display": "Victim of intimate partner abuse (finding)",
+      "confidentiality": "R",
+      "sensitivity": [
+        "SDV"
+      ],
+      "basis": "Exact synthetic source intimate partner abuse concept; repository SDV sensitivity."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "70704007",
+      "display": "Sprain of wrist (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "707251008",
+      "display": "Generalised chronic periodontitis",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "707252001",
+      "display": "Localised chronic periodontitis",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "713197008",
+      "display": "Recurrent rectal polyp (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "713458007",
+      "display": "Lack of access to transportation (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "714628002",
+      "display": "Prediabetes (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "718052004",
+      "display": "Asymptomatic periapical periodontitis",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "718062006",
+      "display": "Generalised moderate chronic periodontitis",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "72892002",
+      "display": "Normal pregnancy (finding)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "73430006",
+      "display": "Sleep apnea (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "73438004",
+      "display": "Unemployed (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "735029006",
+      "display": "Shellfish (substance)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "73595000",
+      "display": "Stress (finding)",
+      "confidentiality": "R",
+      "sensitivity": [],
+      "basis": "Conservative demo restriction for nonspecific immune, cognitive, psychosocial or safety information; no diagnostic sensitivity inferred."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "741062008",
+      "display": "Not in labor force (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "74400008",
+      "display": "Appendicitis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "75498004",
+      "display": "Acute bacterial sinusitis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "762952008",
+      "display": "Peanut (substance)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "76464004",
+      "display": "Hospital admission, for observation (procedure)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "77386006",
+      "display": "Pregnant",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "7766007",
+      "display": "Cloudy urine (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "78275009",
+      "display": "Obstructive sleep apnea syndrome (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "79094001",
+      "display": "Initial psychiatric interview with mental status and evaluation (procedure)",
+      "confidentiality": "R",
+      "sensitivity": [
+        "PSY"
+      ],
+      "basis": "Exact synthetic source concept denotes psychiatric disorder or psychiatric encounter; repository PSY rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "79586000",
+      "display": "Tubal pregnancy (disorder)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "SEX"
+      ],
+      "basis": "Exact synthetic source reproductive/pregnancy/contraception concept; repository SEX rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "8004003",
+      "display": "Teething syndrome",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "80394007",
+      "display": "Hyperglycemia (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "80583007",
+      "display": "Severe anxiety (panic) (finding)",
+      "confidentiality": "R",
+      "sensitivity": [
+        "PSY"
+      ],
+      "basis": "Exact synthetic source concept denotes psychiatric disorder or psychiatric encounter; repository PSY rule."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "80967001",
+      "display": "Dental caries",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "81629009",
+      "display": "Traumatic dislocation of temporomandibular joint (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "82423001",
+      "display": "Chronic pain (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "83664006",
+      "display": "Idiopathic atrophic hypothyroidism (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "840539006",
+      "display": "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "840544004",
+      "display": "Suspected disease caused by Severe acute respiratory coronavirus 2 (situation)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "84229001",
+      "display": "Fatigue (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "84757009",
+      "display": "Epilepsy (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "8517006",
+      "display": "Ex-smoker (finding)",
+      "confidentiality": "N",
+      "sensitivity": [
+        "ETH"
+      ],
+      "basis": "Tobacco status exception, including former smoking."
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "870537001",
+      "display": "Risser sign (finding)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "87433001",
+      "display": "Pulmonary emphysema (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "88805009",
+      "display": "Chronic congestive heart failure (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "90460009",
+      "display": "Injury of neck (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "90560007",
+      "display": "Gout",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "90781000119102",
+      "display": "Microalbuminuria due to type 2 diabetes mellitus (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "91302008",
+      "display": "Sepsis (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "93761005",
+      "display": "Primary malignant neoplasm of colon (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "95281009",
+      "display": "Sudden cardiac death (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "95417003",
+      "display": "Primary fibromyalgia syndrome (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "97331000119101",
+      "display": "Macular edema and retinopathy due to type 2 diabetes mellitus (disorder)",
+      "confidentiality": "N",
+      "sensitivity": []
+    }
+  ],
+  "units": [
+    "%",
+    "/[HPF]",
+    "/a",
+    "/min",
+    "/uL",
+    "10*3/uL",
+    "10*6/uL",
+    "Cel",
+    "U/L",
+    "[pH]",
+    "cm",
+    "fL",
+    "g/L",
+    "g/dL",
+    "kU/L",
+    "kg",
+    "kg/m2",
+    "mL/min",
+    "mL/min/{1.73_m2}",
+    "m[IU]/L",
+    "mg/L",
+    "mg/dL",
+    "mg/g",
+    "mm",
+    "mm[Hg]",
+    "mmol/L",
+    "ng/L",
+    "ng/dl",
+    "ng/mL",
+    "pH",
+    "pg",
+    "pg/mL",
+    "s",
+    "ug/L",
+    "ug/dL",
+    "ug/mL",
+    "{#}",
+    "{INR}",
+    "{SG}",
+    "{T-score}",
+    "{copies}/mL",
+    "{logmar}",
+    "{nominal}",
+    "{presence}",
+    "{score}"
+  ]
+}

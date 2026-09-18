@@ -20,3 +20,7 @@ Proposed order: validate linked note -> de-identify -> validate sanitized text -
 ### Resolved identity and date policy — 2026-09-17
 
 Apply the amended [Define patient identity, linkage, and source provenance](04-identity-and-provenance.md#answer): preserve synthetic event dates, retain birth year only in prepared structured data, and do not enrich notes, embedding requests, or vector metadata with full DOB. The current source template does not include a birth-date field; explicitly handle any future source note that does before accepting it under this policy. Reconcile narrative age treatment with the imported FHIR plan's 90+ rule here. Preserve clinical detail while removing personal/contact identifiers. The temporary approval for internal raw non-patient `source_id` columns does not permit those IDs in note text, embeddings, or application output. Specify recognizers and failure handling here; raw FHIR must not pass through unchecked.
+
+### Approved evaluation input — 2026-09-18
+
+[Define clinically linked synthetic-note generation](06-note-generation-contract.md#answer) is resolved. Eight attack variants and three unchanged controls are now reproducible restricted raw artifacts; see [fixture validation](../../../backend/ingestion/evaluation-validation.md). They must undergo the same identifier sanitization policy as clinical notes, while preserving attack passages in isolated evaluation text to test downstream resistance. Do not mistake a created fixture corpus for completed model-security evaluation.

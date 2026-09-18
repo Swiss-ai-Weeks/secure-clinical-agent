@@ -6,8 +6,9 @@
 --   p360_auditor  -                        -                            SELECT
 --
 -- Nobody but the superuser owner can ALTER, DROP, DELETE from clinical, or
--- UPDATE/DELETE/TRUNCATE audit. The worker has no DELETE: reprocessing a batch
--- means dropping the volume, not deleting rows.
+-- UPDATE/DELETE/TRUNCATE audit. The worker has no DELETE: reprocessing uses
+-- stable upserts. Source removals require an explicit future policy; retries
+-- must never reset the database volume.
 
 -- Deny-by-default on schemas.
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;

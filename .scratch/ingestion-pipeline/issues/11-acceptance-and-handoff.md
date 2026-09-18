@@ -20,3 +20,7 @@ Define basic retrieval relevance examples over synthetic ground truth and a late
 ### Approved demonstration input — 2026-09-17
 
 [Choose the first cohort and ingestion success criteria](03-cohort-and-success.md#answer) is resolved. Use its approved [clinical demonstration examples](../../../backend/ingestion/clinical-demo-examples.md) and access expectations as inputs to the eventual executable acceptance checks. The examples distinguish note narrative from structured measurements and historical from current conditions. Exact ranking thresholds, sanitized fixture mappings, and runtime commands remain to be specified here after the blocking contracts resolve; the source-evidence checks are not retrieval tests.
+
+### Approved attack cases — 2026-09-18
+
+The [note-generation/evaluation resolution](06-note-generation-contract.md#answer) fixes eight cases and unchanged controls, with expected authority, patient-access, export and answer/citation outcomes. [Fixture validation](../../../backend/ingestion/evaluation-validation.md) verifies local lineage/reproducibility and unchanged clinical stores. All end-to-end cases remain `not_run`; require the real sanitizer, authorization and retrieval/generation path before recording resistance or access outcomes.

@@ -2,7 +2,7 @@
 
 Returning after a session reset? Read [NEXT-STEPS.md](NEXT-STEPS.md) for the completed work, local data locations, and ordered path to authorized vector search.
 
-The first implemented stage generates and verifies restricted Synthea source batches. It produces FHIR R4 bundles plus linked raw clinical notes. **It does not yet de-identify, embed, populate PostgreSQL/Qdrant, seed grants, or publish a batch.** Those remaining stages are ordered below.
+The source stage generates and verifies restricted Synthea source batches. The separate structured adapter below implements the projection policy approved on 2026-09-18. It produces FHIR R4 bundles plus linked raw clinical notes. **The source command does not de-identify, populate stores, embed, seed grants or publish a batch.** Those remaining stages are ordered below.
 
 ## Run the implemented source stage
 
@@ -31,7 +31,7 @@ python3 -m unittest discover -s backend/ingestion/tests -p 'test_*.py' -v
 
 The CLI outputs a JSON summary with the batch path, ID, counts, and `source_ready` status. It never prints note text. The 10/100 counts are user-approved; the checked-in Massachusetts, English upstream notes, seeds 360/361, reference/end date 2026-09-01, and ten-year export window are reproducible **demo defaults**, not a claim that all clinical scope decisions are approved. Supply a copied config with `--config` to change them. Preserve the checked-in config as the validation baseline.
 
-Synthea exports English encounter notes (History and Physical / Evaluation and Plan); it does not supply arbitrary note types chosen by this adapter. The exporter retains a ten-year history relative to the simulation endpoint, with its own handling of active/historical facts. This is not a promise that every resource date lies inside a strict calendar window. All FHIR resource types are kept in restricted source; Patient/Condition/Observation is the proposed later structured projection.
+Synthea exports English encounter notes (History and Physical / Evaluation and Plan); it does not supply arbitrary note types chosen by this adapter. The exporter retains a ten-year history relative to the simulation endpoint, with its own handling of active/historical facts. This is not a promise that every resource date lies inside a strict calendar window. All FHIR resource types are kept in restricted source; The structured adapter projects Patient/Encounter/Condition/Observation separately from this restricted source.
 
 ## What repeats and what changes
 
@@ -63,9 +63,9 @@ Validation checks the supported bundle structure, distinct patient count, unique
 ```mermaid
 flowchart TD
   S["Implemented: pinned Synthea source worker"] --> R["Implemented: verified FHIR and linked raw notes"]
-  R --> I["Next: opaque identity and source provenance"]
-  I --> F["Structured field allowlist and de-identification"]
-  F --> P["PostgreSQL migrations and stable upserts"]
+  R --> I["Implemented: opaque identity and source provenance"]
+  I --> F["Implemented: code-aware structured projection"]
+  F --> P["Implemented: PostgreSQL stable upserts"]
   I --> D["Presidio and identifier-canary validation"]
   D --> C["Sanitized chunks using pinned tokenizer"]
   C --> E["Nemotron passage embeddings"]
@@ -80,8 +80,8 @@ flowchart TD
 | Step | Implementation and completion evidence |
 | --- | --- |
 | **Pin and verify source — implemented** | Generate 10/100 patients, extract linked notes, retain actual counts/hashes, and prove fresh-run equality plus rerun reuse. See [source contract](research/synthea-generator-contract.md). |
-| **Normalize patient identity and FHIR provenance — next** | Choose the synthetic identity namespace/linkage policy. Map each source patient to one stable opaque key shared by rows, notes, grants, and chunks. Preserve source references in restricted provenance; reject ambiguous/dangling references. Test repeat identity, distinct patients, and cross-patient mismatches. |
-| **Flatten de-identified FHIR into PostgreSQL** | Agree an explicit safe projection of Patient/Condition/Observation, including codes, values, units, dates, and components. Migrate existing volumes to add stable source-resource uniqueness. Never insert full raw bundles into unrestricted `resource` JSONB. Test correct clinical values and repeated-run upserts. |
+| **Normalize patient identity and FHIR provenance — implemented** | Persistent restricted registry supplies stable patient/resource keys and citations across smoke, seed, restart and reprocessing. Exact reference and ownership checks reject bad links. Downstream note/grant/vector adapters must reuse these identities. |
+| **Project structured FHIR into PostgreSQL — implemented** | Approved Patient/Encounter/Condition/Observation projection rebuilds nested JSON, applies reviewed labels and stable upserts, and rejects removals. See [committed validation evidence](structured-validation.md); raw notes remain separate. |
 | **De-identify and validate clinical notes** | Reuse the source-linked Synthea notes, then pin Presidio, NLP/recognizer versions, replacement/date policy, and language. Validate planted identifier canaries and clinical utility. Quarantine failed or uncertain output before any embedding request. Preserve synthetic/generated lineage. |
 | **Seed grants and define chunk access** | Resolve the care-team/consent policy, install the OpenFGA model, retain store/model IDs, and seed grants idempotently. Decide durable storage or fail-closed reseeding. Define the trusted retrieval filter and required patient/security metadata. Test allowed, denied, missing-metadata, and revoked access. |
 | **Chunk, embed, and index sanitized notes** | Inspect the running `nvidia/llama-nemotron-embed-vl-1b-v2` model ID, immutable image/profile, tokenizer, and actual input limit. Chunk with that tokenizer, preserve offsets, and use passage mode with truncation disabled. Verify response indices, finite values, and 2048-dimensional output; verify Qdrant `note_chunks` uses 2048/Cosine before writing. Use stable UUID point IDs, sanitized text, lineage, ACL fields, and publication state; create payload indexes. Use query mode later for retrieval. |
@@ -93,3 +93,57 @@ The current Compose `ingest` profile starts imaging models; it is not this worke
 ## Runtime observations from this implementation session
 
 On 2026-09-17, Qdrant `/readyz` returned HTTP 200. The configured embedding endpoint `http://127.0.0.1:8001/v1/models` was unreachable. This establishes neither collection compatibility nor embedding readiness; those must be measured before implementing and exercising vector writes. No existing service was redeployed, and no records were written to the existing stores.
+
+## Structured preparation and PostgreSQL
+
+The structured adapter implements the [approved projection contract](../../.scratch/ingestion-pipeline/issues/05-fhir-projection.md#answer). The user approved all three policies on 2026-09-18. [Validation evidence](structured-validation.md) records the committed smoke/seed sequence and replay checks. This stage needs Python's standard library, Docker and the maintained PostgreSQL container; it uses `p360_worker` with its existing password inside the container. No administrator credentials or new dependencies are needed.
+
+```bash
+# Once, on an EMPTY clinical database only. Already done on this server.
+python3 backend/ingestion/structured.py init-registry
+
+# Prepare separately from immutable source; verify source integrity each time.
+python3 backend/ingestion/structured.py prepare .data/ingestion/<batch-id>
+
+# Validate a real PostgreSQL transaction without committing clinical/audit rows.
+python3 backend/ingestion/structured.py load .data/ingestion/<smoke-batch-id> --dry-run
+
+# On a fresh approved deployment: commit smoke, repeat (all changed counts must be zero),
+# then commit seed and repeat. Each command revalidates and prepares its source.
+python3 backend/ingestion/structured.py load .data/ingestion/<smoke-batch-id>
+python3 backend/ingestion/structured.py load .data/ingestion/<smoke-batch-id>
+python3 backend/ingestion/structured.py load .data/ingestion/<seed-batch-id>
+python3 backend/ingestion/structured.py load .data/ingestion/<seed-batch-id>
+
+# Keep a backup after extending the registry; destination must not exist.
+python3 backend/ingestion/structured.py backup-registry --backup .data/identity/registry-backup.sqlite
+
+# Tests against real worker permissions and rollback semantics.
+RUN_STRUCTURED_POSTGRES_TESTS=1 python3 -m unittest discover -s backend/ingestion/tests -p 'test_*.py' -v
+```
+
+Use the real smoke and seed paths from [NEXT-STEPS.md](NEXT-STEPS.md). Shared defaults are `.data/identity/registry.sqlite` and `.data/prepared/`; `--registry`, `--output` and `--container` override locations for isolated checks. The registry and parent directory must be owner-restricted. Never initialize a replacement registry to recover an existing cohort: restore a consistent backup and preserve its opaque identities. Source regeneration alone cannot recreate random opaque keys.
+
+An import stages all rows, rejects changed ownership/citations and source removals for included patients, upserts, checks every projected field, and writes its audit event in one transaction. Identical rows do not update timestamps. Retries reconcile the same identities; they never reset volumes. A crash after database commit but before the local receipt is safe to retry. Patients absent from the supplied batch are untouched. Removed resources/components require a future deletion policy; the worker has no clinical DELETE privilege.
+
+Prepared artifacts contain temporary internal non-patient source upsert IDs and remain restricted. They are not application responses or embedding payloads. Full raw notes remain outside this stage. Structured stores have no implemented cross-store publication/read gate yet; a successful import is not authorized retrieval or note sanitization.
+
+## Isolated adversarial evaluation fixtures
+
+The [approved evaluation contract](../../.scratch/ingestion-pipeline/issues/06-note-generation-contract.md#answer) specifies eight deterministic attack variants and three unchanged source controls. [evaluation.py](evaluation.py) verifies the source batch and approved source selection, reads existing registry mappings without changing them, and writes only restricted local evaluation artifacts. It neither sanitizes nor invokes a model, sends messages, or writes to PostgreSQL/Qdrant.
+
+```bash
+python3 backend/ingestion/evaluation.py \
+  .data/ingestion/71289501d068daa74e87a40619e942617c02663b8f675e5231631f50adea9f36 \
+  --selection .data/clinical-demo/71289501d068daa74e87a40619e942617c02663b8f675e5231631f50adea9f36/candidate-evidence.json
+
+# Run the same command again to verify/reuse its immutable artifacts.
+# Add --output .data/evaluation-independent to compare an independent build.
+python3 -m unittest discover -s backend/ingestion/tests -p test_evaluation.py -v
+```
+
+The default output is `.data/evaluation/<corpus-id>/`. Its manifest records source/selection/recipe digests and counts; artifacts include `raw-controls.jsonl`, `raw-variants.jsonl`, `cases.json` and `restricted-provenance.json`. The corpus identity depends on the registry and source/recipe contract; individual document identities are distinct from clinical documents. A changed builder creates a new versioned corpus directory. Existing corrupted artifacts are rejected, never overwritten.
+
+The approved selection and identity registry are restricted local state. Restore them together with the verified source on another machine; they are not committed to Git. A fresh source generation alone does not recreate the random opaque identities or the approved source-selection evidence. Missing mappings or mismatched hashes/links fail the build.
+
+Artifacts remain **unsanitized and unpublished**. Expected outcomes in `cases.json` are test specifications, each marked `not_run`; no model-security result is implied. Ordinary source/structured commands reject the evaluation manifest as a clinical source batch. Future evaluation ingestion must use dedicated test storage and the same sanitization/authorization policy; downstream isolation is not implemented by this builder. Source narrative is preserved exactly, and attack passages must not be executed by any operator or tool.

@@ -26,6 +26,10 @@ A reproducible batch worker for seeding Patient360 with linked synthetic patient
 - [Choose the first cohort and ingestion success criteria](issues/03-cohort-and-success.md#answer): approved the reproducible development cohort, structured resource scope, three source-grounded demonstrations with access checks, and a separate adversarial evaluation corpus.
 - [Define patient identity, linkage, and source provenance](issues/04-identity-and-provenance.md#answer): stable opaque patient identities, birth year only, temporary internal raw source resource IDs with a restricted-provenance follow-up, and an authorized demo database rebuild.
 
+- [Choose the FHIR-to-PostgreSQL projection and update rules](issues/05-fhir-projection.md#answer): approved strict code-aware projection, stable opaque identities and upserts, rejected removals, and reviewed fixture sensitivity labels; [structured validation](../../backend/ingestion/structured-validation.md) records the committed smoke/seed loads and replay checks.
+
+- [Define clinically linked synthetic-note generation](issues/06-note-generation-contract.md#answer): approved eight isolated attack variants with unchanged controls and full-path resistance criteria; a reproducible local corpus is implemented, while sanitization and security evaluation remain downstream.
+
 ## Not yet specified
 
 - Additional source/export edge cases beyond the validated Synthea cohort and the handling they may require in downstream adapters.

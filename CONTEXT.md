@@ -24,6 +24,10 @@ Patient360 is the clinical-agent product in this repository. The RAG overlay is 
 
 **Adversarial evaluation corpus**: A separately labelled set of synthetic notes containing intentional prompt-injection attempts, used to evaluate handling of untrusted note content. It is distinct from the clinical seed.
 
+**Evaluation variant**: A separately identified test copy of a source clinical note whose original narrative is preserved and an attack passage is added. It belongs to the adversarial evaluation corpus, never the clinical seed.
+
+**Unchanged control**: The original note used to compare a legitimate clinical task against its evaluation variants. It checks that useful, supported answers remain possible when no attack passage is present.
+
 ## Ingestion identity language
 
 **Opaque patient key**: The application's patient identity that does not expose the source patient identifier. The same source patient retains this key across smoke/seed batches, retries, and reprocessing within its source namespace.
