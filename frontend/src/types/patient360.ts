@@ -40,7 +40,24 @@ export interface Patient extends PatientSummary {
   medications: Medication[];
   documents: MedicalDocument[];
   notes: ClinicalNote[];
+  /** Demo-only, T3-tagged field — see src/data/accessControl.ts. */
+  riskAssessment?: string;
+  /** Demo-only, T2-tagged field — see src/data/accessControl.ts. */
+  familyPsychiatricHistory?: string;
+  /** Demo-only, T2-tagged field — see src/data/accessControl.ts. */
+  substanceUseHistory?: string;
+  /** Demo-only, T3-tagged field, Attending-only (no override) — see src/data/accessControl.ts. */
+  legalStatus?: string;
+  /** Demo-only, T3-tagged field, Attending-only (no override) — see src/data/accessControl.ts. */
+  geneticData?: string;
 }
+
+/**
+ * Frontend-only access-tier model for the role/tier demo (see src/data/accessControl.ts
+ * and src/stores/useAccessControlStore.ts). Not a real classification system.
+ */
+export type AccessTier = 'T0' | 'T1' | 'T2' | 'T3';
+export type AccessRole = 'attending' | 'resident' | 'nurse' | 'behavioral' | 'caregiver' | 'frontdesk' | 'compliance';
 
 export interface Measurement {
   id: string;
@@ -101,6 +118,13 @@ export interface ClinicalNote {
   author: string;
   date: string;
   text: string;
+  /**
+   * Which FIELD_TIERS key this note's content is gated by — an explicit,
+   * authored classification (not inferred from the note's title/text at
+   * render time), since note sensitivity varies per note, not per patient.
+   * Defaults to 'clinicalNarrative' (T1) when omitted. See NotesView.vue.
+   */
+  category?: string;
 }
 
 export interface TimelineEvent {
@@ -126,12 +150,24 @@ export interface AiAnswer {
   answer: string;
   citations: AiCitation[];
   retrievalSteps: string[];
+  /**
+   * Demo-only: set when every fact this answer would have drawn on was
+   * denied by decideAccess() for the requesting role — see
+   * mockApi.askPatient360() and src/data/accessControl.ts. When true, the UI
+   * should render this as a real denial (see AccessDenialCard.vue), not as
+   * an empty or broken answer.
+   */
+  denied?: boolean;
+  deniedField?: string;
+  deniedTier?: AccessTier;
 }
 
 export interface AskPatient360Request {
   scope: 'patient' | 'clinic';
   patientId?: string;
   question: string;
+  /** Sourced from useAccessControlStore's current role — see AskPatient360Panel.vue. */
+  role: AccessRole;
 }
 
 export interface AttentionItem {

@@ -1,11 +1,11 @@
 <template>
   <ClinicalCard title="Current snapshot"><div class="snapshot">
-    <section><h3>Conditions</h3><ul><li v-for="condition in patient.majorDiagnoses" :key="condition">{{ condition }}</li></ul></section>
-    <section><h3>Medications</h3><ul><li v-for="medication in patient.medications" :key="medication.id"><strong>{{ medication.name }}</strong><span>{{ medication.dosage }} · {{ medication.frequency }}</span></li></ul></section>
+    <section><h3>Conditions</h3><AccessGate field="majorDiagnoses"><ul><li v-for="condition in patient.majorDiagnoses" :key="condition">{{ condition }}</li></ul></AccessGate></section>
+    <section><h3>Medications</h3><AccessGate field="medications"><ul><li v-for="medication in patient.medications" :key="medication.id"><strong>{{ medication.name }}</strong><span>{{ medication.dosage }} · {{ medication.frequency }}</span></li></ul></AccessGate></section>
     <section><h3>Allergies</h3><ul><li v-for="allergy in patient.majorAllergies" :key="allergy" class="danger">Severe allergy: {{ allergy }}</li></ul></section>
     <section><h3>Latest measurements</h3><div class="metrics"><MetricTile v-for="measurement in patient.measurements" :key="measurement.id" :label="measurement.label" :value="measurement.value" :detail="measurement.date" /></div></section>
-    <section><h3>Latest labs</h3><div class="labs"><article v-for="lab in patient.labs" :key="lab.id" class="lab"><div><strong>{{ lab.label }}</strong><span>{{ lab.value }} {{ lab.unit }} · reference {{ lab.referenceRange }}</span></div><span v-if="lab.abnormal" class="abnormal"><TrendingUp :size="18" aria-hidden="true" /> Above reference range</span><span v-else>Within reference range</span></article></div></section>
-    <section><h3>Things to review</h3><ul><li v-for="risk in patient.riskIndicators" :key="risk">{{ risk }}</li></ul></section>
+    <section><h3>Latest labs</h3><AccessGate field="labs"><div class="labs"><article v-for="lab in patient.labs" :key="lab.id" class="lab"><div><strong>{{ lab.label }}</strong><span>{{ lab.value }} {{ lab.unit }} · reference {{ lab.referenceRange }}</span></div><span v-if="lab.abnormal" class="abnormal"><TrendingUp :size="18" aria-hidden="true" /> Above reference range</span><span v-else>Within reference range</span></article></div></AccessGate></section>
+    <section><h3>Things to review</h3><AccessGateMulti :fields="['labs', 'majorDiagnoses']"><ul><li v-for="risk in patient.riskIndicators" :key="risk">{{ risk }}</li></ul></AccessGateMulti></section>
   </div></ClinicalCard>
 </template>
 
@@ -14,6 +14,8 @@ import { TrendingUp } from 'lucide-vue-next';
 import type { Patient } from '../../types/patient360';
 import ClinicalCard from '../../components/ui/ClinicalCard.vue';
 import MetricTile from '../../components/ui/MetricTile.vue';
+import AccessGate from '../../components/access/AccessGate.vue';
+import AccessGateMulti from '../../components/access/AccessGateMulti.vue';
 defineProps<{ patient: Patient }>();
 </script>
 

@@ -4,7 +4,9 @@ export const useUiStore = defineStore('ui', {
   state: () => ({
     askPanelOpen: false,
     selectedPatientId: 'emma-laurent',
-    highlightedSourceId: ''
+    highlightedSourceId: '',
+    /** Demo-only: visibility of the temporary access-log panel (see AccessLogPanel.vue). */
+    accessLogOpen: false
   }),
   actions: {
     openAskPanel(patientId?: string) {
@@ -16,6 +18,9 @@ export const useUiStore = defineStore('ui', {
     },
     highlightSource(sourceId: string) {
       this.highlightedSourceId = sourceId;
+    },
+    toggleAccessLog() {
+      this.accessLogOpen = !this.accessLogOpen;
     }
   }
 });
