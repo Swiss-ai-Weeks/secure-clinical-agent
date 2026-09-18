@@ -1,6 +1,6 @@
 # Resume ingestion: structured seed to authorized vector search
 
-Session handoff updated 2026-09-18. Branch: `ingestion-pipeline`. Publishing repository code does not recreate local databases, datasets or identity state.
+Session handoff updated 2026-09-18. Branch: `ingestion-pipeline`. The user requested sharing the synthetic `.data` snapshot on 2026-09-18. A checkout includes the selected datasets and registry snapshot but does not populate PostgreSQL or Qdrant; see [.data/README.md](../../.data/README.md).
 
 ## Completed and verified
 
@@ -24,7 +24,7 @@ Session handoff updated 2026-09-18. Branch: `ingestion-pipeline`. Publishing rep
 | Committed-load execution evidence | `.data/structured-acceptance-20260918/` |
 | Earlier independent source run | `.data/runbook-_iu276uq/` |
 
-Each source batch contains `manifest.json`, restricted `generator.log`, source FHIR bundles and `artifacts/raw-notes.jsonl`. Prepared manifests record source and policy digests, counts and exclusions; separate load receipts distinguish committed loads from dry runs. All these artifacts are ignored and stay local.
+Each source batch contains `manifest.json`, restricted `generator.log`, source FHIR bundles and `artifacts/raw-notes.jsonl`. Prepared manifests record source and policy digests, counts and exclusions; separate load receipts distinguish committed loads from dry runs. The user-approved synthetic snapshots are now tracked in this branch. PostgreSQL backups containing credential hashes, locks and debug logs remain local and ignored. Restore owner-only permissions after checkout as described in [.data/README.md](../../.data/README.md).
 
 **Preserve and back up the registry.** Source regeneration cannot recreate its random opaque keys. On another machine, restore the registry to retain patient identities; do not initialize a replacement for an existing cohort. Follow the [runbook](RUNBOOK.md#structured-preparation-and-postgresql).
 
@@ -32,7 +32,7 @@ Each source batch contains `manifest.json`, restricted `generator.log`, source F
 
 Structured records are loaded into PostgreSQL. Raw notes remain unsanitized; `clinical.notes` is empty. Presidio, chunking, embeddings, Qdrant writing, seeded grants, the cross-store publication gate and authenticated retrieval are not implemented. `published: false` records this incomplete pipeline state; it is not itself a database read gate.
 
-The 2026-09-17 service inspection found Qdrant ready and the configured embedding endpoint on port 8001 unreachable. Recheck these when starting the corresponding stage. The maintained deployment is [backend/deploy/patient360/compose.yaml](../deploy/patient360/compose.yaml); its `ingest` profile selects imaging services, not this worker.
+Main commit `07a308b` was merged into this branch, adding PostgreSQL-backed OpenFGA configuration, bootstrap and model/demo tuples. This merge does not migrate or redeploy the running services or implement the ingestion access adapter. The 2026-09-17 service inspection found Qdrant ready and the configured embedding endpoint on port 8001 unreachable. Recheck these when starting the corresponding stage. The maintained deployment is [backend/deploy/patient360/compose.yaml](../deploy/patient360/compose.yaml); its `ingest` profile selects imaging services, not this worker.
 
 ## Next decision: note de-identification and chunk boundaries
 

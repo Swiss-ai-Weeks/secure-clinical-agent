@@ -1,7 +1,33 @@
 .vendor/
 .secrets/
 .cache/
-.data/
+# Only the explicitly shared synthetic-data snapshots are eligible for Git.
+/.data/*
+!/.data/README.md
+!/.data/clinical-demo/
+!/.data/evaluation/
+!/.data/evaluation-validation-20260918/
+!/.data/identity/
+!/.data/ingestion/
+!/.data/ingestion-repeat/
+!/.data/prepared/
+!/.data/projection-review/
+!/.data/runbook-_iu276uq/
+!/.data/structured-acceptance-20260918/
+!/.data/verification/
+
+# Database backups can contain credentials; transient/debug artifacts stay local.
+/.data/pg-rebuild-*/
+/.data/**/.worker.lock
+/.data/**/.attempt-*/
+/.data/**/.structured-*/
+/.data/**/.evaluation-*/
+/.data/**/*-wal
+/.data/**/*-shm
+/.data/**/*-journal
+/.data/**/*.dump
+/.data/**/*.sql
+/.data/**/postgres-debug.log
 .env
 __pycache__/
 

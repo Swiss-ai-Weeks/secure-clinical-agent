@@ -1,0 +1,398 @@
+{
+  "schema_version": 1,
+  "inspected_on": "2026-09-17",
+  "synthetic": true,
+  "status": "approved_demonstration_examples",
+  "batch_id": "71289501d068daa74e87a40619e942617c02663b8f675e5231631f50adea9f36",
+  "source_manifest_sha256": "e82f8ef054c650db73ea3f5a8c5fc7a0ff8c619b56f52067e70b923654762a76",
+  "raw_notes_sha256": "4dd38b708c23e3f12343a8c30731d5e9d1b983549bc6216e8c631b1060bd6926",
+  "public_identity_contract": false,
+  "candidates": [
+    {
+      "alias": "diabetes-self-management",
+      "bundle": ".data/ingestion/71289501d068daa74e87a40619e942617c02663b8f675e5231631f50adea9f36/artifacts/source/fhir/5f4e6700-354c-8241-eee2-924d54337e99.json",
+      "bundle_sha256": "db871ffbd7852f9c30b2f914d1d26e015c7bce21eeeb94cd7910117229efe156",
+      "source_patient_id": "Patient/5f4e6700-354c-8241-eee2-924d54337e99",
+      "encounter": {
+        "resource_id": "Encounter/5f4e6700-354c-8241-7afa-0b4ec184a544",
+        "bundle_line": 5133
+      },
+      "document": {
+        "resource_id": "DocumentReference/26a2c973-6160-de64-5e7e-b37e7af0db0f",
+        "bundle_line": 7242
+      },
+      "raw_notes_path": ".data/ingestion/71289501d068daa74e87a40619e942617c02663b8f675e5231631f50adea9f36/artifacts/raw-notes.jsonl",
+      "raw_note_line": 1158,
+      "note_sha256": "5cb49d14289687c5faeccd2286160f63ab983e4ccb53a3f659ceca88b9b2291b",
+      "conditions": [
+        {
+          "resource_id": "Condition/5f4e6700-354c-8241-4486-302279268f59",
+          "bundle_line": 5196,
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "44054006",
+                "display": "Diabetes mellitus type 2 (disorder)"
+              }
+            ],
+            "text": "Diabetes mellitus type 2 (disorder)"
+          },
+          "clinical_status": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "onset": "2016-11-18T16:52:15+00:00",
+          "abatement": null
+        }
+      ],
+      "observations": [
+        {
+          "resource_id": "Observation/5f4e6700-354c-8241-6abd-64ad9a5fa9e8",
+          "bundle_line": 5240,
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "4548-4",
+                "display": "Hemoglobin A1c/Hemoglobin.total in Blood"
+              }
+            ],
+            "text": "Hemoglobin A1c/Hemoglobin.total in Blood"
+          },
+          "effectiveDateTime": "2016-11-18T16:52:15+00:00",
+          "valueQuantity": {
+            "value": 6.98,
+            "unit": "%",
+            "system": "http://unitsofmeasure.org",
+            "code": "%"
+          }
+        }
+      ],
+      "clinical_note_excerpts": [
+        {
+          "text": "Patient is presenting with diabetes mellitus type 2 (disorder).",
+          "decoded_note_lines": [
+            28
+          ]
+        },
+        {
+          "text": "diabetes self management plan (record artifact)",
+          "decoded_note_lines": [
+            46
+          ]
+        }
+      ],
+      "checks": {
+        "same_patient": true,
+        "same_encounter": true,
+        "raw_note_matches_document_attachment": true,
+        "clinical_excerpts_present": true,
+        "expected_measurements_match": true,
+        "selected_numeric_values_absent_from_note": true
+      }
+    },
+    {
+      "alias": "hypertension-education",
+      "bundle": ".data/ingestion/71289501d068daa74e87a40619e942617c02663b8f675e5231631f50adea9f36/artifacts/source/fhir/5aa11201-4254-d60f-ee73-47f5a79f35e3.json",
+      "bundle_sha256": "c121c5e39296022a60197e848d7f6f1e2b3a56db033d45126c7cf8c97c71197d",
+      "source_patient_id": "Patient/5aa11201-4254-d60f-ee73-47f5a79f35e3",
+      "encounter": {
+        "resource_id": "Encounter/5aa11201-4254-d60f-fb57-508ae0853370",
+        "bundle_line": 42021
+      },
+      "document": {
+        "resource_id": "DocumentReference/c324a00f-19c7-42e7-bbf7-4f861926187c",
+        "bundle_line": 44393
+      },
+      "raw_notes_path": ".data/ingestion/71289501d068daa74e87a40619e942617c02663b8f675e5231631f50adea9f36/artifacts/raw-notes.jsonl",
+      "raw_note_line": 1048,
+      "note_sha256": "72e25b90519dd68d7059f9690dba7208055f3eaa6186aa3d38f58eb018b4aef5",
+      "conditions": [
+        {
+          "resource_id": "Condition/5aa11201-4254-d60f-6011-e35308c7abf7",
+          "bundle_line": 42084,
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "59621000",
+                "display": "Essential hypertension (disorder)"
+              }
+            ],
+            "text": "Essential hypertension (disorder)"
+          },
+          "clinical_status": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "onset": "2025-04-14T22:59:49+00:00",
+          "abatement": null
+        }
+      ],
+      "observations": [
+        {
+          "resource_id": "Observation/5aa11201-4254-d60f-d023-ae21349ecbcd",
+          "bundle_line": 42281,
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "85354-9",
+                "display": "Blood pressure panel with all children optional"
+              }
+            ],
+            "text": "Blood pressure panel with all children optional"
+          },
+          "effectiveDateTime": "2025-04-14T22:59:49+00:00",
+          "component": [
+            {
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "8462-4",
+                    "display": "Diastolic Blood Pressure"
+                  }
+                ],
+                "text": "Diastolic Blood Pressure"
+              },
+              "valueQuantity": {
+                "value": 89,
+                "unit": "mm[Hg]",
+                "system": "http://unitsofmeasure.org",
+                "code": "mm[Hg]"
+              }
+            },
+            {
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "8480-6",
+                    "display": "Systolic Blood Pressure"
+                  }
+                ],
+                "text": "Systolic Blood Pressure"
+              },
+              "valueQuantity": {
+                "value": 143,
+                "unit": "mm[Hg]",
+                "system": "http://unitsofmeasure.org",
+                "code": "mm[Hg]"
+              }
+            }
+          ]
+        }
+      ],
+      "clinical_note_excerpts": [
+        {
+          "text": "Patient is presenting with essential hypertension (disorder).",
+          "decoded_note_lines": [
+            25
+          ]
+        },
+        {
+          "text": "lifestyle education regarding hypertension (procedure)",
+          "decoded_note_lines": [
+            39
+          ]
+        }
+      ],
+      "checks": {
+        "same_patient": true,
+        "same_encounter": true,
+        "raw_note_matches_document_attachment": true,
+        "clinical_excerpts_present": true,
+        "expected_measurements_match": true,
+        "selected_numeric_values_absent_from_note": true
+      }
+    },
+    {
+      "alias": "historical-pneumonia",
+      "bundle": ".data/ingestion/71289501d068daa74e87a40619e942617c02663b8f675e5231631f50adea9f36/artifacts/source/fhir/4c7c0101-5383-203c-825e-9fa8dfca8721.json",
+      "bundle_sha256": "e6bfa0cbdba179faaefbfe5230273fee6f4f19696f3876c359605c1fb68da7f2",
+      "source_patient_id": "Patient/4c7c0101-5383-203c-825e-9fa8dfca8721",
+      "encounter": {
+        "resource_id": "Encounter/4c7c0101-5383-203c-f203-08ad85d4fda9",
+        "bundle_line": 16151
+      },
+      "document": {
+        "resource_id": "DocumentReference/f14b1311-1367-8bf2-eff7-8ff0d71b0ff1",
+        "bundle_line": 59614
+      },
+      "raw_notes_path": ".data/ingestion/71289501d068daa74e87a40619e942617c02663b8f675e5231631f50adea9f36/artifacts/raw-notes.jsonl",
+      "raw_note_line": 686,
+      "note_sha256": "508925a59bd7492bf4d36aa9b30515b4d1b771e2344d2ef60b94b2aecc9b1d59",
+      "conditions": [
+        {
+          "resource_id": "Condition/4c7c0101-5383-203c-4337-dc1d00b66791",
+          "bundle_line": 16221,
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "233604007",
+                "display": "Pneumonia (disorder)"
+              }
+            ],
+            "text": "Pneumonia (disorder)"
+          },
+          "clinical_status": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "resolved"
+              }
+            ]
+          },
+          "onset": "2021-08-13T22:27:42+00:00",
+          "abatement": "2021-09-04T22:27:42+00:00"
+        },
+        {
+          "resource_id": "Condition/4c7c0101-5383-203c-6fe6-490e25b3d023",
+          "bundle_line": 16266,
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "389087006",
+                "display": "Hypoxemia (disorder)"
+              }
+            ],
+            "text": "Hypoxemia (disorder)"
+          },
+          "clinical_status": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "resolved"
+              }
+            ]
+          },
+          "onset": "2021-08-13T22:27:42+00:00",
+          "abatement": "2021-09-04T22:27:42+00:00"
+        },
+        {
+          "resource_id": "Condition/4c7c0101-5383-203c-afa5-8f676c918bfe",
+          "bundle_line": 16311,
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "271825005",
+                "display": "Respiratory distress (finding)"
+              }
+            ],
+            "text": "Respiratory distress (finding)"
+          },
+          "clinical_status": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "resolved"
+              }
+            ]
+          },
+          "onset": "2021-08-13T22:27:42+00:00",
+          "abatement": "2021-09-04T22:27:42+00:00"
+        }
+      ],
+      "observations": [
+        {
+          "resource_id": "Observation/4c7c0101-5383-203c-5921-1a07015edb9b",
+          "bundle_line": 16474,
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "2708-6",
+                "display": "Oxygen saturation in Arterial blood"
+              },
+              {
+                "system": "http://loinc.org",
+                "code": "59408-5",
+                "display": "Oxygen saturation in Arterial blood by Pulse oximetry"
+              }
+            ],
+            "text": "Oxygen saturation in Arterial blood"
+          },
+          "effectiveDateTime": "2021-08-13T22:27:42+00:00",
+          "valueQuantity": {
+            "value": 87.4,
+            "unit": "%",
+            "system": "http://unitsofmeasure.org",
+            "code": "%"
+          }
+        },
+        {
+          "resource_id": "Observation/4c7c0101-5383-203c-2f31-75e960cc9182",
+          "bundle_line": 16396,
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "9279-1",
+                "display": "Respiratory rate"
+              }
+            ],
+            "text": "Respiratory rate"
+          },
+          "effectiveDateTime": "2021-08-13T22:27:42+00:00",
+          "valueQuantity": {
+            "value": 25.905,
+            "unit": "/min",
+            "system": "http://unitsofmeasure.org",
+            "code": "/min"
+          }
+        }
+      ],
+      "clinical_note_excerpts": [
+        {
+          "text": "Patient is presenting with pneumonia (disorder), hypoxemia (disorder), respiratory distress (finding).",
+          "decoded_note_lines": [
+            25
+          ]
+        },
+        {
+          "text": "oxygen administration by mask (procedure)",
+          "decoded_note_lines": [
+            32,
+            34,
+            36,
+            38,
+            40,
+            42,
+            44,
+            46,
+            48,
+            50,
+            52,
+            54,
+            56,
+            58,
+            60
+          ]
+        }
+      ],
+      "checks": {
+        "same_patient": true,
+        "same_encounter": true,
+        "raw_note_matches_document_attachment": true,
+        "clinical_excerpts_present": true,
+        "expected_measurements_match": true,
+        "selected_numeric_values_absent_from_note": true
+      }
+    }
+  ],
+  "approved_on": "2026-09-17",
+  "approval_record": ".scratch/ingestion-pipeline/issues/03-cohort-and-success.md#answer"
+}

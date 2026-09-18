@@ -1,0 +1,338 @@
+{
+  "started_at": "2026-09-17T20:35:46.259131+00:00",
+  "steps": [
+    {
+      "step": "smoke run",
+      "command": [
+        "python3",
+        "backend/ingestion/worker.py",
+        "run",
+        "--profile",
+        "smoke"
+      ],
+      "exit_code": 0,
+      "result": {
+        "batch": "/home/nvidia/Documents/secure-clinical-agent/.data/ingestion/fb8bc7f697698fe7a37ca1a0a37a08e9d9ff12409c71bdaea8cf9f8888c960e4",
+        "batch_id": "fb8bc7f697698fe7a37ca1a0a37a08e9d9ff12409c71bdaea8cf9f8888c960e4",
+        "counts": {
+          "notes": 500,
+          "patients": 10,
+          "resources": {
+            "AllergyIntolerance": 8,
+            "CarePlan": 44,
+            "CareTeam": 44,
+            "Claim": 1126,
+            "Condition": 388,
+            "Device": 13,
+            "DiagnosticReport": 1304,
+            "DocumentReference": 500,
+            "Encounter": 500,
+            "ExplanationOfBenefit": 1126,
+            "ImagingStudy": 19,
+            "Immunization": 152,
+            "Location": 39,
+            "Medication": 23,
+            "MedicationAdministration": 23,
+            "MedicationRequest": 626,
+            "Observation": 6598,
+            "Organization": 37,
+            "Patient": 10,
+            "Practitioner": 37,
+            "PractitionerRole": 37,
+            "Procedure": 1425,
+            "Provenance": 10,
+            "SupplyDelivery": 49
+          }
+        },
+        "reused": true,
+        "status": "source_ready"
+      }
+    },
+    {
+      "step": "smoke reuse",
+      "command": [
+        "python3",
+        "backend/ingestion/worker.py",
+        "run",
+        "--profile",
+        "smoke"
+      ],
+      "exit_code": 0,
+      "result": {
+        "batch": "/home/nvidia/Documents/secure-clinical-agent/.data/ingestion/fb8bc7f697698fe7a37ca1a0a37a08e9d9ff12409c71bdaea8cf9f8888c960e4",
+        "batch_id": "fb8bc7f697698fe7a37ca1a0a37a08e9d9ff12409c71bdaea8cf9f8888c960e4",
+        "counts": {
+          "notes": 500,
+          "patients": 10,
+          "resources": {
+            "AllergyIntolerance": 8,
+            "CarePlan": 44,
+            "CareTeam": 44,
+            "Claim": 1126,
+            "Condition": 388,
+            "Device": 13,
+            "DiagnosticReport": 1304,
+            "DocumentReference": 500,
+            "Encounter": 500,
+            "ExplanationOfBenefit": 1126,
+            "ImagingStudy": 19,
+            "Immunization": 152,
+            "Location": 39,
+            "Medication": 23,
+            "MedicationAdministration": 23,
+            "MedicationRequest": 626,
+            "Observation": 6598,
+            "Organization": 37,
+            "Patient": 10,
+            "Practitioner": 37,
+            "PractitionerRole": 37,
+            "Procedure": 1425,
+            "Provenance": 10,
+            "SupplyDelivery": 49
+          }
+        },
+        "reused": true,
+        "status": "source_ready"
+      }
+    },
+    {
+      "step": "seed run",
+      "command": [
+        "python3",
+        "backend/ingestion/worker.py",
+        "run",
+        "--profile",
+        "seed"
+      ],
+      "exit_code": 0,
+      "result": {
+        "batch": "/home/nvidia/Documents/secure-clinical-agent/.data/ingestion/71289501d068daa74e87a40619e942617c02663b8f675e5231631f50adea9f36",
+        "batch_id": "71289501d068daa74e87a40619e942617c02663b8f675e5231631f50adea9f36",
+        "counts": {
+          "notes": 4645,
+          "patients": 100,
+          "resources": {
+            "AllergyIntolerance": 61,
+            "CarePlan": 316,
+            "CareTeam": 316,
+            "Claim": 8625,
+            "Condition": 3579,
+            "Device": 144,
+            "DiagnosticReport": 10782,
+            "DocumentReference": 4645,
+            "Encounter": 4645,
+            "ExplanationOfBenefit": 8625,
+            "ImagingStudy": 94,
+            "Immunization": 1427,
+            "Location": 353,
+            "Medication": 184,
+            "MedicationAdministration": 184,
+            "MedicationRequest": 3980,
+            "Observation": 50363,
+            "Organization": 344,
+            "Patient": 100,
+            "Practitioner": 344,
+            "PractitionerRole": 344,
+            "Procedure": 11291,
+            "Provenance": 100,
+            "SupplyDelivery": 1002
+          }
+        },
+        "reused": true,
+        "status": "source_ready"
+      }
+    },
+    {
+      "step": "verify smoke",
+      "command": [
+        "python3",
+        "backend/ingestion/worker.py",
+        "verify",
+        "/home/nvidia/Documents/secure-clinical-agent/.data/ingestion/fb8bc7f697698fe7a37ca1a0a37a08e9d9ff12409c71bdaea8cf9f8888c960e4"
+      ],
+      "exit_code": 0,
+      "result": {
+        "batch_id": "fb8bc7f697698fe7a37ca1a0a37a08e9d9ff12409c71bdaea8cf9f8888c960e4",
+        "counts": {
+          "notes": 500,
+          "patients": 10,
+          "resources": {
+            "AllergyIntolerance": 8,
+            "CarePlan": 44,
+            "CareTeam": 44,
+            "Claim": 1126,
+            "Condition": 388,
+            "Device": 13,
+            "DiagnosticReport": 1304,
+            "DocumentReference": 500,
+            "Encounter": 500,
+            "ExplanationOfBenefit": 1126,
+            "ImagingStudy": 19,
+            "Immunization": 152,
+            "Location": 39,
+            "Medication": 23,
+            "MedicationAdministration": 23,
+            "MedicationRequest": 626,
+            "Observation": 6598,
+            "Organization": 37,
+            "Patient": 10,
+            "Practitioner": 37,
+            "PractitionerRole": 37,
+            "Procedure": 1425,
+            "Provenance": 10,
+            "SupplyDelivery": 49
+          }
+        },
+        "status": "source_ready",
+        "verified": true
+      }
+    },
+    {
+      "step": "verify seed",
+      "command": [
+        "python3",
+        "backend/ingestion/worker.py",
+        "verify",
+        "/home/nvidia/Documents/secure-clinical-agent/.data/ingestion/71289501d068daa74e87a40619e942617c02663b8f675e5231631f50adea9f36"
+      ],
+      "exit_code": 0,
+      "result": {
+        "batch_id": "71289501d068daa74e87a40619e942617c02663b8f675e5231631f50adea9f36",
+        "counts": {
+          "notes": 4645,
+          "patients": 100,
+          "resources": {
+            "AllergyIntolerance": 61,
+            "CarePlan": 316,
+            "CareTeam": 316,
+            "Claim": 8625,
+            "Condition": 3579,
+            "Device": 144,
+            "DiagnosticReport": 10782,
+            "DocumentReference": 4645,
+            "Encounter": 4645,
+            "ExplanationOfBenefit": 8625,
+            "ImagingStudy": 94,
+            "Immunization": 1427,
+            "Location": 353,
+            "Medication": 184,
+            "MedicationAdministration": 184,
+            "MedicationRequest": 3980,
+            "Observation": 50363,
+            "Organization": 344,
+            "Patient": 100,
+            "Practitioner": 344,
+            "PractitionerRole": 344,
+            "Procedure": 11291,
+            "Provenance": 100,
+            "SupplyDelivery": 1002
+          }
+        },
+        "status": "source_ready",
+        "verified": true
+      }
+    },
+    {
+      "step": "independent smoke generation",
+      "command": [
+        "python3",
+        "backend/ingestion/worker.py",
+        "run",
+        "--profile",
+        "smoke",
+        "--output",
+        "/home/nvidia/Documents/secure-clinical-agent/.data/runbook-_iu276uq/independent-smoke"
+      ],
+      "exit_code": 0,
+      "result": {
+        "batch": "/home/nvidia/Documents/secure-clinical-agent/.data/runbook-_iu276uq/independent-smoke/fb8bc7f697698fe7a37ca1a0a37a08e9d9ff12409c71bdaea8cf9f8888c960e4",
+        "batch_id": "fb8bc7f697698fe7a37ca1a0a37a08e9d9ff12409c71bdaea8cf9f8888c960e4",
+        "counts": {
+          "notes": 500,
+          "patients": 10,
+          "resources": {
+            "AllergyIntolerance": 8,
+            "CarePlan": 44,
+            "CareTeam": 44,
+            "Claim": 1126,
+            "Condition": 388,
+            "Device": 13,
+            "DiagnosticReport": 1304,
+            "DocumentReference": 500,
+            "Encounter": 500,
+            "ExplanationOfBenefit": 1126,
+            "ImagingStudy": 19,
+            "Immunization": 152,
+            "Location": 39,
+            "Medication": 23,
+            "MedicationAdministration": 23,
+            "MedicationRequest": 626,
+            "Observation": 6598,
+            "Organization": 37,
+            "Patient": 10,
+            "Practitioner": 37,
+            "PractitionerRole": 37,
+            "Procedure": 1425,
+            "Provenance": 10,
+            "SupplyDelivery": 49
+          }
+        },
+        "reused": false,
+        "status": "source_ready"
+      }
+    },
+    {
+      "step": "compare independent smoke",
+      "command": [
+        "python3",
+        "backend/ingestion/worker.py",
+        "compare",
+        "/home/nvidia/Documents/secure-clinical-agent/.data/ingestion/fb8bc7f697698fe7a37ca1a0a37a08e9d9ff12409c71bdaea8cf9f8888c960e4",
+        "/home/nvidia/Documents/secure-clinical-agent/.data/runbook-_iu276uq/independent-smoke/fb8bc7f697698fe7a37ca1a0a37a08e9d9ff12409c71bdaea8cf9f8888c960e4"
+      ],
+      "exit_code": 0,
+      "result": {
+        "batch_id": "fb8bc7f697698fe7a37ca1a0a37a08e9d9ff12409c71bdaea8cf9f8888c960e4",
+        "counts": {
+          "notes": 500,
+          "patients": 10,
+          "resources": {
+            "AllergyIntolerance": 8,
+            "CarePlan": 44,
+            "CareTeam": 44,
+            "Claim": 1126,
+            "Condition": 388,
+            "Device": 13,
+            "DiagnosticReport": 1304,
+            "DocumentReference": 500,
+            "Encounter": 500,
+            "ExplanationOfBenefit": 1126,
+            "ImagingStudy": 19,
+            "Immunization": 152,
+            "Location": 39,
+            "Medication": 23,
+            "MedicationAdministration": 23,
+            "MedicationRequest": 626,
+            "Observation": 6598,
+            "Organization": 37,
+            "Patient": 10,
+            "Practitioner": 37,
+            "PractitionerRole": 37,
+            "Procedure": 1425,
+            "Provenance": 10,
+            "SupplyDelivery": 49
+          }
+        },
+        "independent_runs_equal": true,
+        "status": "source_ready"
+      }
+    }
+  ],
+  "completed_at": "2026-09-17T20:36:19.557424+00:00",
+  "automated_tests": {
+    "command": "python3 -m unittest discover -s backend/ingestion/tests -p 'test_*.py' -v",
+    "exit_code": 0,
+    "tests_run": 18,
+    "result": "passed"
+  }
+}

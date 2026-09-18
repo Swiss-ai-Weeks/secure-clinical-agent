@@ -1,0 +1,4648 @@
+{
+  "catalog_version": 1,
+  "source_batch": "71289501d068daa74e87a40619e942617c02663b8f675e5231631f50adea9f36",
+  "note": "Source-fixed synthetic terminology catalog for review. No source resource identifiers, patient identifiers, or address values. Displays are candidate fixed dictionary entries, not verified terminology-authority data.",
+  "resource_counts": {
+    "Patient": 100,
+    "Organization": 344,
+    "Location": 353,
+    "Practitioner": 344,
+    "PractitionerRole": 344,
+    "Encounter": 4645,
+    "Condition": 3579,
+    "DiagnosticReport": 10782,
+    "DocumentReference": 4645,
+    "Claim": 8625,
+    "ExplanationOfBenefit": 8625,
+    "CareTeam": 316,
+    "CarePlan": 316,
+    "MedicationRequest": 3980,
+    "Observation": 50363,
+    "Procedure": 11291,
+    "Immunization": 1427,
+    "Medication": 184,
+    "MedicationAdministration": 184,
+    "Provenance": 100,
+    "Device": 144,
+    "SupplyDelivery": 1002,
+    "ImagingStudy": 94,
+    "AllergyIntolerance": 61
+  },
+  "codings": {
+    "Condition.category": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+        "code": "encounter-diagnosis",
+        "display": "Encounter Diagnosis",
+        "count": 3579
+      }
+    ],
+    "Condition.clinicalStatus": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+        "code": "active",
+        "display": null,
+        "count": 845
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+        "code": "resolved",
+        "display": null,
+        "count": 2734
+      }
+    ],
+    "Condition.code": [
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "C02.9",
+        "display": "Malignant neoplasm of tongue, unspecified",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "C31.0",
+        "display": "Malignant neoplasm of maxillary sinus",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "C32.9",
+        "display": "Malignant neoplasm of larynx, unspecified",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "D16.5",
+        "display": "Benign neoplasm of lower jaw bone",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K00.6",
+        "display": "Disturbances in tooth eruption",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K02.62",
+        "display": "Dental caries on smooth surface penetrating into dentin",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K02.9",
+        "display": "Dental caries, unspecified",
+        "count": 8
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K04.1",
+        "display": "Necrosis of pulp",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K04.7",
+        "display": "Periapical abscess without sinus",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K05.10",
+        "display": "Chronic gingivitis, plaque induced",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K05.30",
+        "display": "Chronic periodontitis, unspecified",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K05.312",
+        "display": "Chronic periodontitis, localized, moderate",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K08.404",
+        "display": "Partial loss of teeth, unspecified cause, class IV",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K08.409",
+        "display": "Partial loss of teeth, unspecified cause, unspecified class",
+        "count": 2
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K08.429",
+        "display": "Partial loss of teeth due to periodontal diseases, unspecified class",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K08.9",
+        "display": "Disorder of teeth and supporting structures, unspecified",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K09.0",
+        "display": "Developmental odontogenic cysts",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K12.2",
+        "display": "Cellulitis and abscess of mouth",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "K13.70",
+        "display": "Unspecified lesions of oral mucosa",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "M26.60",
+        "display": "Temporomandibular joint disorder, unspecified",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "M26.63",
+        "display": "Articular disc disorder of temporomandibular joint",
+        "count": 2
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "M27.8",
+        "display": "Other specified diseases of jaws",
+        "count": 1
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10",
+        "code": "S02.66XA",
+        "display": "Fracture of symphysis of mandible, initial encounter for closed fracture",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "10509002",
+        "display": "Acute bronchitis (disorder)",
+        "count": 51
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "105531004",
+        "display": "Housing unsatisfactory (finding)",
+        "count": 18
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "105995000",
+        "display": "Disorder of teeth AND/OR supporting structures",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "1085991000119107",
+        "display": "Dental caries on smooth surface penetrating into dentin",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "1086001000119108",
+        "display": "Dental caries on smooth surface penetrating into pulp",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "1086881000119107",
+        "display": "Fractured dental restorative material",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "10939881000119105",
+        "display": "Unhealthy alcohol drinking behavior (finding)",
+        "count": 19
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "110030002",
+        "display": "Concussion injury of brain (disorder)",
+        "count": 8
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "1121000119107",
+        "display": "Chronic neck pain (finding)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "1149222004",
+        "display": "Overdose (disorder)",
+        "count": 10
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "1172608001",
+        "display": "Accretion on tooth",
+        "count": 7
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "1187604002",
+        "display": "Serving in military service (finding)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "124171000119105",
+        "display": "Chronic intractable migraine without aura (disorder)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "125605004",
+        "display": "Fracture of bone (disorder)",
+        "count": 12
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "127013003",
+        "display": "Disorder of kidney due to diabetes mellitus (disorder)",
+        "count": 7
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "128613002",
+        "display": "Seizure disorder (disorder)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "1290882004",
+        "display": "History of seizure (situation)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "132281000119108",
+        "display": "Acute deep venous thrombosis (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "1551000119108",
+        "display": "Nonproliferative diabetic retinopathy due to type II diabetes mellitus",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "156073000",
+        "display": "Complete miscarriage (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "157141000119108",
+        "display": "Proteinuria due to type 2 diabetes mellitus (disorder)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "160701002",
+        "display": "Social migrant (finding)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "160903007",
+        "display": "Full-time employment (finding)",
+        "count": 266
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "160904001",
+        "display": "Part-time employment (finding)",
+        "count": 168
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "160968000",
+        "display": "Risk activity involvement (finding)",
+        "count": 26
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "16114001",
+        "display": "Fracture of ankle (disorder)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "161665007",
+        "display": "History of renal transplant (situation)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "161744009",
+        "display": "Past pregnancy history of miscarriage (situation)",
+        "count": 24
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "162864005",
+        "display": "Body mass index 30+ - obesity (finding)",
+        "count": 47
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "183996000",
+        "display": "Sterilization requested (situation)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "185086009",
+        "display": "Chronic obstructive bronchitis (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "19169002",
+        "display": "Miscarriage in first trimester (disorder)",
+        "count": 7
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "192127007",
+        "display": "Child attention deficit disorder (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "195662009",
+        "display": "Acute viral pharyngitis (disorder)",
+        "count": 62
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "196273001",
+        "display": "Supplemental tooth",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "196416002",
+        "display": "Impacted molars (disorder)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "197927001",
+        "display": "Recurrent urinary tract infection (disorder)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "198992004",
+        "display": "Eclampsia in pregnancy (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "201834006",
+        "display": "Localized, primary osteoarthritis of the hand (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "203646004",
+        "display": "Adolescent idiopathic scoliosis (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "22298006",
+        "display": "Myocardial infarction (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "224295006",
+        "display": "Only received primary school education (finding)",
+        "count": 8
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "224299000",
+        "display": "Received higher education (finding)",
+        "count": 42
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "232353008",
+        "display": "Perennial allergic rhinitis with seasonal variation (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "233604007",
+        "display": "Pneumonia (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "233678006",
+        "display": "Childhood asthma (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "234949000",
+        "display": "Tooth eruption disorder",
+        "count": 26
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "235104008",
+        "display": "Impacted tooth",
+        "count": 7
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "236077008",
+        "display": "Protracted diarrhea (finding)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "237602007",
+        "display": "Metabolic syndrome X (disorder)",
+        "count": 15
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "239872002",
+        "display": "Osteoarthritis of hip (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "239873007",
+        "display": "Osteoarthritis of knee (disorder)",
+        "count": 8
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "24079001",
+        "display": "Atopic dermatitis (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "241929008",
+        "display": "Acute allergic reaction (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "248595008",
+        "display": "Sputum finding (finding)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "249497008",
+        "display": "Vomiting symptom (finding)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "25064002",
+        "display": "Headache (finding)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "254837009",
+        "display": "Malignant neoplasm of breast (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "2556008",
+        "display": "Periodontal disease",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "262574004",
+        "display": "Bullet wound (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "263102004",
+        "display": "Fracture subluxation of wrist (disorder)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "263172003",
+        "display": "Fracture of mandible (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "266934004",
+        "display": "Transport problem (finding)",
+        "count": 9
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "266948004",
+        "display": "Has a criminal record (finding)",
+        "count": 14
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "267020005",
+        "display": "History of tubal ligation (situation)",
+        "count": 12
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "267102003",
+        "display": "Sore throat (finding)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "26929004",
+        "display": "Alzheimer's disease (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "271737000",
+        "display": "Anemia (disorder)",
+        "count": 31
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "271825005",
+        "display": "Respiratory distress (finding)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "274531002",
+        "display": "Abnormal findings diagnostic imaging heart+coronary circulat (finding)",
+        "count": 10
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "278860009",
+        "display": "Chronic low back pain (finding)",
+        "count": 15
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "27942005",
+        "display": "Shock (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "283371005",
+        "display": "Laceration of forearm (disorder)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "283385000",
+        "display": "Laceration of thigh (disorder)",
+        "count": 6
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "283545005",
+        "display": "Gunshot wound (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "284549007",
+        "display": "Laceration of hand (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "284551006",
+        "display": "Laceration of foot (disorder)",
+        "count": 8
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "302870006",
+        "display": "Hypertriglyceridemia (disorder)",
+        "count": 6
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "307426000",
+        "display": "Acute infective cystitis (disorder)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "307731004",
+        "display": "Injury of tendon of the rotator cuff of shoulder (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "312608009",
+        "display": "Laceration - injury (disorder)",
+        "count": 23
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "count": 849
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "31642005",
+        "display": "Acute gingivitis",
+        "count": 12
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "33737001",
+        "display": "Fracture of rib (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "35999006",
+        "display": "Blighted ovum (disorder)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "361055000",
+        "display": "Misuses drugs (finding)",
+        "count": 9
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "363406005",
+        "display": "Malignant neoplasm of colon (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "368581000119106",
+        "display": "Neuropathy due to type 2 diabetes mellitus (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "36955009",
+        "display": "Loss of taste (finding)",
+        "count": 7
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "36971009",
+        "display": "Sinusitis (disorder)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "370143000",
+        "display": "Major depressive disorder (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "370247008",
+        "display": "Facial laceration (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "384709000",
+        "display": "Sprain (morphologic abnormality)",
+        "count": 16
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "386661006",
+        "display": "Fever (finding)",
+        "count": 10
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "389087006",
+        "display": "Hypoxemia (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "398254007",
+        "display": "Pre-eclampsia (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "39848009",
+        "display": "Whiplash injury to neck (disorder)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "39898005",
+        "display": "Sleep disorder (disorder)",
+        "count": 6
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "399211009",
+        "display": "History of myocardial infarction (situation)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "399261000",
+        "display": "History of coronary artery bypass grafting (situation)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "40055000",
+        "display": "Chronic sinusitis (disorder)",
+        "count": 19
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "401303003",
+        "display": "Acute ST segment elevation myocardial infarction (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "401314000",
+        "display": "Acute non-ST segment elevation myocardial infarction (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "403190006",
+        "display": "Epidermal burn of skin (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "403191005",
+        "display": "Partial thickness burn (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "414545008",
+        "display": "Ischemic heart disease (disorder)",
+        "count": 10
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "422587007",
+        "display": "Nausea (finding)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "422650009",
+        "display": "Social isolation (finding)",
+        "count": 104
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "423315002",
+        "display": "Limited social contact (finding)",
+        "count": 80
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "424393004",
+        "display": "Reports of violence in the environment (finding)",
+        "count": 62
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "427419006",
+        "display": "Transformed migraine (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "428251008",
+        "display": "History of appendectomy (situation)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "431855005",
+        "display": "Chronic kidney disease stage 1 (disorder)",
+        "count": 6
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "431856006",
+        "display": "Chronic kidney disease stage 2 (disorder)",
+        "count": 7
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "431857002",
+        "display": "Chronic kidney disease stage 4 (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "433144002",
+        "display": "Chronic kidney disease stage 3 (disorder)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "43724002",
+        "display": "Chill (finding)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "43878008",
+        "display": "Streptococcal sore throat (disorder)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "44054006",
+        "display": "Diabetes mellitus type 2 (disorder)",
+        "count": 7
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "44465007",
+        "display": "Sprain of ankle (disorder)",
+        "count": 12
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "444814009",
+        "display": "Viral sinusitis (disorder)",
+        "count": 106
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "446096008",
+        "display": "Perennial allergic rhinitis (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "446654005",
+        "display": "Refugee (person)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "46177005",
+        "display": "End-stage renal disease (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "473461003",
+        "display": "Educated to high school level (finding)",
+        "count": 30
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "47505003",
+        "display": "Posttraumatic stress disorder (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "47693006",
+        "display": "Rupture of appendix (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "48333001",
+        "display": "Burn injury (morphologic abnormality)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "49727002",
+        "display": "Cough (finding)",
+        "count": 7
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "53963006",
+        "display": "Excessive attrition of teeth",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "54711002",
+        "display": "Gingival enlargement",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "55822004",
+        "display": "Hyperlipidemia (disorder)",
+        "count": 10
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "5602001",
+        "display": "Opioid abuse",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "5689008",
+        "display": "Chronic periodontitis",
+        "count": 9
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "57676002",
+        "display": "Joint pain",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "58150001",
+        "display": "Fracture of clavicle (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "59621000",
+        "display": "Essential hypertension (disorder)",
+        "count": 17
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "6072007",
+        "display": "Bleeding from anus (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "62106007",
+        "display": "Concussion with no loss of consciousness (disorder)",
+        "count": 7
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "62479008",
+        "display": "Acquired immune deficiency syndrome (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "62564004",
+        "display": "Concussion with loss of consciousness (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "64859006",
+        "display": "Osteoporosis (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "6525002",
+        "display": "Dependent drug abuse (disorder)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "65363002",
+        "display": "Otitis media (disorder)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "65966004",
+        "display": "Fracture of forearm (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "66383009",
+        "display": "Gingivitis (disorder)",
+        "count": 185
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "66569006",
+        "display": "Retained dental root",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "66857006",
+        "display": "Hemoptysis (finding)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "68235000",
+        "display": "Nasal congestion (finding)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "68496003",
+        "display": "Polyp of colon (disorder)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "68962001",
+        "display": "Muscle pain (finding)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "69896004",
+        "display": "Rheumatoid arthritis (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "706893006",
+        "display": "Victim of intimate partner abuse (finding)",
+        "count": 62
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "70704007",
+        "display": "Sprain of wrist (disorder)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "707251008",
+        "display": "Generalised chronic periodontitis",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "707252001",
+        "display": "Localised chronic periodontitis",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "713197008",
+        "display": "Recurrent rectal polyp (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "713458007",
+        "display": "Lack of access to transportation (finding)",
+        "count": 10
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "714628002",
+        "display": "Prediabetes (finding)",
+        "count": 33
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "718052004",
+        "display": "Asymptomatic periapical periodontitis",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "718062006",
+        "display": "Generalised moderate chronic periodontitis",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "72892002",
+        "display": "Normal pregnancy (finding)",
+        "count": 38
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "73430006",
+        "display": "Sleep apnea (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "73438004",
+        "display": "Unemployed (finding)",
+        "count": 30
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "73595000",
+        "display": "Stress (finding)",
+        "count": 299
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "741062008",
+        "display": "Not in labor force (finding)",
+        "count": 93
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "74400008",
+        "display": "Appendicitis (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "75498004",
+        "display": "Acute bacterial sinusitis (disorder)",
+        "count": 9
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "78275009",
+        "display": "Obstructive sleep apnea syndrome (disorder)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "79586000",
+        "display": "Tubal pregnancy (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "8004003",
+        "display": "Teething syndrome",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "80394007",
+        "display": "Hyperglycemia (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "80583007",
+        "display": "Severe anxiety (panic) (finding)",
+        "count": 14
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "80967001",
+        "display": "Dental caries",
+        "count": 58
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "81629009",
+        "display": "Traumatic dislocation of temporomandibular joint (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "82423001",
+        "display": "Chronic pain (finding)",
+        "count": 20
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "83664006",
+        "display": "Idiopathic atrophic hypothyroidism (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "840539006",
+        "display": "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
+        "count": 10
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "840544004",
+        "display": "Suspected disease caused by Severe acute respiratory coronavirus 2 (situation)",
+        "count": 10
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "84229001",
+        "display": "Fatigue (finding)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "84757009",
+        "display": "Epilepsy (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "87433001",
+        "display": "Pulmonary emphysema (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "88805009",
+        "display": "Chronic congestive heart failure (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "90460009",
+        "display": "Injury of neck (disorder)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "90560007",
+        "display": "Gout",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "90781000119102",
+        "display": "Microalbuminuria due to type 2 diabetes mellitus (disorder)",
+        "count": 7
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "91302008",
+        "display": "Sepsis (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "93761005",
+        "display": "Primary malignant neoplasm of colon (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "95417003",
+        "display": "Primary fibromyalgia syndrome (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "97331000119101",
+        "display": "Macular edema and retinopathy due to type 2 diabetes mellitus (disorder)",
+        "count": 1
+      }
+    ],
+    "Condition.verificationStatus": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+        "code": "confirmed",
+        "display": null,
+        "count": 3579
+      }
+    ],
+    "Encounter.class": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": null,
+        "count": 3899
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "EMER",
+        "display": null,
+        "count": 630
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "HH",
+        "display": null,
+        "count": 7
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "IMP",
+        "display": null,
+        "count": 76
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "VR",
+        "display": null,
+        "count": 33
+      }
+    ],
+    "Encounter.reasonCode": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "102263004",
+        "display": "Eggs (edible) (substance)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "103697008",
+        "display": "Patient referral for dental care (procedure)",
+        "count": 224
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "10509002",
+        "display": "Acute bronchitis (disorder)",
+        "count": 55
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "110030002",
+        "display": "Concussion injury of brain (disorder)",
+        "count": 8
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "1149222004",
+        "display": "Overdose (disorder)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "124171000119105",
+        "display": "Chronic intractable migraine without aura (disorder)",
+        "count": 8
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "125605004",
+        "display": "Fracture of bone (disorder)",
+        "count": 12
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "128613002",
+        "display": "Seizure disorder (disorder)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "156073000",
+        "display": "Complete miscarriage (disorder)",
+        "count": 14
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "16114001",
+        "display": "Fracture of ankle (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "183996000",
+        "display": "Sterilization requested (situation)",
+        "count": 17
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "185086009",
+        "display": "Chronic obstructive bronchitis (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "192127007",
+        "display": "Child attention deficit disorder (disorder)",
+        "count": 49
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "195662009",
+        "display": "Acute viral pharyngitis (disorder)",
+        "count": 62
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "195967001",
+        "display": "Asthma (disorder)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "196416002",
+        "display": "Impacted molars (disorder)",
+        "count": 11
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "201834006",
+        "display": "Localized, primary osteoarthritis of the hand (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "203646004",
+        "display": "Adolescent idiopathic scoliosis (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "22298006",
+        "display": "Myocardial infarction (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "232353008",
+        "display": "Perennial allergic rhinitis with seasonal variation (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "233678006",
+        "display": "Childhood asthma (disorder)",
+        "count": 7
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "239872002",
+        "display": "Osteoarthritis of hip (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "239873007",
+        "display": "Osteoarthritis of knee (disorder)",
+        "count": 8
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "24079001",
+        "display": "Atopic dermatitis (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "241929008",
+        "display": "Acute allergic reaction (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "254837009",
+        "display": "Malignant neoplasm of breast (disorder)",
+        "count": 31
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "256355007",
+        "display": "Glycine max (substance)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "25675004",
+        "display": "Patient transfer to skilled nursing facility (procedure)",
+        "count": 12
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "262574004",
+        "display": "Bullet wound (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "263102004",
+        "display": "Fracture subluxation of wrist (disorder)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "263172003",
+        "display": "Fracture of mandible (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "267253006",
+        "display": "Fetus with chromosomal abnormality (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "26929004",
+        "display": "Alzheimer's disease (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "271737000",
+        "display": "Anemia (disorder)",
+        "count": 15
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "274531002",
+        "display": "Abnormal findings diagnostic imaging heart+coronary circulat (finding)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "275978004",
+        "display": "Screening for malignant neoplasm of colon (procedure)",
+        "count": 40
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "283545005",
+        "display": "Gunshot wound (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "307426000",
+        "display": "Acute infective cystitis (disorder)",
+        "count": 14
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "307731004",
+        "display": "Injury of tendon of the rotator cuff of shoulder (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "312608009",
+        "display": "Laceration - injury (disorder)",
+        "count": 23
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "33737001",
+        "display": "Fracture of rib (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "35999006",
+        "display": "Blighted ovum (disorder)",
+        "count": 6
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "363406005",
+        "display": "Malignant neoplasm of colon (disorder)",
+        "count": 8
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "36923009",
+        "display": "Major depression, single episode (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "36971009",
+        "display": "Sinusitis (disorder)",
+        "count": 37
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "3718001",
+        "display": "Cow's milk (substance)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "37849005",
+        "display": "Congenital uterine anomaly (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "384709000",
+        "display": "Sprain (morphologic abnormality)",
+        "count": 16
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "389095005",
+        "display": "Contraception care (regime/therapy)",
+        "count": 207
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "39898005",
+        "display": "Sleep disorder (disorder)",
+        "count": 14
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "399261000",
+        "display": "History of coronary artery bypass grafting (situation)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "401303003",
+        "display": "Acute ST segment elevation myocardial infarction (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "401314000",
+        "display": "Acute non-ST segment elevation myocardial infarction (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "40275004",
+        "display": "Contact dermatitis (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "403190006",
+        "display": "Epidermal burn of skin (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "403191005",
+        "display": "Partial thickness burn (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "412071004",
+        "display": "Wheat (substance)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "414545008",
+        "display": "Ischemic heart disease (disorder)",
+        "count": 15
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "43878008",
+        "display": "Streptococcal sore throat (disorder)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "44054006",
+        "display": "Diabetes mellitus type 2 (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "442571000124108",
+        "display": "Tree nut (substance)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "444814009",
+        "display": "Viral sinusitis (disorder)",
+        "count": 107
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "446096008",
+        "display": "Perennial allergic rhinitis (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "47505003",
+        "display": "Posttraumatic stress disorder (disorder)",
+        "count": 54
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "48333001",
+        "display": "Burn injury (morphologic abnormality)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "55822004",
+        "display": "Hyperlipidemia (disorder)",
+        "count": 95
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "5602001",
+        "display": "Opioid abuse",
+        "count": 6
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "58150001",
+        "display": "Fracture of clavicle (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "59621000",
+        "display": "Essential hypertension (disorder)",
+        "count": 15
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "6072007",
+        "display": "Bleeding from anus (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "609328004",
+        "display": "Allergic disposition (finding)",
+        "count": 139
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "62106007",
+        "display": "Concussion with no loss of consciousness (disorder)",
+        "count": 7
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "62479008",
+        "display": "Acquired immune deficiency syndrome (disorder)",
+        "count": 29
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "62564004",
+        "display": "Concussion with loss of consciousness (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "6525002",
+        "display": "Dependent drug abuse (disorder)",
+        "count": 103
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "65363002",
+        "display": "Otitis media (disorder)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "65966004",
+        "display": "Fracture of forearm (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "66383009",
+        "display": "Gingivitis (disorder)",
+        "count": 194
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "68496003",
+        "display": "Polyp of colon (disorder)",
+        "count": 8
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "698306007",
+        "display": "Awaiting transplantation of kidney (situation)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "69896004",
+        "display": "Rheumatoid arthritis (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "72892002",
+        "display": "Normal pregnancy (finding)",
+        "count": 243
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "735029006",
+        "display": "Shellfish (substance)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "74400008",
+        "display": "Appendicitis (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "75498004",
+        "display": "Acute bacterial sinusitis (disorder)",
+        "count": 15
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "762952008",
+        "display": "Peanut (substance)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "79586000",
+        "display": "Tubal pregnancy (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "81629009",
+        "display": "Traumatic dislocation of temporomandibular joint (disorder)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "82423001",
+        "display": "Chronic pain (finding)",
+        "count": 68
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "83664006",
+        "display": "Idiopathic atrophic hypothyroidism (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "840539006",
+        "display": "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "840544004",
+        "display": "Suspected disease caused by Severe acute respiratory coronavirus 2 (situation)",
+        "count": 10
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "87433001",
+        "display": "Pulmonary emphysema (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "88805009",
+        "display": "Chronic congestive heart failure (disorder)",
+        "count": 26
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "90460009",
+        "display": "Injury of neck (disorder)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "90560007",
+        "display": "Gout",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "91302008",
+        "display": "Sepsis (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "93761005",
+        "display": "Primary malignant neoplasm of colon (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "95281009",
+        "display": "Sudden cardiac death (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "95417003",
+        "display": "Primary fibromyalgia syndrome (disorder)",
+        "count": 4
+      }
+    ],
+    "Encounter.type": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "1505002",
+        "display": "Hospital admission for isolation (procedure)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "162673000",
+        "display": "General examination of patient (procedure)",
+        "count": 771
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "169762003",
+        "display": "Postnatal visit (regime/therapy)",
+        "count": 21
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "170837001",
+        "display": "Allergic disorder initial assessment (regime/therapy)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "170838006",
+        "display": "Allergic disorder follow-up assessment (regime/therapy)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "183452005",
+        "display": "Emergency hospital admission (procedure)",
+        "count": 6
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "183460006",
+        "display": "Obstetric emergency hospital admission (procedure)",
+        "count": 21
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "183478001",
+        "display": "Emergency hospital admission for asthma (procedure)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "185317003",
+        "display": "Telephone encounter (procedure)",
+        "count": 25
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "185345009",
+        "display": "Encounter for symptom (procedure)",
+        "count": 344
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "185347001",
+        "display": "Encounter for problem (procedure)",
+        "count": 376
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "185349003",
+        "display": "Encounter for check up (procedure)",
+        "count": 869
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "185389009",
+        "display": "Follow-up visit (procedure)",
+        "count": 11
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "270427003",
+        "display": "Patient-initiated encounter (procedure)",
+        "count": 9
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "281036007",
+        "display": "Follow-up consultation (procedure)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "305336008",
+        "display": "Admission to hospice (procedure)",
+        "count": 7
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "305342007",
+        "display": "Admission to ward (procedure)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "305351004",
+        "display": "Admission to intensive care unit (procedure)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "305408004",
+        "display": "Admission to surgical department (procedure)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "305411003",
+        "display": "Admission to thoracic surgery department (procedure)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "305432006",
+        "display": "Admission to surgical transplant department (procedure)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "308335008",
+        "display": "Patient encounter procedure (procedure)",
+        "count": 134
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "308646001",
+        "display": "Death Certification",
+        "count": 8
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "32485007",
+        "display": "Hospital admission (procedure)",
+        "count": 45
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "33879002",
+        "display": "Administration of vaccine to produce active immunity (procedure)",
+        "count": 123
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "36228007",
+        "display": "Ophthalmic examination and evaluation (procedure)",
+        "count": 44
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "371883000",
+        "display": "Outpatient procedure (procedure)",
+        "count": 124
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "390906007",
+        "display": "Follow-up encounter (procedure)",
+        "count": 127
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "394701000",
+        "display": "Asthma follow-up (regime/therapy)",
+        "count": 8
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "397821002",
+        "display": "Patient transfer to intensive care unit (procedure)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "410410006",
+        "display": "Screening surveillance (regime/therapy)",
+        "count": 10
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "410620009",
+        "display": "Well child visit (procedure)",
+        "count": 338
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "424441002",
+        "display": "Prenatal initial visit (regime/therapy)",
+        "count": 43
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "424619006",
+        "display": "Prenatal visit (regime/therapy)",
+        "count": 196
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "439740005",
+        "display": "Postoperative follow-up visit (procedure)",
+        "count": 10
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "448337001",
+        "display": "Telemedicine consultation with patient (procedure)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "453131000124105",
+        "display": "Videotelephony encounter (procedure)",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "47505003",
+        "display": "Posttraumatic stress disorder (disorder)",
+        "count": 4
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "50849002",
+        "display": "Emergency room admission (procedure)",
+        "count": 588
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "56876005",
+        "display": "Drug rehabilitation and detoxification (regime/therapy)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "698314001",
+        "display": "Consultation for treatment (procedure)",
+        "count": 109
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "702927004",
+        "display": "Urgent care clinic (environment)",
+        "count": 229
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "76464004",
+        "display": "Hospital admission, for observation (procedure)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "79094001",
+        "display": "Initial psychiatric interview with mental status and evaluation (procedure)",
+        "count": 2
+      }
+    ],
+    "Observation.category": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+        "code": "exam",
+        "display": "Exam",
+        "count": 197
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+        "code": "imaging",
+        "display": "Imaging",
+        "count": 28
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+        "code": "laboratory",
+        "display": "Laboratory",
+        "count": 33602
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+        "code": "procedure",
+        "display": "Procedure",
+        "count": 91
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+        "code": "social-history",
+        "display": "Social history",
+        "count": 1402
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+        "code": "survey",
+        "display": "Survey",
+        "count": 4208
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+        "code": "therapy",
+        "display": "Therapy",
+        "count": 48
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+        "code": "vital-signs",
+        "display": "Vital signs",
+        "count": 10787
+      }
+    ],
+    "Observation.code": [
+      {
+        "system": "http://loinc.org",
+        "code": "10230-1",
+        "display": "Left ventricular Ejection fraction",
+        "count": 14
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "10834-0",
+        "display": "Globulin [Mass/volume] in Serum by calculation",
+        "count": 89
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "13945-1",
+        "display": "Erythrocytes [#/area] in Urine sediment by Microscopy high power field",
+        "count": 13
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "14627-4",
+        "display": "Bicarbonate [Moles/volume] in Venous blood",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "14804-9",
+        "display": "Lactate dehydrogenase [Enzymatic activity/volume] in Serum or Plasma by Lactate to pyruvate reaction",
+        "count": 19
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "14959-1",
+        "display": "Microalbumin/Creatinine [Mass Ratio] in Urine",
+        "count": 343
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "1742-6",
+        "display": "Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma",
+        "count": 140
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "1751-7",
+        "display": "Albumin [Mass/volume] in Serum or Plasma",
+        "count": 140
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "17861-6",
+        "display": "Calcium [Mass/volume] in Serum or Plasma",
+        "count": 741
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "18262-6",
+        "display": "Cholesterol in LDL [Mass/volume] in Serum or Plasma by Direct assay",
+        "count": 593
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "18752-6",
+        "display": "Exercise stress test study",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "19123-9",
+        "display": "Magnesium [Mass/volume] in Serum or Plasma",
+        "count": 18
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "1920-8",
+        "display": "Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma",
+        "count": 140
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "1960-4",
+        "display": "Bicarbonate [Moles/volume] in Arterial blood",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "1975-2",
+        "display": "Bilirubin.total [Mass/volume] in Serum or Plasma",
+        "count": 140
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "1988-5",
+        "display": "C reactive protein [Mass/volume] in Serum or Plasma",
+        "count": 19
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "19926-5",
+        "display": "FEV1/FVC",
+        "count": 79
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2019-8",
+        "display": "Carbon dioxide [Partial pressure] in Arterial blood",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2021-4",
+        "display": "Carbon dioxide [Partial pressure] in Venous blood",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2027-1",
+        "display": "Carbon dioxide, total [Moles/volume] in Venous blood",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2028-9",
+        "display": "Carbon dioxide, total [Moles/volume] in Serum or Plasma",
+        "count": 741
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "20447-9",
+        "display": "HIV 1 RNA [#/volume] (viral load) in Serum or Plasma by NAA with probe detection",
+        "count": 26
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "20454-5",
+        "display": "Protein [Presence] in Urine by Test strip",
+        "count": 690
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "20505-4",
+        "display": "Bilirubin.total [Mass/volume] in Urine by Test strip",
+        "count": 689
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "20565-8",
+        "display": "Carbon dioxide, total [Moles/volume] in Blood",
+        "count": 806
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "20570-8",
+        "display": "Hematocrit [Volume Fraction] of Blood by calculation",
+        "count": 10
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2069-3",
+        "display": "Chloride [Moles/volume] in Blood",
+        "count": 806
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2075-0",
+        "display": "Chloride [Moles/volume] in Serum or Plasma",
+        "count": 741
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2085-9",
+        "display": "Cholesterol in HDL [Mass/volume] in Serum or Plasma",
+        "count": 593
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2093-3",
+        "display": "Cholesterol [Mass/volume] in Serum or Plasma",
+        "count": 593
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2106-3",
+        "display": "Choriogonadotropin [Presence] in Urine",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "21377-7",
+        "display": "Magnesium [Mass/volume] in Blood",
+        "count": 2
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2157-6",
+        "display": "Creatine kinase [Enzymatic activity/volume] in Serum or Plasma",
+        "count": 19
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2160-0",
+        "display": "Creatinine [Mass/volume] in Serum or Plasma",
+        "count": 741
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2276-4",
+        "display": "Ferritin [Mass/volume] in Serum or Plasma",
+        "count": 33
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2339-0",
+        "display": "Glucose [Mass/volume] in Blood",
+        "count": 806
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2345-7",
+        "display": "Glucose [Mass/volume] in Serum or Plasma",
+        "count": 741
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "24124-0",
+        "display": "Casts [Presence] in Urine sediment by Light microscopy",
+        "count": 13
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "24467-3",
+        "display": "CD3+CD4+ (T4 helper) cells [#/volume] in Blood",
+        "count": 26
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2498-4",
+        "display": "Iron [Mass/volume] in Serum or Plasma",
+        "count": 14
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2500-7",
+        "display": "Iron binding capacity [Mass/volume] in Serum or Plasma",
+        "count": 14
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2502-3",
+        "display": "Iron saturation [Mass Fraction] in Serum or Plasma",
+        "count": 14
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2514-8",
+        "display": "Ketones [Presence] in Urine by Test strip",
+        "count": 703
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2532-0",
+        "display": "Lactate dehydrogenase [Enzymatic activity/volume] in Serum or Plasma",
+        "count": 19
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "25428-4",
+        "display": "Glucose [Presence] in Urine by Test strip",
+        "count": 690
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2571-8",
+        "display": "Triglyceride [Mass/volume] in Serum or Plasma",
+        "count": 593
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2703-7",
+        "display": "Oxygen [Partial pressure] in Arterial blood",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2705-2",
+        "display": "Oxygen [Partial pressure] in Venous blood",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2708-6",
+        "display": "Oxygen saturation in Arterial blood",
+        "count": 63
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2744-1",
+        "display": "pH of Arterial blood",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2746-6",
+        "display": "pH of Venous blood",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2777-1",
+        "display": "Phosphate [Mass/volume] in Serum or Plasma",
+        "count": 3
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2823-3",
+        "display": "Potassium [Moles/volume] in Serum or Plasma",
+        "count": 741
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2885-2",
+        "display": "Protein [Mass/volume] in Serum or Plasma",
+        "count": 140
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "29463-7",
+        "display": "Body Weight",
+        "count": 1455
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2947-0",
+        "display": "Sodium [Moles/volume] in Blood",
+        "count": 806
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "2951-2",
+        "display": "Sodium [Moles/volume] in Serum or Plasma",
+        "count": 741
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "29554-3",
+        "display": "Procedure Narrative",
+        "count": 2
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "3016-3",
+        "display": "Thyrotropin [Units/volume] in Serum or Plasma",
+        "count": 2
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "3024-7",
+        "display": "Thyroxine (T4) free [Mass/volume] in Serum or Plasma",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "3094-0",
+        "display": "Urea nitrogen [Mass/volume] in Serum or Plasma",
+        "count": 741
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "3173-2",
+        "display": "aPTT in Blood by Coagulation assay",
+        "count": 5
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "3184-9",
+        "display": "Activated clotting time (ACT) of Blood by Coagulation assay",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "32167-9",
+        "display": "Clarity of Urine",
+        "count": 689
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "32207-3",
+        "display": "Platelet distribution width [Entitic volume] in Blood by Automated count",
+        "count": 191
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "32623-1",
+        "display": "Platelet [Entitic mean volume] in Blood by Automated count",
+        "count": 191
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "33756-8",
+        "display": "Polyp size greatest dimension",
+        "count": 5
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "33762-6",
+        "display": "Natriuretic peptide.B prohormone N-Terminal [Mass/volume] in Serum or Plasma",
+        "count": 14
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "33914-3",
+        "display": "Glomerular filtration rate [Volume Rate/Area] in Serum or Plasma by Creatinine-based formula (MDRD)/1.73 sq M",
+        "count": 1173
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "33959-8",
+        "display": "Procalcitonin [Mass/volume] in Serum or Plasma",
+        "count": 19
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "34533-0",
+        "display": "Odor of Urine",
+        "count": 689
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "38208-5",
+        "display": "Pain severity - Reported",
+        "count": 30
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "38265-5",
+        "display": "DXA Radius and Ulna [T-score] Bone density",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "38483-4",
+        "display": "Creatinine [Mass/volume] in Blood",
+        "count": 806
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "39156-5",
+        "display": "Body mass index (BMI) [Ratio]",
+        "count": 1318
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "41633001",
+        "display": "Intraocular pressure (observable entity)",
+        "count": 82
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "44261-6",
+        "display": "Patient Health Questionnaire 9 item (PHQ-9) total score [Reported]",
+        "count": 46
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "4544-3",
+        "display": "Hematocrit [Volume Fraction] of Blood by Automated count",
+        "count": 232
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "4548-4",
+        "display": "Hemoglobin A1c/Hemoglobin.total in Blood",
+        "count": 1039
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "48065-7",
+        "display": "Fibrin D-dimer FEU [Mass/volume] in Platelet poor plasma",
+        "count": 19
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "49765-1",
+        "display": "Calcium [Mass/volume] in Blood",
+        "count": 806
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "55758-7",
+        "display": "Patient Health Questionnaire 2 item (PHQ-2) total score [Reported]",
+        "count": 823
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5767-9",
+        "display": "Appearance of Urine",
+        "count": 689
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5769-5",
+        "display": "Bacteria [#/area] in Urine sediment by Microscopy high power field",
+        "count": 13
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5770-3",
+        "display": "Bilirubin.total [Presence] in Urine by Test strip",
+        "count": 690
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5778-6",
+        "display": "Color of Urine",
+        "count": 689
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5787-7",
+        "display": "Epithelial cells [#/area] in Urine sediment by Microscopy high power field",
+        "count": 13
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "57905-2",
+        "display": "Hemoglobin.gastrointestinal.lower [Presence] in Stool by Immunoassay --1st specimen",
+        "count": 5
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5792-7",
+        "display": "Glucose [Mass/volume] in Urine by Test strip",
+        "count": 702
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5794-3",
+        "display": "Hemoglobin [Presence] in Urine by Test strip",
+        "count": 703
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5797-6",
+        "display": "Ketones [Mass/volume] in Urine by Test strip",
+        "count": 689
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5799-2",
+        "display": "Leukocyte esterase [Presence] in Urine by Test strip",
+        "count": 703
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5802-4",
+        "display": "Nitrite [Presence] in Urine by Test strip",
+        "count": 703
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5803-2",
+        "display": "pH of Urine by Test strip",
+        "count": 703
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5804-0",
+        "display": "Protein [Mass/volume] in Urine by Test strip",
+        "count": 702
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5811-5",
+        "display": "Specific gravity of Urine by Test strip",
+        "count": 703
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5821-4",
+        "display": "Leukocytes [#/area] in Urine sediment by Microscopy high power field",
+        "count": 13
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5902-2",
+        "display": "Prothrombin time (PT)",
+        "count": 22
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "5905-5",
+        "display": "Monocytes/Leukocytes in Blood by Automated count",
+        "count": 32
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "59408-5",
+        "display": "Oxygen saturation in Arterial blood by Pulse oximetry",
+        "count": 63
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "59460-6",
+        "display": "Fall risk total [Morse Fall Scale]",
+        "count": 276
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "59461-4",
+        "display": "Fall risk level [Morse Fall Scale]",
+        "count": 276
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "59576-9",
+        "display": "Body mass index (BMI) [Percentile] Per age and sex",
+        "count": 296
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6075-6",
+        "display": "Cladosporium herbarum IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6082-2",
+        "display": "Codfish IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6085-5",
+        "display": "Common Ragweed IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6095-4",
+        "display": "American house dust mite IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6106-9",
+        "display": "Egg white IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6158-0",
+        "display": "Latex IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6189-5",
+        "display": "White oak IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6206-7",
+        "display": "Peanut IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6246-3",
+        "display": "Shrimp IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6248-9",
+        "display": "Soybean IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6273-7",
+        "display": "Walnut IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6276-0",
+        "display": "Wheat IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6298-4",
+        "display": "Potassium [Moles/volume] in Blood",
+        "count": 806
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6299-2",
+        "display": "Urea nitrogen [Mass/volume] in Blood",
+        "count": 806
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "630-4",
+        "display": "Bacteria identified in Urine by Culture",
+        "count": 13
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6301-6",
+        "display": "INR in Platelet poor plasma by Coagulation assay",
+        "count": 24
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "65750-2",
+        "display": "Drugs of abuse 5 panel - Urine by Screen method",
+        "count": 11
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "66519-0",
+        "display": "Percentage area affected by eczema Head and Neck [PhenX]",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "66524-0",
+        "display": "Percentage area affected by eczema Upper extremity - bilateral [PhenX]",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "66529-9",
+        "display": "Percentage area affected by eczema Trunk [PhenX]",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "66534-9",
+        "display": "Percentage area affected by eczema Lower extremity - bilateral [PhenX]",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6690-2",
+        "display": "Leukocytes [#/volume] in Blood by Automated count",
+        "count": 242
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6768-6",
+        "display": "Alkaline phosphatase [Enzymatic activity/volume] in Serum or Plasma",
+        "count": 140
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6833-8",
+        "display": "Cat dander IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "6844-5",
+        "display": "Honey bee IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "69453-9",
+        "display": "Cause of Death [US Standard Certificate of Death]",
+        "count": 8
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "70274-6",
+        "display": "Generalized anxiety disorder 7 item (GAD-7) total score [Reported.PHQ]",
+        "count": 581
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "704-7",
+        "display": "Basophils [#/volume] in Blood by Automated count",
+        "count": 32
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "706-2",
+        "display": "Basophils/Leukocytes in Blood by Automated count",
+        "count": 32
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "711-2",
+        "display": "Eosinophils [#/volume] in Blood by Automated count",
+        "count": 32
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "713-8",
+        "display": "Eosinophils/Leukocytes in Blood by Automated count",
+        "count": 32
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "71425-3",
+        "display": "Natriuretic peptide.B prohormone N-Terminal [Mass/volume] in Blood by Immunoassay",
+        "count": 2
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "71490-7",
+        "display": "Left eye Diabetic retinopathy severity level by Ophthalmoscopy",
+        "count": 41
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "71491-5",
+        "display": "Right eye Diabetic retinopathy severity level by Ophthalmoscopy",
+        "count": 41
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "718-7",
+        "display": "Hemoglobin [Mass/volume] in Blood",
+        "count": 242
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "72106-8",
+        "display": "Total score [MMSE]",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "72166-2",
+        "display": "Tobacco smoking status",
+        "count": 1367
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "72514-3",
+        "display": "Pain severity - 0-10 verbal numeric rating [Score] - Reported",
+        "count": 1400
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "7258-7",
+        "display": "Cow milk IgE Ab [Units/volume] in Serum",
+        "count": 7
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "731-0",
+        "display": "Lymphocytes [#/volume] in Blood by Automated count",
+        "count": 32
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "736-9",
+        "display": "Lymphocytes/Leukocytes in Blood by Automated count",
+        "count": 32
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "742-7",
+        "display": "Monocytes [#/volume] in Blood by Automated count",
+        "count": 32
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "751-8",
+        "display": "Neutrophils [#/volume] in Blood by Automated count",
+        "count": 32
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "75325-1",
+        "display": "Symptom",
+        "count": 12
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "75443-2",
+        "display": "Mental health Outpatient Note",
+        "count": 24
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "75626-2",
+        "display": "Total score [AUDIT-C]",
+        "count": 368
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "75636-1",
+        "display": "Emergency severity index [ESI]",
+        "count": 5
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "76504-0",
+        "display": "Total score [HARK]",
+        "count": 319
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "770-8",
+        "display": "Neutrophils/Leukocytes in Blood by Automated count",
+        "count": 32
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "77606-2",
+        "display": "Weight-for-length Per age and sex",
+        "count": 118
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "777-3",
+        "display": "Platelets [#/volume] in Blood by Automated count",
+        "count": 242
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "785-6",
+        "display": "MCH [Entitic mass] by Automated count",
+        "count": 242
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "786-4",
+        "display": "MCHC [Entitic Mass/volume] in Red Blood Cells by Automated count",
+        "count": 242
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "787-2",
+        "display": "MCV [Entitic mean volume] in Red Blood Cells by Automated count",
+        "count": 242
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "788-0",
+        "display": "Erythrocyte [DistWidth] in Blood by Automated count",
+        "count": 242
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "789-8",
+        "display": "Erythrocytes [#/volume] in Blood by Automated count",
+        "count": 242
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "79818-1",
+        "display": "Study observation Right retina by OCT",
+        "count": 14
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "79819-9",
+        "display": "Study observation Left retina by OCT",
+        "count": 14
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "79892-6",
+        "display": "Right eye Intraocular pressure",
+        "count": 41
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "79893-4",
+        "display": "Left eye Intraocular pressure",
+        "count": 41
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "80382-5",
+        "display": "Influenza virus A Ag [Presence] in Upper respiratory specimen by Rapid immunoassay",
+        "count": 6
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "80383-3",
+        "display": "Influenza virus B Ag [Presence] in Upper respiratory specimen by Rapid immunoassay",
+        "count": 6
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "8247-9",
+        "display": "Mucus [Presence] in Urine sediment by Light microscopy",
+        "count": 13
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "82667-7",
+        "display": "Total score [DAST-10]",
+        "count": 335
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "82810-3",
+        "display": "Pregnancy status",
+        "count": 35
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "8289-1",
+        "display": "Head Occipital-frontal circumference Percentile",
+        "count": 118
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "8302-2",
+        "display": "Body Height",
+        "count": 1399
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "8310-5",
+        "display": "Body temperature",
+        "count": 126
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "8331-1",
+        "display": "Oral temperature",
+        "count": 126
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "84215-3",
+        "display": "Mental health Telehealth Note",
+        "count": 24
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "85354-9",
+        "display": "Blood Pressure panel with all children optional",
+        "count": 5
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "85354-9",
+        "display": "Blood pressure panel with all children optional",
+        "count": 1458
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "88020-3",
+        "display": "Functional capacity NYHA",
+        "count": 2
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "88021-1",
+        "display": "Objective assessment of cardiovascular disease NYHA",
+        "count": 2
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "8867-4",
+        "display": "Heart rate",
+        "count": 1414
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "89204-2",
+        "display": "Patient Health Questionnaire-9: Modified for Teens total score [Reported.PHQ.Teen]",
+        "count": 102
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "89579-7",
+        "display": "Troponin I.cardiac [Mass/volume] in Serum or Plasma by High sensitivity method",
+        "count": 37
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "91148-7",
+        "display": "Pain intensity, Enjoyment of life, General activity scale [PEG]",
+        "count": 15
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "92130-4",
+        "display": "Rhinovirus RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "92131-2",
+        "display": "Respiratory syncytial virus RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "92134-6",
+        "display": "Human metapneumovirus RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "92138-7",
+        "display": "Parainfluenza virus 3 RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "92139-5",
+        "display": "Parainfluenza virus 2 RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "92140-3",
+        "display": "Parainfluenza virus 1 RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "92141-1",
+        "display": "Influenza virus B RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "92142-9",
+        "display": "Influenza virus A RNA [Presence] in Respiratory system specimen by NAA with probe detection",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "9279-1",
+        "display": "Respiratory rate",
+        "count": 1414
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "93025-5",
+        "display": "Protocol for Responding to and Assessing Patients' Assets, Risks, and Experiences [PRAPARE]",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "94040-3",
+        "display": "Adenovirus A+B+C+D+E DNA [Presence] in Respiratory system specimen by NAA with probe detection",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "94531-1",
+        "display": "SARS-CoV-2 (COVID-19) RNA panel - Respiratory system specimen by NAA with probe detection",
+        "count": 14
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "9843-4",
+        "display": "Head Occipital-frontal circumference",
+        "count": 118
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "98498-9",
+        "display": "Visual acuity uncorrected Left eye",
+        "count": 41
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "98499-7",
+        "display": "Visual acuity uncorrected Right eye",
+        "count": 41
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "99999-0",
+        "display": "DSM-5 Clinical Diagnostic Criteria for Opioid Use Disorder",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "X9999-0",
+        "display": "Operative Status",
+        "count": 3
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "271605009",
+        "display": "Position of body and posture (observable entity)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "285285000",
+        "display": "Cobb angle (observable entity)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "413077008",
+        "display": "LogMAR visual acuity left eye (observable entity)",
+        "count": 41
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "413078003",
+        "display": "LogMAR visual acuity right eye (observable entity)",
+        "count": 41
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "870537001",
+        "display": "Risser sign (finding)",
+        "count": 1
+      }
+    ],
+    "Observation.component.code": [
+      {
+        "system": "http://loinc.org",
+        "code": "32624-9",
+        "display": "Race",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "54899-0",
+        "display": "Preferred language",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "56051-6",
+        "display": "Hispanic or Latino",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "56799-0",
+        "display": "Address",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "63512-8",
+        "display": "How many people are living or staying at this address [#]",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "63586-2",
+        "display": "What was your best estimate of the total income of all family members from all sources, before taxes, in last year [PhenX]",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "67875-5",
+        "display": "Employment status - current",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "71802-3",
+        "display": "Housing status",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "75893-8",
+        "display": "Pain severity in the past week - 0-10 numeric rating [Reported]",
+        "count": 15
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "76437-3",
+        "display": "Primary insurance",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "76501-6",
+        "display": "Within the last year, have you been afraid of your partner or ex-partner",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "82589-3",
+        "display": "Highest level of education",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "8462-4",
+        "display": "Diastolic Blood Pressure",
+        "count": 1463
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "8480-6",
+        "display": "Systolic Blood Pressure",
+        "count": 1463
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "91145-3",
+        "display": "What number best describes how pain has interfered with your enjoyment of life during the past week",
+        "count": 15
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "91146-1",
+        "display": "What number best describes how pain has interfered with your general activity during the past week",
+        "count": 15
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "93026-3",
+        "display": "Do you feel physically and emotionally safe where you currently live [PRAPARE]",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "93027-1",
+        "display": "Are you a refugee",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "93028-9",
+        "display": "Have you spent more than 2 nights in a row in a jail, prison, detention center, or juvenile correctional facility in past 1 year [PRAPARE]",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "93029-7",
+        "display": "How often do you see or talk to people that you care about and feel close to [PRAPARE]",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "93030-5",
+        "display": "Has lack of transportation kept you from medical appointments, meetings, work, or from getting things needed for daily living",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "93031-3",
+        "display": "Have you or any family members you live with been unable to get any of the following when it was really needed in past 1 year [PRAPARE]",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "93033-9",
+        "display": "Are you worried about losing your housing [PRAPARE]",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "93034-7",
+        "display": "Discharged from the U.S. Armed Forces",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "93035-4",
+        "display": "Has season or migrant farm work been your or your family's main source of income at any point in past 2 years [PRAPARE]",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "93038-8",
+        "display": "Stress level",
+        "count": 1027
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "99999-1",
+        "display": "Opioids are often taken in larger amounts or over a longer period than was intended",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "99999-10",
+        "display": "Tolerance,as defined by either of the following: a) Need for markedly increased amounts of opioids to achieve intoxication or desired effect b) Markedly diminished effect with continued use of the same amount of opioid",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "99999-11",
+        "display": "Withdrawal,* as manifested by either of the following: a) Characteristic opioid withdrawal syndrome b) Same (or a closely related) substance is taken to relieve or avoid withdrawal symptoms",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "99999-2",
+        "display": "There is a persistent desire or unsuccessful efforts to cut down or control opioid use",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "99999-3",
+        "display": "A great deal of time is spent in activities necessary to obtain the opioid, use the opioid, or recover from its effects",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "99999-4",
+        "display": "Craving or a strong desire to use opioids",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "99999-5",
+        "display": "Recurrent opioid use resulting in a failure to fulfill major role obligations at work, school, or home",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "99999-6",
+        "display": "Continued opioid use despite having persistent or recurrent social or interpersonal problems caused or exacerbated by the effects of opioids",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "99999-7",
+        "display": "Important social, occupational, or recreational activities are given up or reduced because of opioid use",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "99999-8",
+        "display": "Recurrent opioid use in situations in which it is physically hazardous",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "99999-9",
+        "display": "Continued use despite knowledge of having a persistent or recurrent physical or psychological problem that is likely to have been caused or exacerbated by opioids.",
+        "count": 4
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "X9999-1",
+        "display": "Operative Status Value",
+        "count": 3
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "X9999-2",
+        "display": "Priority Level",
+        "count": 3
+      }
+    ],
+    "Observation.component.valueCodeableConcept": [
+      {
+        "system": "http://loinc.org",
+        "code": "LA13863-8",
+        "display": "A little bit",
+        "count": 265
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA13902-4",
+        "display": "Quite a bit",
+        "count": 75
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA13909-9",
+        "display": "Somewhat",
+        "count": 197
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA13914-9",
+        "display": "Very much",
+        "count": 53
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA14042-8",
+        "display": "Black/African American",
+        "count": 340
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA14072-5",
+        "display": "Unsure",
+        "count": 5
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA15652-3",
+        "display": "Medicare",
+        "count": 525
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA17849-3",
+        "display": "Medicaid",
+        "count": 66
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA17956-6",
+        "display": "Unemployed",
+        "count": 66
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA27722-0",
+        "display": "Less than once a week",
+        "count": 113
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30122-8",
+        "display": "I choose not to answer this question",
+        "count": 720
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30124-4",
+        "display": "Utilities",
+        "count": 96
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30125-1",
+        "display": "Food",
+        "count": 121
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30126-9",
+        "display": "Clothing",
+        "count": 15
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30127-7",
+        "display": "Child care",
+        "count": 23
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30128-5",
+        "display": "Medicine or Any Health Care (Medical, Dental, Mental Health, Vision)",
+        "count": 113
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30129-3",
+        "display": "Phone",
+        "count": 12
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30130-1",
+        "display": "1 or 2 times a week",
+        "count": 88
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30131-9",
+        "display": "3 to 5 times a week",
+        "count": 403
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30132-7",
+        "display": "5 or more times a week",
+        "count": 416
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30133-5",
+        "display": "Yes, it has kept me from medical appointments or from getting my medications",
+        "count": 63
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30134-3",
+        "display": "Yes, it has kept me from non-medical meetings, appointments, work, or from getting things that I need",
+        "count": 58
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30136-8",
+        "display": "Full-time work",
+        "count": 669
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30137-6",
+        "display": "Otherwise unemployed but not seeking work (ex: student, retired, disabled, unpaid primary care giver)",
+        "count": 89
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30138-4",
+        "display": "Part-time or temporary work",
+        "count": 193
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30188-9",
+        "display": "Language other than English",
+        "count": 14
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30189-7",
+        "display": "I have housing",
+        "count": 1021
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30191-3",
+        "display": "Less than high school degree",
+        "count": 169
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30192-1",
+        "display": "High school diploma or GED",
+        "count": 486
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30193-9",
+        "display": "More than high school",
+        "count": 369
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA30194-7",
+        "display": "None/uninsured",
+        "count": 75
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA32-8",
+        "display": "No",
+        "count": 7494
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA33-6",
+        "display": "Yes",
+        "count": 1598
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA4-4",
+        "display": "American Indian/Alaskan Native",
+        "count": 56
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA43-5",
+        "display": "English",
+        "count": 1013
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA4457-3",
+        "display": "White",
+        "count": 606
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA46-8",
+        "display": "Other",
+        "count": 11
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA6156-9",
+        "display": "Asian",
+        "count": 19
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA6350-8",
+        "display": "Private insurance",
+        "count": 340
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA6568-5",
+        "display": "Not at all",
+        "count": 431
+      }
+    ],
+    "Observation.valueCodeableConcept": [
+      {
+        "system": "http://loinc.org",
+        "code": "LA13038-7",
+        "display": "Low Risk (MFS Score 0 - 24)",
+        "count": 85
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA13039-5",
+        "display": "Moderate Risk (MFS Score 25 - 45)",
+        "count": 96
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA13040-3",
+        "display": "High Risk (MFS Score 50+)",
+        "count": 95
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA18643-9",
+        "display": "No apparent retinopathy",
+        "count": 54
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA18645-4",
+        "display": "Moderate non-proliferative retinopathy",
+        "count": 28
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA21754-9",
+        "display": "Needs 1 resource",
+        "count": 3
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA21755-6",
+        "display": "Needs no resources",
+        "count": 2
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA28404-4",
+        "display": "Class I",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA28406-9",
+        "display": "Class III",
+        "count": 1
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA28409-3",
+        "display": "Objective evidence of minimal cardiovascular disease",
+        "count": 2
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "LA28409-8",
+        "display": "No abnormal findings",
+        "count": 28
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "10828004",
+        "display": "Positive (qualifier value)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "1149222004",
+        "display": "Overdose (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "167248002",
+        "display": "Urine smell ammoniacal (finding)",
+        "count": 689
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "167265006",
+        "display": "Urine glucose test = ++ (finding)",
+        "count": 689
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "167275009",
+        "display": "Urine protein test = + (finding)",
+        "count": 64
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "167276005",
+        "display": "Urine protein test = ++ (finding)",
+        "count": 415
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "167277001",
+        "display": "Urine protein test = +++ (finding)",
+        "count": 210
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "167287002",
+        "display": "Urine ketones not detected (finding)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "167288007",
+        "display": "Urine ketone test = trace (finding)",
+        "count": 64
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "167289004",
+        "display": "Urine ketone test = + (finding)",
+        "count": 198
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "167290008",
+        "display": "Urine ketone test = ++ (finding)",
+        "count": 217
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "167291007",
+        "display": "Urine ketone test = +++ (finding)",
+        "count": 210
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "167297006",
+        "display": "Blood not detected in urine (finding)",
+        "count": 689
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "167300001",
+        "display": "Urine blood test = + (finding)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "167336003",
+        "display": "Urine microscopy: no casts (finding)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "185086009",
+        "display": "Chronic obstructive bronchitis (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "260373001",
+        "display": "Detected (qualifier value)",
+        "count": 10
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "260385009",
+        "display": "Negative (qualifier value)",
+        "count": 43
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "260415000",
+        "display": "Not detected (qualifier value)",
+        "count": 16
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "262574004",
+        "display": "Bullet wound (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "266919005",
+        "display": "Never smoked tobacco (finding)",
+        "count": 1140
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "267036007",
+        "display": "Dyspnea (finding)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "267038008",
+        "display": "Edema (finding)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "275778006",
+        "display": "Finding of bilirubin in urine (finding)",
+        "count": 689
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "276409005",
+        "display": "Mucus in urine (finding)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "300828005",
+        "display": "Translucent (qualifier value)",
+        "count": 689
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "314137006",
+        "display": "Nitrite detected in urine (finding)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "314138001",
+        "display": "Nitrite not detected in urine (finding)",
+        "count": 689
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "365691004",
+        "display": "Finding of presence of bacteria (finding)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "371254008",
+        "display": "Brown color (qualifier value)",
+        "count": 689
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "394712000",
+        "display": "Urine leukocyte test one plus (finding)",
+        "count": 13
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "394717006",
+        "display": "Urine leukocytes not detected (finding)",
+        "count": 689
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "439590007",
+        "display": "Cardiovascular stress test abnormal (finding)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "449868002",
+        "display": "Smokes tobacco daily (finding)",
+        "count": 5
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "48409008",
+        "display": "Respiratory crackles (finding)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "59265000",
+        "display": "Paroxysmal dyspnea (finding)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "60845006",
+        "display": "Dyspnea on exertion (finding)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "62479008",
+        "display": "Acquired immune deficiency syndrome (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "62744007",
+        "display": "Orthopnea (finding)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "77386006",
+        "display": "Pregnant",
+        "count": 35
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "7766007",
+        "display": "Cloudy urine (finding)",
+        "count": 689
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "8517006",
+        "display": "Ex-smoker (finding)",
+        "count": 222
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "87433001",
+        "display": "Pulmonary emphysema (disorder)",
+        "count": 1
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "88805009",
+        "display": "Chronic congestive heart failure (disorder)",
+        "count": 2
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "95281009",
+        "display": "Sudden cardiac death (disorder)",
+        "count": 1
+      }
+    ]
+  },
+  "value_strings": [
+    {
+      "system": "http://loinc.org",
+      "code": "29554-3",
+      "value": "CABG Arterial Conduits: 1",
+      "count": 1
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "29554-3",
+      "value": "CABG Grafts: 2",
+      "count": 1
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "630-4",
+      "value": "Greater than 100,000 colony forming units per mL Escherichia coli",
+      "count": 12
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "630-4",
+      "value": "Greater than 100,000 colony forming units per mL Klebsiella pneumoniae",
+      "count": 1
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "X9999-1",
+      "value": "elective",
+      "count": 1
+    },
+    {
+      "system": "http://loinc.org",
+      "code": "X9999-1",
+      "value": "urgent",
+      "count": 2
+    }
+  ],
+  "quantity_units": [
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "%",
+      "unit": "%",
+      "count": 2198
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "/[HPF]",
+      "unit": "/[HPF]",
+      "count": 39
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "/a",
+      "unit": "/a",
+      "count": 1027
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "/min",
+      "unit": "/min",
+      "count": 2828
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "/uL",
+      "unit": "/uL",
+      "count": 26
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "10*3/uL",
+      "unit": "10*3/uL",
+      "count": 644
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "10*6/uL",
+      "unit": "10*6/uL",
+      "count": 242
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "Cel",
+      "unit": "Cel",
+      "count": 126
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "U/L",
+      "unit": "U/L",
+      "count": 458
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "[pH]",
+      "unit": "[pH]",
+      "count": 6
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "cm",
+      "unit": "cm",
+      "count": 1517
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "fL",
+      "unit": "fL",
+      "count": 815
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "g/L",
+      "unit": "g/L",
+      "count": 89
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "g/dL",
+      "unit": "g/dL",
+      "count": 764
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "kU/L",
+      "unit": "kU/L",
+      "count": 105
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "kg",
+      "unit": "kg",
+      "count": 1455
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "kg/m2",
+      "unit": "kg/m2",
+      "count": 1318
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "mL/min",
+      "unit": "mL/min",
+      "count": 140
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "mL/min/{1.73_m2}",
+      "unit": "mL/min/{1.73_m2}",
+      "count": 1033
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "m[IU]/L",
+      "unit": "m[IU]/L",
+      "count": 2
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "mg/L",
+      "unit": "mg/L",
+      "count": 19
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "mg/dL",
+      "unit": "mg/dL",
+      "count": 11505
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "mg/g",
+      "unit": "mg/g",
+      "count": 343
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "mm",
+      "unit": "mm",
+      "count": 5
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]",
+      "unit": "mm[Hg]",
+      "count": 3018
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "mmol/L",
+      "unit": "mmol/L",
+      "count": 6194
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "ng/L",
+      "unit": "ng/L",
+      "count": 3
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "ng/dl",
+      "unit": "ng/dl",
+      "count": 1
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "ng/mL",
+      "unit": "ng/mL",
+      "count": 24
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "pH",
+      "unit": "pH",
+      "count": 702
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "pg",
+      "unit": "pg",
+      "count": 242
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "pg/mL",
+      "unit": "pg/mL",
+      "count": 50
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "s",
+      "unit": "s",
+      "count": 28
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "ug/L",
+      "unit": "ug/L",
+      "count": 33
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "ug/dL",
+      "unit": "ug/dL",
+      "count": 28
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "ug/mL",
+      "unit": "ug/mL",
+      "count": 19
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "{#}",
+      "unit": "{#}",
+      "count": 1303
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "{INR}",
+      "unit": "{INR}",
+      "count": 24
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "{SG}",
+      "unit": "{SG}",
+      "count": 1
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "{T-score}",
+      "unit": "{T-score}",
+      "count": 4
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "{copies}/mL",
+      "unit": "{copies}/mL",
+      "count": 26
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "{logmar}",
+      "unit": "{logmar}",
+      "count": 82
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "{nominal}",
+      "unit": "{nominal}",
+      "count": 750
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "{presence}",
+      "unit": "{presence}",
+      "count": 7
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": "{score}",
+      "unit": "{score}",
+      "count": 4100
+    },
+    {
+      "system": "http://unitsofmeasure.org",
+      "code": null,
+      "unit": null,
+      "count": 3
+    }
+  ],
+  "omitted_identifier_values": {
+    "address_values": 1027
+  }
+}

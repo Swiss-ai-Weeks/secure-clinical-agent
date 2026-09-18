@@ -1,0 +1,62 @@
+[
+  {
+    "example": "diabetes-self-management",
+    "conditions": [
+      "active"
+    ],
+    "measurements": [
+      {
+        "code": "4548-4",
+        "value": 6.98,
+        "unit": "%"
+      }
+    ],
+    "patient_encounter_and_document_links": "verified",
+    "source_bundle_hash": "verified",
+    "note": "raw source lineage only; not sanitized or loaded"
+  },
+  {
+    "example": "hypertension-education",
+    "conditions": [
+      "active"
+    ],
+    "measurements": [
+      {
+        "code": "8462-4",
+        "value": 89,
+        "unit": "mm[Hg]"
+      },
+      {
+        "code": "8480-6",
+        "value": 143,
+        "unit": "mm[Hg]"
+      }
+    ],
+    "patient_encounter_and_document_links": "verified",
+    "source_bundle_hash": "verified",
+    "note": "raw source lineage only; not sanitized or loaded"
+  },
+  {
+    "example": "historical-pneumonia",
+    "conditions": [
+      "resolved",
+      "resolved",
+      "resolved"
+    ],
+    "measurements": [
+      {
+        "code": "2708-6",
+        "value": 87.4,
+        "unit": "%"
+      },
+      {
+        "code": "9279-1",
+        "value": 25.905,
+        "unit": "/min"
+      }
+    ],
+    "patient_encounter_and_document_links": "verified",
+    "source_bundle_hash": "verified",
+    "note": "raw source lineage only; not sanitized or loaded"
+  }
+]
