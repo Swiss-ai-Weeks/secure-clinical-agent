@@ -18,6 +18,8 @@ services:
       PATIENT360_APP_PASSWORD: ${PATIENT360_APP_PASSWORD:-patient360-app-dev}
       PATIENT360_WORKER_PASSWORD: ${PATIENT360_WORKER_PASSWORD:-patient360-worker-dev}
       PATIENT360_AUDITOR_PASSWORD: ${PATIENT360_AUDITOR_PASSWORD:-patient360-auditor-dev}
+      # 98-openfga-datastore.sh: separate database + role for the OpenFGA datastore.
+      PATIENT360_OPENFGA_DB_PASSWORD: ${PATIENT360_OPENFGA_DB_PASSWORD:-patient360-openfga-db-dev}
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
@@ -25,11 +27,29 @@ services:
       # Runs only on an empty volume. After a schema change: docker volume rm patient360_postgres-fhir-data
       - ./sql/fhir:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U fhir_app -d fhir"]
+      # Probe over TCP on purpose: during initdb the entrypoint runs a temporary server
+      # on the Unix socket only, and a socket probe passes while the init scripts are
+      # still running. openfga-migrate must not see "healthy" before the openfga
+      # database exists.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U fhir_app -d fhir"]
       interval: 5s
       timeout: 3s
       retries: 20
     networks: [patient360]
+
+  openfga-migrate:
+    # One-shot: creates OpenFGA's tables in the `openfga` database. Runs before `openfga`.
+    image: openfga/openfga:v1.8.12
+    container_name: patient360-openfga-migrate
+    command: ["migrate"]
+    environment:
+      OPENFGA_DATASTORE_ENGINE: postgres
+      OPENFGA_DATASTORE_URI: postgres://openfga:${PATIENT360_OPENFGA_DB_PASSWORD:-patient360-openfga-db-dev}@postgres:5432/openfga?sslmode=disable
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [patient360]
+    restart: "no"
 
   openfga:
     image: openfga/openfga:v1.8.12
@@ -37,28 +57,49 @@ services:
     restart: unless-stopped
     command: ["run"]
     environment:
-      OPENFGA_DATASTORE_ENGINE: memory
+      OPENFGA_DATASTORE_ENGINE: postgres
+      OPENFGA_DATASTORE_URI: postgres://openfga:${PATIENT360_OPENFGA_DB_PASSWORD:-patient360-openfga-db-dev}@postgres:5432/openfga?sslmode=disable
       OPENFGA_PLAYGROUND_ENABLED: "false"
       OPENFGA_HTTP_ADDR: 0.0.0.0:8080
+      OPENFGA_GRPC_ADDR: 0.0.0.0:8081
       OPENFGA_AUTHN_METHOD: preshared
       OPENFGA_AUTHN_PRESHARED_KEYS: ${PATIENT360_OPENFGA_KEY:-patient360-openfga-dev}
+      # Off (the default) and stated: a revoked consent must fail the very next check
+      # (Build Plan §9 step 11). Do not enable without re-testing live revocation.
+      OPENFGA_CHECK_QUERY_CACHE_ENABLED: "false"
     ports:
       - "127.0.0.1:8091:8080"
+    depends_on:
+      openfga-migrate:
+        condition: service_completed_successfully
     healthcheck:
-      test: ["CMD", "/bin/sh", "-c", "exit 0"]
-      interval: 10s
-      timeout: 3s
-      retries: 10
+      # The image is distroless; grpc_health_probe is the only probe it ships.
+      test: ["CMD", "/usr/local/bin/grpc_health_probe", "-addr=127.0.0.1:8081"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
     networks: [patient360]
 
   openfga-init:
-    image: public.ecr.aws/docker/library/busybox:1.37
+    # Loads stores/openfga/store.fga.yaml (model + demo tuples) into the store named
+    # patient360-grants, creating it on first run. Safe to re-run: same store, duplicate
+    # tuples ignored, one new immutable model version per run. The official openfga/cli
+    # image is distroless, so the binary is copied into Alpine to get a shell and jq.
+    build:
+      context: ./stores/init
+      dockerfile: openfga-cli.Dockerfile
+    image: patient360/openfga-init:local
     container_name: patient360-openfga-init
     depends_on:
-      - openfga
+      openfga:
+        condition: service_healthy
     environment:
-      PATIENT360_OPENFGA_KEY: ${PATIENT360_OPENFGA_KEY:-patient360-openfga-dev}
+      FGA_API_URL: http://openfga:8080
+      FGA_API_TOKEN: ${PATIENT360_OPENFGA_KEY:-patient360-openfga-dev}
+      OPENFGA_STORE_NAME: patient360-grants
+      OPENFGA_STORE_FILE: /openfga/store.fga.yaml
     volumes:
+      - ./stores/openfga:/openfga:ro
       - ./stores/init/openfga.sh:/init.sh:ro
     entrypoint: ["/bin/sh", "/init.sh"]
     networks: [patient360]

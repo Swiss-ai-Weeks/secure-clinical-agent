@@ -326,5 +326,5 @@ If time allows, express the projections in §2 as `ViewDefinition` resources in 
 ## 8. Open items
 
 - Whether to ingest `Immunization` and `Procedure` (decide by Day 3 based on time).
-- Whether the chef persona is in the demo (adds `NutritionOrder`, `ward` type, `admitted_to` tuples).
+- Chef persona: in the OpenFGA model (`ward#staff`, `patient#admitted_to`, `can_read_diet`; Build Plan §4.2, demo step 12). Still Track B: hand-seed one `NutritionOrder` for `p_101` with `ward = 'w_3b'` and a food allergy, the `identity.users` row for `u_lindqvist`, and the worker's `admitted_to` derivation from inpatient encounters.
 - Exact SNOMED/LOINC/RxNorm code lists for `labels.yaml`; seed from the demo patients first, extend from the 100-patient batch by inspecting actual codes emitted.

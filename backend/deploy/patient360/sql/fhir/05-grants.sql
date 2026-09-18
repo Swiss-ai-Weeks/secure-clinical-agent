@@ -10,6 +10,16 @@
 -- stable upserts. Source removals require an explicit future policy; retries
 -- must never reset the database volume.
 
+-- Deny-by-default on the database itself: only the three service roles may connect.
+-- The OpenFGA datastore role (`openfga`, created by 98-openfga-datastore.sh in its
+-- own database) is therefore locked out of clinical, identity, and audit.
+DO $$
+BEGIN
+    EXECUTE format('REVOKE CONNECT ON DATABASE %I FROM PUBLIC', current_database());
+    EXECUTE format('GRANT CONNECT ON DATABASE %I TO p360_app, p360_worker, p360_auditor', current_database());
+END
+$$;
+
 -- Deny-by-default on schemas.
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA clinical FROM PUBLIC;

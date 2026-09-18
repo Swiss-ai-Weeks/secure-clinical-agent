@@ -13,6 +13,8 @@
 --   p360_app      FastAPI backend: reads clinical, owns sessions, writes audit
 --   p360_worker   ingestion worker: upserts clinical, seeds users, writes audit
 --   p360_auditor  read-only on audit
+--   openfga       OpenFGA datastore role; owns the separate `openfga` database
+--                 (98-openfga-datastore.sh) and cannot connect to `fhir`
 -- The compose POSTGRES_USER (fhir_app) is a superuser and bypasses every
 -- REVOKE below. It is for initdb and operators only; no service connects as it.
 --

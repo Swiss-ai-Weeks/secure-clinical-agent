@@ -1,0 +1,90 @@
+# Patient360 demo grants (Build Plan §9) in `fga tuple write --file` format.
+#
+# Loaded by openfga-init through store.fga.yaml on every `compose up` (duplicates are
+# ignored), and used as the global tuple set for the tests in store.fga.yaml. The
+# ingestion worker's seed_grants.py is the authoritative seeder: it writes the
+# Synthea-scale grants, rewrites u_okafor's p_101 window relative to the demo clock,
+# and records a consent_granted audit row (detail.seeded = true) for every tuple here.
+#
+# Every grant carries active_window {start, expiry}; start inclusive, expiry exclusive.
+# No tuple for u_maria: self access is the vault link plus the PDP self match.
+# No tuple on p_205: unassigned and nonexistent patients are indistinguishable here.
+# Ward placements (admitted_to, ward#staff) are not consents: the worker writes them
+# from admissions and the roster with their own audit event types.
+
+# Dr. Sarah Chen, attending on p_101 and p_102.
+- user: user:u_chen
+  relation: attending
+  object: patient:p_101
+  condition:
+    name: active_window
+    context: { start: "2026-09-01T00:00:00Z", expiry: "2027-09-01T00:00:00Z" }
+- user: user:u_chen
+  relation: attending
+  object: patient:p_102
+  condition:
+    name: active_window
+    context: { start: "2026-09-01T00:00:00Z", expiry: "2027-09-01T00:00:00Z" }
+
+# Nurse Alex Rivera, care team on p_101 for one week.
+- user: user:u_rivera
+  relation: care_team
+  object: patient:p_101
+  condition:
+    name: active_window
+    context: { start: "2026-09-15T00:00:00Z", expiry: "2026-09-22T00:00:00Z" }
+
+# Dr. James Okafor, consultant. p_101 window is a placeholder for demo-1h .. demo+2h
+# (seed_grants.py rewrites it); p_102 consult expired in August.
+- user: user:u_okafor
+  relation: consultant
+  object: patient:p_101
+  condition:
+    name: active_window
+    context: { start: "2026-09-17T00:00:00Z", expiry: "2026-09-27T00:00:00Z" }
+- user: user:u_okafor
+  relation: consultant
+  object: patient:p_102
+  condition:
+    name: active_window
+    context: { start: "2026-08-01T00:00:00Z", expiry: "2026-08-15T00:00:00Z" }
+
+# Diego Santos, caregiver for p_103: clinical consent live, notes consent expired.
+- user: user:u_diego
+  relation: caregiver
+  object: patient:p_103
+  condition:
+    name: active_window
+    context: { start: "2026-06-01T00:00:00Z", expiry: "2026-12-01T00:00:00Z" }
+- user: user:u_diego
+  relation: caregiver_notes
+  object: patient:p_103
+  condition:
+    name: active_window
+    context: { start: "2026-03-01T00:00:00Z", expiry: "2026-06-01T00:00:00Z" }
+
+# Priya Nair, researcher on the 2026 cohort project. No patient tuples.
+- user: user:u_nair
+  relation: researcher
+  object: project:cohort_2026
+  condition:
+    name: active_window
+    context: { start: "2026-01-01T00:00:00Z", expiry: "2027-01-01T00:00:00Z" }
+
+# Tomas Lindqvist, dietary staff on ward w_3b. Placeholder shift window; seed_grants.py
+# rewrites it to the demo shift. Reaches p_101 only through the ward chain below.
+- user: user:u_lindqvist
+  relation: staff
+  object: ward:w_3b
+  condition:
+    name: active_window
+    context: { start: "2026-09-15T00:00:00Z", expiry: "2026-09-25T00:00:00Z" }
+
+# p_101 is admitted to ward w_3b (matches clinical.diet_orders.ward). Expiry is the
+# expected discharge; the worker refreshes it and deletes the tuple on discharge.
+- user: ward:w_3b
+  relation: admitted_to
+  object: patient:p_101
+  condition:
+    name: active_window
+    context: { start: "2026-09-10T00:00:00Z", expiry: "2026-10-10T00:00:00Z" }
