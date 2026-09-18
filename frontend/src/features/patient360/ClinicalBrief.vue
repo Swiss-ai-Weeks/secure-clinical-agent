@@ -6,16 +6,20 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import type { Patient } from '../../types/patient360';
 import ClinicalCard from '../../components/ui/ClinicalCard.vue';
 import { useUiStore } from '../../stores/useUiStore';
-defineProps<{ patient: Patient }>();
+const props = defineProps<{ patient: Patient }>();
 const ui = useUiStore();
-const briefStatements = [
-  'Emma’s migraine frequency has increased from approximately once per month to three times per month since June.',
-  'Her latest LDL measurement is elevated compared with her previous result.',
-  'No neurological red flags have been documented.'
-];
+const briefStatements = computed(() => {
+  const statements = [`Record ${props.patient.id} · ${props.patient.fullName}.`];
+  if (props.patient.majorDiagnoses.length) statements.push(`Conditions on file: ${props.patient.majorDiagnoses.join(', ')}.`);
+  if (props.patient.labs[0]) statements.push(`Latest lab: ${props.patient.labs[0].label} ${props.patient.labs[0].value} ${props.patient.labs[0].unit}.`);
+  if (props.patient.majorAllergies.length) statements.push(`Allergies: ${props.patient.majorAllergies.join(', ')}.`);
+  if (props.patient.riskIndicators.length) statements.push(props.patient.riskIndicators.join(' '));
+  return statements;
+});
 </script>
 
 <style scoped>

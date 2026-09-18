@@ -5,12 +5,20 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import type { Patient } from '../../types/patient360';
 import ClinicalCard from '../../components/ui/ClinicalCard.vue';
-import { useUiStore } from '../../stores/useUiStore.js';
+import { useUiStore } from '../../stores/useUiStore';
+const props = defineProps<{ patient: Patient }>();
 const ui = useUiStore();
-const changes = [
-  { label: '3 new symptom entries', target: 'event-patient-update-sept-02' }, { label: '1 new laboratory result', target: 'event-lab-aug-18' }, { label: 'LDL increased 12%', target: 'event-lab-aug-18' }, { label: 'Patient reported starting magnesium', target: 'event-patient-update-sept-02' }, { label: 'No new allergies', target: 'allergies' }, { label: 'No clinician-entered medication changes', target: 'medications' }
-];
+const changes = computed(() => {
+  const items = [
+    { label: `${props.patient.labs.length} laboratory row(s)`, target: props.patient.labs[0]?.id ?? 'labs' },
+    { label: `${props.patient.medications.length} medication row(s)`, target: 'medications' },
+    { label: `${props.patient.majorAllergies.length} allergy row(s)`, target: 'allergies' }
+  ];
+  return items;
+});
 </script>
 
 <style scoped>

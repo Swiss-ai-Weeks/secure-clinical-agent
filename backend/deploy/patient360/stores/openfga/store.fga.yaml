@@ -31,6 +31,7 @@ tests:
           can_view_pixels: true
           can_read_diet: true
           can_schedule: true
+          can_delegate: true
       - user: user:u_chen
         object: patient:p_205
         context: { current_time: "2026-09-18T12:00:00Z" }
@@ -42,6 +43,7 @@ tests:
           can_view_pixels: false
           can_read_diet: false
           can_schedule: false
+          can_delegate: false
     list_objects:
       - user: user:u_chen
         type: patient
@@ -53,9 +55,12 @@ tests:
           can_view_pixels:
             - patient:p_101
             - patient:p_102
+          can_delegate:
+            - patient:p_101
+            - patient:p_102
 
   - name: care-team-rivera-in-window
-    description: Care team reads clinical, notes, imaging metadata and may schedule; no report text, no pixels
+    description: Care team reads clinical, notes, imaging metadata and may schedule; no report text, no pixels, no grant authority
     check:
       - user: user:u_rivera
         object: patient:p_101
@@ -67,6 +72,7 @@ tests:
           can_read_imaging_report: false
           can_view_pixels: false
           can_schedule: true
+          can_delegate: false
       - user: user:u_rivera
         object: patient:p_102
         context: { current_time: "2026-09-18T12:00:00Z" }
@@ -90,7 +96,7 @@ tests:
           can_schedule: false
 
   - name: consultant-okafor
-    description: Consultant in window reads everything but does not schedule; expired consult on p_102 grants nothing
+    description: Consultant in window reads everything but does not schedule or delegate; expired consult on p_102 grants nothing
     check:
       - user: user:u_okafor
         object: patient:p_101
@@ -102,6 +108,7 @@ tests:
           can_read_imaging_report: true
           can_view_pixels: true
           can_schedule: false
+          can_delegate: false
       - user: user:u_okafor
         object: patient:p_102
         context: { current_time: "2026-09-18T12:00:00Z" }
@@ -216,6 +223,7 @@ tests:
           can_view_pixels: false
           can_read_diet: false
           can_schedule: false
+          can_delegate: false
       - user: user:u_chen
         object: patient:p_101
         context: { current_time: "2026-09-18T12:00:00Z" }
@@ -223,6 +231,7 @@ tests:
           can_read_clinical: true
           can_read_diet: true
           can_schedule: true
+          can_delegate: true
     list_objects:
       - user: user:u_chen
         type: patient
@@ -433,6 +442,92 @@ tests:
         context: { current_time: "2026-09-18T12:00:00Z" }
         assertions:
           can_read_diet: []
+
+  - name: guardian-haller
+    description: A guardian reads the minor like caregiver + caregiver_notes, may schedule, holds proxy consent authority, sees no report text or pixels, and loses everything at majority and on other patients
+    check:
+      - user: user:u_haller
+        object: patient:p_104
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: true
+          can_read_notes: true
+          can_read_imaging_metadata: true
+          can_read_diet: true
+          can_schedule: true
+          can_consent: true
+          can_read_imaging_report: false
+          can_view_pixels: false
+          can_delegate: false
+      # The day of majority: expiry is exclusive, so the window has closed.
+      - user: user:u_haller
+        object: patient:p_104
+        context: { current_time: "2030-05-03T00:00:00Z" }
+        assertions:
+          can_read_clinical: false
+          can_read_notes: false
+          can_read_diet: false
+          can_schedule: false
+          can_consent: false
+      # The evening before, everything still holds.
+      - user: user:u_haller
+        object: patient:p_104
+        context: { current_time: "2030-05-02T23:59:59Z" }
+        assertions:
+          can_read_clinical: true
+          can_consent: true
+      - user: user:u_haller
+        objects:
+          - patient:p_101
+          - patient:p_103
+          - patient:p_205
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: false
+          can_read_notes: false
+          can_consent: false
+      # Nobody else holds proxy consent on the minor, and an attending's can_delegate is distinct.
+      - object: patient:p_104
+        users:
+          - user:u_chen
+          - user:u_rivera
+          - user:u_diego
+          - user:u_maria
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_consent: false
+          can_delegate: false
+          can_read_clinical: false
+    list_objects:
+      - user: user:u_haller
+        type: patient
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical:
+            - patient:p_104
+          can_consent:
+            - patient:p_104
+      - user: user:u_haller
+        type: patient
+        context: { current_time: "2030-05-03T00:00:00Z" }
+        assertions:
+          can_consent: []
+
+  - name: blocked-guardian
+    description: An explicit block beats guardianship, including the proxy consent authority
+    tuples:
+      - user: user:u_haller
+        relation: blocked
+        object: patient:p_104
+    check:
+      - user: user:u_haller
+        object: patient:p_104
+        context: { current_time: "2026-09-18T12:00:00Z" }
+        assertions:
+          can_read_clinical: false
+          can_read_notes: false
+          can_consent: false
+          can_schedule: false
 
   - name: diet-across-roles
     description: Attending, care team, and caregiver read diet on their patients; consultant, researcher, and self do not through FGA

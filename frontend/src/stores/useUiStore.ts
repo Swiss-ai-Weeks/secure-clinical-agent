@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 export const useUiStore = defineStore('ui', {
   state: () => ({
     askPanelOpen: false,
-    selectedPatientId: 'emma-laurent',
+    selectedPatientId: 'p_101',
     highlightedSourceId: ''
   }),
   actions: {

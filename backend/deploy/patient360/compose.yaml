@@ -105,6 +105,57 @@ services:
     networks: [patient360]
     restart: "no"
 
+  backend:
+    # Policy spine (Build Plan §4-5): sessions, PDP, run tokens, /tools/*, audit writer.
+    # Connects to Postgres as p360_app, to OpenFGA with the preshared key, and to the
+    # linkage vault over the separate patient360-linkage network. Source: backend/app.
+    build:
+      context: ../../app
+    image: patient360/backend:local
+    container_name: patient360-backend
+    restart: unless-stopped
+    environment:
+      PATIENT360_DB_DSN: postgres://p360_app:${PATIENT360_APP_PASSWORD:-patient360-app-dev}@postgres:5432/fhir
+      PATIENT360_OPENFGA_URL: http://openfga:8080
+      PATIENT360_OPENFGA_KEY: ${PATIENT360_OPENFGA_KEY:-patient360-openfga-dev}
+      PATIENT360_OPENFGA_STORE_NAME: patient360-grants
+      PATIENT360_LINKAGE_URL: http://openbao:8200
+      # The read-only backend token from openbao-init, never the root token.
+      PATIENT360_LINKAGE_TOKEN: ${PATIENT360_LINKAGE_BACKEND_TOKEN:-patient360-linkage-backend-dev}
+      PATIENT360_RUN_TOKEN_SECRET: ${PATIENT360_RUN_TOKEN_SECRET:-patient360-run-token-dev}
+      PATIENT360_BREAK_GLASS_MINUTES: ${PATIENT360_BREAK_GLASS_MINUTES:-60}
+      # Minors: caregiver-role readers see R/V rows redacted between these ages.
+      PATIENT360_ADOLESCENT_AGE: ${PATIENT360_ADOLESCENT_AGE:-14}
+      PATIENT360_MAJORITY_AGE: ${PATIENT360_MAJORITY_AGE:-18}
+      PATIENT360_K_MIN: ${PATIENT360_K_MIN:-5}
+      PATIENT360_K_MIN_CMS: ${PATIENT360_K_MIN_CMS:-false}
+      PATIENT360_QDRANT_URL: http://qdrant:6333
+      PATIENT360_QDRANT_API_KEY: ${PATIENT360_QDRANT_API_KEY:-change-me-qdrant}
+      PATIENT360_EMBED_URL: http://embed:8000
+      PATIENT360_NANO_URL: http://nano:8000
+      PATIENT360_SAFETY_URL: http://safety:8000
+      PATIENT360_MINIO_URL: http://minio:9000
+      PATIENT360_MINIO_ACCESS_KEY: ${PATIENT360_MINIO_USER:-patient360}
+      PATIENT360_MINIO_SECRET_KEY: ${PATIENT360_MINIO_PASSWORD:-change-me-minio}
+      PATIENT360_AGENT_RUNTIME: ${PATIENT360_AGENT_RUNTIME:-inproc}
+      # DEV=true enables /docs and POST /dev/run-token (mint a run token for the current
+      # session, so the agent channel can be exercised before /chat exists).
+      PATIENT360_DEV: ${PATIENT360_DEV:-false}
+      # Loopback HTTP in the lab cannot set a Secure cookie; keep true behind TLS.
+      PATIENT360_COOKIE_SECURE: ${PATIENT360_COOKIE_SECURE:-true}
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      openfga:
+        condition: service_healthy
+      openfga-init:
+        condition: service_completed_successfully
+      openbao-init:
+        condition: service_completed_successfully
+    networks: [patient360, patient360-linkage]
+
   immudb:
     # Retired: audit_events lives in Postgres (schema audit, hash-chained, append-only).
     # Kept under a profile so nothing starts it by default.
@@ -172,6 +223,26 @@ services:
       - "127.0.0.1:8200:8200"
     networks: [patient360-linkage]
 
+  openbao-init:
+    # Writes the p360-backend (read self/*, identity/*) and p360-worker (write linkage/*)
+    # policies and creates the two fixed-id tokens with the root token, which stays here.
+    # Re-runs on every `up`; dev-mode OpenBao forgets everything on restart.
+    image: ghcr.io/openbao/openbao:2.3.1
+    container_name: patient360-openbao-init
+    depends_on:
+      - openbao
+    environment:
+      BAO_ADDR: http://openbao:8200
+      BAO_TOKEN: ${PATIENT360_LINKAGE_TOKEN:-patient360-linkage-dev}
+      PATIENT360_LINKAGE_MOUNT: secret
+      PATIENT360_LINKAGE_BACKEND_TOKEN: ${PATIENT360_LINKAGE_BACKEND_TOKEN:-patient360-linkage-backend-dev}
+      PATIENT360_LINKAGE_WORKER_TOKEN: ${PATIENT360_LINKAGE_WORKER_TOKEN:-patient360-linkage-worker-dev}
+    volumes:
+      - ./stores/init/openbao.sh:/init.sh:ro
+    entrypoint: ["/bin/sh", "/init.sh"]
+    networks: [patient360-linkage]
+    restart: "no"
+
   minio:
     image: quay.io/minio/minio:latest
     container_name: patient360-minio
@@ -205,6 +276,7 @@ services:
         mc alias set local http://minio:9000 "$$MINIO_ROOT_USER" "$$MINIO_ROOT_PASSWORD"
         mc mb -p local/reports
         mc mb -p local/vlm-descriptions
+        mc mb -p local/quarantine
     environment:
       MINIO_ROOT_USER: ${PATIENT360_MINIO_USER}
       MINIO_ROOT_PASSWORD: ${PATIENT360_MINIO_PASSWORD}

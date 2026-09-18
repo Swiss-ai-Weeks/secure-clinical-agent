@@ -235,16 +235,19 @@ type patient
     define consultant: [user with active_window]
     define caregiver: [user with active_window]
     define caregiver_notes: [user with active_window]
+    define guardian: [user with active_window]
     define emergency: [user with active_window]
     define admitted_to: [ward with active_window]
     define blocked: [user]
-    define can_read_clinical: (attending or consultant or care_team or caregiver or emergency) but not blocked
-    define can_read_notes: (attending or consultant or care_team or caregiver_notes or emergency) but not blocked
-    define can_read_imaging_metadata: (attending or consultant or care_team or emergency) but not blocked
+    define can_read_clinical: (attending or consultant or care_team or caregiver or guardian or emergency) but not blocked
+    define can_read_notes: (attending or consultant or care_team or caregiver_notes or guardian or emergency) but not blocked
+    define can_read_imaging_metadata: (attending or consultant or care_team or guardian or emergency) but not blocked
     define can_read_imaging_report: (attending or consultant or emergency) but not blocked
     define can_view_pixels: (attending or consultant or emergency) but not blocked
-    define can_read_diet: (attending or care_team or caregiver or emergency or staff from admitted_to) but not blocked
-    define can_schedule: (attending or care_team or caregiver) but not blocked
+    define can_read_diet: (attending or care_team or caregiver or guardian or emergency or staff from admitted_to) but not blocked
+    define can_schedule: (attending or care_team or caregiver or guardian) but not blocked
+    define can_delegate: attending but not blocked
+    define can_consent: guardian but not blocked
 
 type project
   relations
@@ -279,16 +282,19 @@ Rules: every check and `list_objects` carries `context.current_time` (UTC RFC 33
 
 **Write interface.** Tuples change only through the OpenFGA Write API; nobody touches the `openfga` database. Four human actions write tuples, all PDP-checked dashboard endpoints on the session cookie (never the run token): consent grant (`POST /consents`: write tuple + `consent_granted`), consent revoke (`POST /consents/{id}/revoke`: delete tuple + `consent_revoked`), break-glass (`POST /break-glass`: write time-boxed `emergency` tuple + `break_glass` with justification and compliance flag), and appointment booking (`POST /appointments`: `can_schedule` check, no tuple written unless the optional treatment-relationship toggle is on). The ingestion worker (`seed_grants.py`) seeds Synthea-scale grants and writes a `consent_granted` row for each, including `detail.seeded = true` rows for the demo tuples that `openfga-init` loads. The worker is also the only writer of placements: `patient#admitted_to` from inpatient encounters (`class = IMP`, `dept` to ward mapping; deleted on discharge) and `ward#staff` from the roster, audited as `admission` / `discharge` / `roster` rows (Track B adds them to `audit.vs_event_type()`; until then `ingest` rows with `detail.kind`), never as consents. Operator writes through the `fga` CLI bypass the audit trail and are an operator break-glass, not a path; the Playground stays disabled. The agent has no path to any of them.
 
-Grant authority is a PDP rule, not an FGA relation:
+Grant authority is a PDP rule, not an FGA relation, with one permission added so the PDP never reads a raw grant relation: `can_delegate: attending but not blocked` gates an attending's consent writes and revocations. Implemented in `backend/app/patient360/humanwrites.py` (grant, revoke, list, break-glass with the write ordering below) and tested offline and on the embedded-Postgres harness; the consent id is the `consent_granted` audit row id.
 
 | Subject | May write | May revoke |
 |---|---|---|
 | patient on own record (self match) | `caregiver`, `caregiver_notes`, `blocked` | the same |
-| attending with a live `attending` tuple | `care_team`, `consultant` (referral) | only what they granted (`granted_by` on the audit row) |
+| attending holding `can_delegate` | `care_team`, `consultant` (referral) | only what they granted (`granted_by` on the audit row) |
+| legal guardian holding `can_consent` on a minor's record | `caregiver`, `caregiver_notes`, `blocked` (the patient's own set, as proxy; `detail.basis = guardian`, FHIR `Consent.performer` = `RelatedPerson`) | the same |
 | care role, on duty, AAL2 | `emergency` via break-glass, fixed short window, typed justification, `BTG` | — |
 | compliance / admin dashboard role (not in the demo) | `blocked` | anything |
-| ingestion worker | `attending`, `care_team`, `researcher` (seed); `admitted_to`, `ward#staff` (placements) | `admitted_to` on discharge; `ward#staff` on roster change |
-| anyone, any path | `self` | rejected by the model |
+| ingestion worker | `attending`, `care_team`, `researcher` (seed); `guardian` (registration, expiry = day of majority); `admitted_to`, `ward#staff` (placements) | `admitted_to` on discharge; `ward#staff` on roster change |
+| anyone, any path | `self`, `guardian` through `/consents` | rejected by the model / not in the relation set |
+
+Minors. A guardian is a relationship, not an identity: the parent logs in with the `caregiver` role, holds one `guardian` tuple per child, and may hold a `linkage/self` entry for their own record (the PDP self match accepts `caregiver` sessions too). The tuple's `active_window.expiry` is the day of majority, so access lapses without a code path. Confidential adolescent care is a label rule keyed on age, not a relation: any `caregiver`-role reader of a patient aged `ADOLESCENT_AGE..MAJORITY_AGE-1` (14..17 by default; `clinical.patients.birth_year`, year precision) gets `R` and `V` rows redacted with reason `adolescent_confidential`, whether guardian or named caregiver. An adolescent with capacity of judgement (ZGB Art. 16, a clinical determination) simply receives a `patient` login and a `linkage/self` entry, holds the self authority from then on, and can `blocked` a guardian; `blocked` beats `can_consent` inside the model, which is what a court order excluding a parent needs.
 
 Write ordering (no transaction spans FGA and `audit_events`): grant = write tuple, then insert the audit row in its own short transaction (the hash-chain lock is held to commit); if the audit insert fails, delete the tuple and return 503, so access never persists without a record. Revoke = delete tuple, then `consent_revoked`; a failed audit insert after a successful delete leaves access correctly removed and is retried. An OpenFGA Write request is atomic. Reading grants back for the portal and the FHIR `Consent` export (FHIR plan §4.2) joins the OpenFGA Read API (`object = patient:p_xxx`: relation, grantee, `start`, `expiry`, i.e. what is enforced now) with `audit_events` (`granted_by`, justification, `recorded_at`, `revoked_at`, i.e. how it got that way); neither alone is the consent record, which is why there is no `consents` table.
 
@@ -321,6 +327,8 @@ Server-side `sessions` table. CSPRNG 128-bit id in a `Secure; HttpOnly; SameSite
 ### 4.5 Linkage vault (OpenBao)
 
 Holds real identity ↔ `p_xxx` and portal login ↔ `p_xxx`. Exactly four operations, each audited: `register`, `resolve_self`, `break_glass_identity`, `identity_banner`. Separate credentials and network. Agent, tools, prompts, and logs never see a name.
+
+Status: all four exist. KV v2 paths `linkage/self/{user_id}` and `linkage/identity/{patient_key}`; `register` is `seed_demo.py` (worker token), `resolve_self` runs at login, `identity_banner` is `GET /patients/{key}/identity` (self or live `can_read_clinical`, banner fields only: names, full DOB, sex, MRN), `break_glass_identity` is the audited read inside `POST /break-glass` (purpose `BTG`). `openbao-init` writes the `p360-backend` (read-only) and `p360-worker` (write) policies and fixed-id tokens; the root token stays with `openbao` and the init container. Address, phone, and national id are stored and never returned. Dev-mode OpenBao is in-memory: a lab limitation for the threat-model page.
 
 ---
 
@@ -381,7 +389,7 @@ Element-level allowlists, label rules, dataset exposure per role, and the emitte
 
 Qdrant `note_chunks` payload: `{patient_key, note_id, confidentiality, sensitivity[], dept, published, provenance}`. Payload indexes on `patient_key`, `confidentiality`, `published`. Missing ACL metadata fails the batch.
 
-Compose changes (OpenFGA part done): `postgres` health probe over TCP so `openfga-migrate` cannot start during the socket-only initdb phase; `openfga-migrate` one-shot (`openfga migrate` against `postgres://openfga:…@postgres:5432/openfga`); `openfga` on `OPENFGA_DATASTORE_ENGINE=postgres` with the check-query cache explicitly off and a `grpc_health_probe` healthcheck; `openfga-init` built from `stores/init/openfga-cli.Dockerfile` (the `fga` binary from the distroless `openfga/cli` image copied into Alpine with `jq`) running `stores/init/openfga.sh`, which finds the store by name and `fga store import`s `store.fga.yaml` idempotently. Still to do: MinIO gains `quarantine`; new `backend` service; `ingest-worker` under a profile with no published port.
+Compose changes (OpenFGA and backend parts done): `postgres` health probe over TCP so `openfga-migrate` cannot start during the socket-only initdb phase; `openfga-migrate` one-shot (`openfga migrate` against `postgres://openfga:…@postgres:5432/openfga`); `openfga` on `OPENFGA_DATASTORE_ENGINE=postgres` with the check-query cache explicitly off and a `grpc_health_probe` healthcheck; `openfga-init` built from `stores/init/openfga-cli.Dockerfile` (the `fga` binary from the distroless `openfga/cli` image copied into Alpine with `jq`) running `stores/init/openfga.sh`, which finds the store by name and `fga store import`s `store.fga.yaml` idempotently; MinIO `quarantine` bucket; `backend` service built from `backend/app` (`127.0.0.1:8080`, `p360_app` DSN, OpenFGA key, linkage token, `PATIENT360_RUN_TOKEN_SECRET`, on both networks, after `openfga-init`). `openbao-init` (policies and fixed-id tokens for the linkage vault; `backend` depends on it). Track A Day 1–3 is in `backend/app/` (sessions, PDP, run tokens, audit writer, `/me`, `/tools/query`, consents, break-glass, identity banner; see `backend/app/README.md`) with `backend/ingestion/seed_demo.py` for the §9 personas, patients, seeded consent rows, and vault identities. Still to do: `ingest-worker` under a profile with no published port.
 
 ---
 
@@ -422,11 +430,12 @@ u_diego   caregiver        patient:p_103   start=2026-06-01  expiry=2026-12-01
 u_diego   caregiver_notes  patient:p_103   start=2026-03-01  expiry=2026-06-01   (expired)
 u_nair    researcher       project:cohort_2026
 u_lindqvist  staff         ward:w_3b       start=shift-start expiry=shift-end       (placement, not consent)
+u_haller     guardian      patient:p_104   start=2026-01-01  expiry=2030-05-03       (registration; Lea's 18th birthday)
 ward:w_3b admitted_to      patient:p_101   start=2026-09-10  expiry=2026-10-10       (expected discharge; worker-owned)
 vault: u_maria -> p_103 (no tuple)
 ```
 
-Seven personas: the six above plus Tomas Lindqvist, dietary staff on ward w_3b, who reaches `p_101` only through `staff from admitted_to` and only for `can_read_diet`.
+Eight personas: the six above, Tomas Lindqvist, dietary staff on ward w_3b, who reaches `p_101` only through `staff from admitted_to` and only for `can_read_diet`, and Nina Haller, legal guardian of Lea Haller (`p_104`, 14), who reaches the child through `guardian` and exercises the patient's consent authority through `can_consent`.
 
 Script (question: "Latest labs and any notes about medication changes for p_101"):
 
@@ -444,6 +453,7 @@ Script (question: "Latest labs and any notes about medication changes for p_101"
 | 10 | Dr. Chen break-glass on p_205 | human dialog, justification, permit with compliance flag | `BTG` audit row, auditor view |
 | 11 | Revoke Diego's consent live | next call not_found; portal shows revoked entry | `consent_revoked` |
 | 12 | Tomas Lindqvist, dietary staff, on shift | diet orders and food allergies for p_101; labs, notes, and p_103 not_found | ward chain `staff from admitted_to`; `category = food` obligation |
+| 13 | Nina Haller, guardian of Lea (p_104, 14) | labs and asthma visible; the adolescent-clinic condition, encounter, and prescription redacted; names and removes a caregiver on Lea's behalf; p_103 not_found; access ends 2030-05-03 on its own | `guardian` tuple to majority; `adolescent_confidential` on `R`/`V`; `can_consent`, `basis = guardian` |
 
 ---
 
@@ -489,6 +499,7 @@ Runner emits JSON with the `audit_id` per case. `/redteam` shows pass / partial 
 | Session store holds self key for session lifetime | residual | short sessions, rotation, server-side only | NIST 800-63-4, ASVS V7 |
 | Sandbox state mixing | partial | one sandbox per session, memory disabled | — |
 | Break-glass by prompt | closed | human-only endpoint | Swiss EPR emergency access, HL7 `BTG` |
+| Guardian access to a minor's confidential care | partial | `guardian` tuple windowed to majority; age-keyed `adolescent_confidential` redaction of `R`/`V` for caregiver-role readers; the adolescent's own login and `blocked` take precedence. Capacity of judgement is a clinical determination the system records as a self login, not a birthday; year-precision age is approximate by design | ZGB Art. 16, HL7 HCS / DS4P, FHIR `Consent.performer` (`RelatedPerson`) |
 
 Also on the page: the denied-request sequence diagram, the Swiss EPR mapping (vault ≈ CCO, `p_xxx` ≈ MPI-PID, EPR-SPID never in repositories), and the standards column per control.
 

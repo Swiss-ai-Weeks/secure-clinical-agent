@@ -1,19 +1,32 @@
 <template>
-  <section class="timeline"><header><p>Patient 360</p><h1>Timeline</h1><span>{{ events.length }} clinical events across records and patient updates</span></header><LargeTabs v-model="filter" label="Timeline filters" :items="filters" /><div class="timeline__events"><TimelineEventCard v-for="event in filteredEvents" :key="event.id" :event="event" :highlighted="ui.highlightedSourceId === event.id" /></div></section>
+  <section class="timeline">
+    <header><p>Patient 360</p><h1>Timeline</h1><span>{{ events.length }} visible clinical events</span></header>
+    <LargeTabs v-model="filter" label="Timeline filters" :items="filters" />
+    <div class="timeline__events"><TimelineEventCard v-for="event in filteredEvents" :key="event.id" :event="event" :highlighted="ui.highlightedSourceId === event.id" /></div>
+  </section>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { mockApi } from '../../services/mockApi';
+import { apiClient } from '../../services/apiClient';
 import type { TimelineEvent } from '../../types/patient360';
 import { useUiStore } from '../../stores/useUiStore';
 import LargeTabs from '../../components/ui/LargeTabs.vue';
 import TimelineEventCard from './TimelineEventCard.vue';
-const route = useRoute(); const ui = useUiStore(); const events = ref<TimelineEvent[]>([]); const filter = ref('all');
-const filters = [{ label: 'All', value: 'all' }, { label: 'Visits', value: 'visit' }, { label: 'Labs', value: 'lab' }, { label: 'Medications', value: 'medication' }, { label: 'Patient updates', value: 'patient-update' }, { label: 'Documents', value: 'document' }, { label: 'Notes', value: 'note' }];
+
+const route = useRoute();
+const ui = useUiStore();
+const events = ref<TimelineEvent[]>([]);
+const filter = ref('all');
+const filters = [{ label: 'All', value: 'all' }, { label: 'Visits', value: 'visit' }, { label: 'Labs', value: 'lab' }, { label: 'Medications', value: 'medication' }];
 const filteredEvents = computed(() => filter.value === 'all' ? events.value : events.value.filter(event => event.kind === filter.value));
-onMounted(async () => { events.value = await mockApi.getTimeline(String(route.params.patientId)); });
+
+async function load() {
+  events.value = await apiClient.getTimeline(String(route.params.patientId));
+}
+onMounted(load);
+watch(() => route.params.patientId, load);
 </script>
 
 <style scoped>

@@ -26,6 +26,12 @@ type patient
     define consultant: [user with active_window]
     define caregiver: [user with active_window]
     define caregiver_notes: [user with active_window]
+    # Legal guardian of a minor. Written by the worker at registration (proof of guardianship
+    # is an admissions act, never a consent endpoint); expiry is the day of majority, so
+    # access lapses on that day with no code path. Reads like caregiver + caregiver_notes and
+    # carries the patient's own consent authority (can_consent). Adolescent confidentiality
+    # is a PDP label rule keyed on age, not a relation here.
+    define guardian: [user with active_window]
     define emergency: [user with active_window]
     # Current ward placement; expiry is the expected discharge, refreshed by the worker,
     # deleted on discharge. Windowed so a missed discharge expires instead of leaking.
@@ -34,18 +40,27 @@ type patient
     define blocked: [user]
 
     # Permissions the PDP checks. Relationship only; role, duty, AAL, labels, datasets are PDP rules.
-    define can_read_clinical: (attending or consultant or care_team or caregiver or emergency) but not blocked
-    define can_read_notes: (attending or consultant or care_team or caregiver_notes or emergency) but not blocked
-    define can_read_imaging_metadata: (attending or consultant or care_team or emergency) but not blocked
+    define can_read_clinical: (attending or consultant or care_team or caregiver or guardian or emergency) but not blocked
+    define can_read_notes: (attending or consultant or care_team or caregiver_notes or guardian or emergency) but not blocked
+    define can_read_imaging_metadata: (attending or consultant or care_team or guardian or emergency) but not blocked
     define can_read_imaging_report: (attending or consultant or emergency) but not blocked
     define can_view_pixels: (attending or consultant or emergency) but not blocked
     # Diet orders and food allergies. `staff from admitted_to` is the ward chain: anyone
     # on shift for the ward this patient is admitted to. Consultant and researcher are
     # not in the diet allowlist; the chef's food-only obligation is a PDP rule.
-    define can_read_diet: (attending or care_team or caregiver or emergency or staff from admitted_to) but not blocked
+    define can_read_diet: (attending or care_team or caregiver or guardian or emergency or staff from admitted_to) but not blocked
     # Write prerequisite. Checked only by the dashboard booking endpoint, never by a tool.
     # Self booking is the PDP self match; emergency is a read-only grant.
-    define can_schedule: (attending or care_team or caregiver) but not blocked
+    define can_schedule: (attending or care_team or caregiver or guardian) but not blocked
+    # Grant authority. Checked by the dashboard consent endpoints before an attending writes
+    # or revokes a care_team / consultant tuple (Build Plan §4.2 grant authority table), so the
+    # PDP keeps checking permissions and never the raw attending relation. A patient's own
+    # grants (caregiver, caregiver_notes, blocked) are the PDP self match, not a relation here.
+    define can_delegate: attending but not blocked
+    # Proxy consent authority. A guardian exercises the patient's own grants (caregiver,
+    # caregiver_notes, blocked) on the minor's record. An explicit block still wins, which is
+    # what a court order excluding a parent needs.
+    define can_consent: guardian but not blocked
 
 type project
   relations

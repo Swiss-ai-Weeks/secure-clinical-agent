@@ -82,10 +82,32 @@ flowchart TD
 | **Pin and verify source — implemented** | Generate 10/100 patients, extract linked notes, retain actual counts/hashes, and prove fresh-run equality plus rerun reuse. See [source contract](research/synthea-generator-contract.md). |
 | **Normalize patient identity and FHIR provenance — implemented** | Persistent restricted registry supplies stable patient/resource keys and citations across smoke, seed, restart and reprocessing. Exact reference and ownership checks reject bad links. Downstream note/grant/vector adapters must reuse these identities. |
 | **Project structured FHIR into PostgreSQL — implemented** | Approved Patient/Encounter/Condition/Observation projection rebuilds nested JSON, applies reviewed labels and stable upserts, and rejects removals. See [committed validation evidence](structured-validation.md); raw notes remain separate. |
-| **De-identify and validate clinical notes** | Reuse the source-linked Synthea notes, then pin Presidio, NLP/recognizer versions, replacement/date policy, and language. Validate planted identifier canaries and clinical utility. Quarantine failed or uncertain output before any embedding request. Preserve synthetic/generated lineage. |
-| **Seed grants and define chunk access** | Resolve the care-team/consent policy, install the OpenFGA model, retain store/model IDs, and seed grants idempotently. Decide durable storage or fail-closed reseeding. Define the trusted retrieval filter and required patient/security metadata. Test allowed, denied, missing-metadata, and revoked access. |
+| **De-identify and validate clinical notes — implemented** | `notes.py` + `patient360/deid.py` (`p360-deid-1.0`). First cohort: authored p_101/p_103 notes. Canary failures quarantine. Eval corpus stays in `note_chunks_eval`. |
+| **Seed grants and define chunk access — implemented** | Demo tuples remain `openfga-init`. `seed_grants.py` rewrites demo-relative windows and optionally maps `u_chen` attending onto the three Synthea demo keys. No bulk grants on the leftover 97. Retrieval is PDP then a server-built Qdrant filter. |
 | **Chunk, embed, and index sanitized notes** | Inspect the running `nvidia/llama-nemotron-embed-vl-1b-v2` model ID, immutable image/profile, tokenizer, and actual input limit. Chunk with that tokenizer, preserve offsets, and use passage mode with truncation disabled. Verify response indices, finite values, and 2048-dimensional output; verify Qdrant `note_chunks` uses 2048/Cosine before writing. Use stable UUID point IDs, sanitized text, lineage, ACL fields, and publication state; create payload indexes. Use query mode later for retrieval. |
-| **Orchestrate resumable batches and safe publication** | Extend the same batch interface with per-stage manifests/checkpoints. Persist only validated outputs; reuse embeddings on retry. Verify PostgreSQL, Qdrant, and grants before a trusted read gate marks a batch queryable. Define replacement/deletion semantics and test interruptions after each store write. Flags in Qdrant alone do not enforce this gate. |
+| **Orchestrate resumable batches and safe publication — implemented** | `notes.py` checkpoints per note id (`.data/notes-checkpoint.json`). Qdrant points are written `published=false` first; the row becomes queryable only after `sanitized_ref` + `deid_version` and a complete point set, then both stores flip `published=true`. Interrupted notes stay unpublished. Retries reuse UUID5 point ids. Eval corpus (`--eval-jsonl`) writes `note_chunks_eval` only. |
+
+```bash
+# First cohort (authored p_101 / p_103). --prepare-only never talks to stores.
+python3 backend/ingestion/notes.py --prepare-only
+
+# Remaining Synthea notes after grants are stable. Mapping is source patient id -> opaque key.
+# Do not grant care relations on the leftover ~97; researcher stays aggregate-only.
+python3 backend/ingestion/notes.py \
+  --raw-notes .data/ingestion/<seed-batch-id>/artifacts/raw-notes.jsonl \
+  --mapping .data/identity/patient-key-map.json \
+  --checkpoint .data/notes-checkpoint.json \
+  --qdrant-url http://127.0.0.1:6333
+
+# Isolated evaluation corpus (never clinical-published).
+python3 backend/ingestion/notes.py \
+  --eval-jsonl .data/evaluation/<corpus-id>/raw-variants.jsonl \
+  --prepare-only
+
+# Time-relative demo windows + u_chen attending on the three Synthea demo keys. No bulk 97.
+python3 backend/ingestion/seed_grants.py --dry-run \
+  --synthea-demo-key p_syn_a --synthea-demo-key p_syn_b --synthea-demo-key p_syn_c
+```
 | **Validate the seed and document operations** | Run the source fixture through all stages, inspect expected/actual counts, clinical fidelity, identifier leakage, citation lineage, retrieval quality, allow/deny/revocation, replay, grant restart, and outage recovery. Only this evidence establishes a complete ingestion pipeline. |
 
 The current Compose `ingest` profile starts imaging models; it is not this worker. The future source, sanitation, embedding, and store adapters belong under `backend/ingestion/`, while new container/service wiring belongs under `backend/deploy/`. Keep the worker outside the clinical agent's tool surface.

@@ -71,6 +71,17 @@
     name: active_window
     context: { start: "2026-01-01T00:00:00Z", expiry: "2027-01-01T00:00:00Z" }
 
+# Nina Haller, legal guardian of p_104 (Lea, born 2012-05-03). Registration write, not a
+# consent: the worker records it from the guardianship proof; expiry is Lea's 18th birthday,
+# so access lapses at majority without anyone acting. seed_demo.py records the matching
+# consent_granted row (kind = guardianship). Adolescent-clinic rows are a PDP label rule.
+- user: user:u_haller
+  relation: guardian
+  object: patient:p_104
+  condition:
+    name: active_window
+    context: { start: "2026-01-01T00:00:00Z", expiry: "2030-05-03T00:00:00Z" }
+
 # Tomas Lindqvist, dietary staff on ward w_3b. Placeholder shift window; seed_grants.py
 # rewrites it to the demo shift. Reaches p_101 only through the ward chain below.
 - user: user:u_lindqvist

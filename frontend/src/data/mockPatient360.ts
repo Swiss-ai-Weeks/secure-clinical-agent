@@ -2,56 +2,60 @@ import type { AttentionItem, HomeDashboard, Patient, TimelineEvent } from '../ty
 
 export const patients: Patient[] = [
   {
-    id: 'emma-laurent', fullName: 'Emma Laurent', age: 34, dateOfBirth: '1992-04-18', phone: '+41 79 555 0134', email: 'emma.laurent@example.ch', status: 'Active', appointmentTime: '09:30', appointmentType: 'Follow-up consultation', reasonForVisit: 'Migraine review and new LDL result', warning: 'Penicillin allergy; LDL increased 12%', avatarInitials: 'EL', assignedClinician: 'Dr. Müller', sex: 'Female', patientId: 'P360-1042', bloodType: 'O+',
-    majorAllergies: ['Penicillin'],
-    majorDiagnoses: ['Migraine without aura', 'Hyperlipidemia'],
-    riskIndicators: ['Elevated LDL', 'Worsening headache frequency'],
-    measurements: [
-      { id: 'm-bp', label: 'Blood pressure', value: '128/82 mmHg', date: '2026-09-12', provenance: 'clinical' },
-      { id: 'm-hr', label: 'Heart rate', value: '74 bpm', date: '2026-09-12', provenance: 'clinical' },
-      { id: 'm-weight', label: 'Weight', value: '68 kg', date: '2026-09-02', provenance: 'patient-reported' }
-    ],
+    id: 'p_101', fullName: 'Elisabeth Keller', age: 65, dateOfBirth: '1961-04-17', phone: '', email: '', status: 'Active', appointmentTime: '', appointmentType: '', reasonForVisit: '', warning: 'Peanut and penicillin allergies', avatarInitials: 'EK', assignedClinician: 'Dr. Sarah Chen', sex: 'female', patientId: 'p_101', bloodType: '',
+    majorAllergies: ['Peanut', 'Penicillin'],
+    majorDiagnoses: ['Type 2 diabetes'],
+    riskIndicators: ['HbA1c 7.9%'],
+    measurements: [],
     labs: [
-      { id: 'lab-ldl-sept', label: 'LDL cholesterol', value: '4.2', unit: 'mmol/L', referenceRange: '< 3.0', previousValue: '3.7', trend: 'up', abnormal: true, date: '2026-08-18', sourceId: 'event-lab-aug-18' },
-      { id: 'lab-hba1c-sept', label: 'HbA1c', value: '5.4', unit: '%', referenceRange: '4.0-5.6', previousValue: '5.3', trend: 'stable', abnormal: false, date: '2026-08-18', sourceId: 'event-lab-aug-18' }
+      { id: 'obs_a1', label: 'HbA1c', value: '7.9', unit: '%', referenceRange: '', trend: 'up', abnormal: true, date: '2026-09-10', sourceId: 'obs_a1' },
+      { id: 'obs_a2', label: 'Creatinine', value: '1.3', unit: 'mg/dL', referenceRange: '', trend: 'stable', abnormal: false, date: '2026-09-10', sourceId: 'obs_a2' }
     ],
     medications: [
-      { id: 'med-sumatriptan', name: 'Sumatriptan', dosage: '50 mg', frequency: 'As needed', route: 'Oral', startDate: '2026-03-11', prescriber: 'Dr. Müller', reason: 'Migraine attacks', current: true },
-      { id: 'med-magnesium', name: 'Magnesium', dosage: '300 mg', frequency: 'Daily', route: 'Oral', startDate: '2026-09-02', prescriber: 'Patient-reported', reason: 'Migraine prevention', current: true }
+      { id: 'med_a1', name: 'Metformin', dosage: '', frequency: 'Daily', route: 'Oral', startDate: '2025-01-01', prescriber: '', reason: '', current: true },
+      { id: 'med_a3', name: 'Lisinopril', dosage: '', frequency: 'Daily', route: 'Oral', startDate: '2024-01-01', stopDate: '2026-08-01', prescriber: '', reason: '', current: false }
     ],
     documents: [
-      { id: 'doc-lab-aug', title: 'August lipid panel', type: 'Laboratory report', date: '2026-08-18', source: 'Limmat Lab', processingState: 'processed', uploadedBy: 'Clinic inbox' },
-      { id: 'doc-neuro-sept', title: 'Neurology report', type: 'External medical report', date: '2026-09-14', source: 'Neurology Zentrum Zürich', processingState: 'pending-review', uploadedBy: 'Emma Laurent' }
+      { id: 'doc-lab-p101', title: 'Recent labs', type: 'Laboratory report', date: '2026-09-10', source: 'Clinic', processingState: 'processed', uploadedBy: 'Inbox' }
     ],
-    notes: [{ id: 'note-consult-sept', title: 'Migraine follow-up', author: 'Dr. Müller', date: '2026-09-12', text: 'Migraine frequency increased to three episodes per month. No neurological red flags documented.' }]
+    notes: []
   },
   {
-    id: 'jonas-meier', fullName: 'Jonas Meier', age: 58, dateOfBirth: '1968-01-09', phone: '+41 79 555 0199', email: 'jonas.meier@example.ch', status: 'Active', appointmentTime: '11:00', appointmentType: 'Diabetes check', reasonForVisit: 'Dizziness reported after medication change', warning: 'New dizziness questionnaire', avatarInitials: 'JM', assignedClinician: 'Dr. Müller', sex: 'Male', patientId: 'P360-1068', bloodType: 'A+',
-    majorAllergies: [], majorDiagnoses: ['Type 2 diabetes', 'Hypertension'], riskIndicators: ['Reported dizziness'], measurements: [], labs: [], medications: [], documents: [], notes: []
+    id: 'p_102', fullName: 'Marco Bianchi', age: 51, dateOfBirth: '1974-11-02', phone: '', email: '', status: 'Active', avatarInitials: 'MB', assignedClinician: 'Dr. Sarah Chen', sex: 'male', patientId: 'p_102', bloodType: '',
+    majorAllergies: [], majorDiagnoses: ['Asthma'], riskIndicators: [], measurements: [], labs: [], medications: [], documents: [], notes: []
+  },
+  {
+    id: 'p_103', fullName: 'Maria Santos', age: 68, dateOfBirth: '1958-07-23', phone: '', email: '', status: 'Active', appointmentTime: '09:30', appointmentType: 'Cardiology', reasonForVisit: 'Booked appointment', avatarInitials: 'MS', assignedClinician: 'Dr. James Okafor', sex: 'female', patientId: 'p_103', bloodType: '',
+    majorAllergies: [], majorDiagnoses: [], riskIndicators: [], measurements: [],
+    labs: [],
+    medications: [{ id: 'med_c1', name: 'Amlodipine', dosage: '', frequency: 'Daily', route: 'Oral', startDate: '2026-01-01', prescriber: '', reason: '', current: true }],
+    documents: [], notes: []
+  },
+  {
+    id: 'p_104', fullName: 'Lea Haller', age: 14, dateOfBirth: '2012-05-03', phone: '', email: '', status: 'Active', avatarInitials: 'LH', assignedClinician: 'Nina Haller', sex: 'female', patientId: 'p_104', bloodType: '',
+    majorAllergies: [], majorDiagnoses: ['Asthma'], riskIndicators: ['Adolescent-confidential rows redacted for caregivers'], measurements: [], labs: [], medications: [], documents: [], notes: []
+  },
+  {
+    id: 'p_205', fullName: 'Jonas Weber', age: 37, dateOfBirth: '1989-02-09', phone: '', email: '', status: 'Unassigned', avatarInitials: 'JW', assignedClinician: '', sex: 'male', patientId: 'p_205', bloodType: '',
+    majorAllergies: [], majorDiagnoses: [], riskIndicators: ['No live grant'], measurements: [], labs: [], medications: [], documents: [], notes: []
   }
 ];
 
 export const timelineEvents: TimelineEvent[] = [
-  { id: 'event-consult-sept-12', kind: 'visit', date: '2026-09-12', title: 'Consultation', summary: 'Migraine frequency increased to approximately three episodes per month. No neurological red flags documented.', tags: ['Dr. Müller', 'Consultation'], provenance: 'clinical', linkedRecordId: 'note-consult-sept' },
-  { id: 'event-patient-update-sept-02', kind: 'patient-update', date: '2026-09-02', title: 'Patient update', summary: 'Reported headaches on four of the previous seven days and starting magnesium 300 mg daily.', tags: ['Patient reported'], provenance: 'patient-reported' },
-  { id: 'event-lab-aug-18', kind: 'lab', date: '2026-08-18', title: 'Laboratory result', summary: 'LDL cholesterol measured at 4.2 mmol/L, up from 3.7 mmol/L.', tags: ['Laboratory', 'Abnormal LDL'], provenance: 'clinical', linkedRecordId: 'lab-ldl-sept' },
-  { id: 'event-doc-july-21', kind: 'document', date: '2026-07-21', title: 'External neurology letter', summary: 'Previous neurologist documented migraine without aura and recommended continued symptom diary.', tags: ['Document', 'AI processed'], provenance: 'ai-generated' }
+  { id: 'obs_a1', kind: 'lab', date: '2026-09-10', title: 'HbA1c', summary: '7.9 %', tags: ['Laboratory'], provenance: 'clinical', linkedRecordId: 'obs_a1' },
+  { id: 'med_a1', kind: 'medication', date: '2025-01-01', title: 'Metformin', summary: 'Active', tags: ['Medication'], provenance: 'clinical' }
 ];
 
 export const attentionItems: AttentionItem[] = [
-  { id: 'att-ldl', patientId: 'emma-laurent', severity: 'warning', title: 'New abnormal lab result', detail: 'LDL cholesterol increased 12% since the previous result.', provenance: 'clinical' },
-  { id: 'att-migraine', patientId: 'emma-laurent', severity: 'review', title: 'Worsening symptoms reported', detail: 'Emma reported headaches on four of the previous seven days.', provenance: 'patient-reported' },
-  { id: 'att-doc', patientId: 'emma-laurent', severity: 'review', title: 'Uploaded report waiting for review', detail: 'Neurology report has extracted information pending clinician approval.', provenance: 'ai-generated' }
+  { id: 'att-hba1c', patientId: 'p_101', severity: 'warning', title: 'HbA1c above target', detail: 'Latest HbA1c is 7.9%.', provenance: 'clinical' }
 ];
 
 export const homeDashboard: HomeDashboard = {
-  greeting: 'Good morning, Dr. Müller',
+  greeting: 'Demo roster (sign in for live /me gating)',
   todaysPatients: patients,
   briefing: [
-    { id: 'brief-1', text: 'You have 8 patients today.' },
-    { id: 'brief-2', text: '2 have new lab results.', patientId: 'emma-laurent' },
-    { id: 'brief-3', text: '1 patient reported worsening symptoms overnight.', patientId: 'emma-laurent' },
-    { id: 'brief-4', text: '3 follow-ups are overdue.' }
+    { id: 'brief-1', text: 'Demo keys: p_101, p_102, p_103, p_104, p_205.' },
+    { id: 'brief-2', text: 'Elisabeth Keller (p_101) is Dr. Chen’s assigned patient.', patientId: 'p_101' }
   ],
   attention: attentionItems,
   recentActivity: timelineEvents

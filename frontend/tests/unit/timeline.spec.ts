@@ -10,10 +10,10 @@ describe('timeline filtering', () => {
     expect(filterEvents('all')).toHaveLength(timelineEvents.length);
   });
 
-  it('filters labs without losing the abnormal LDL event', () => {
+  it('filters labs without losing the HbA1c event', () => {
     const labs = filterEvents('lab');
 
     expect(labs).toHaveLength(1);
-    expect(labs[0].id).toBe('event-lab-aug-18');
+    expect(labs[0].id).toBe('obs_a1');
   });
 });

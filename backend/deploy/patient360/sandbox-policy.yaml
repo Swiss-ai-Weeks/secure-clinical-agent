@@ -1,0 +1,19 @@
+# OpenShell egress allowlist. Implicit deny for everything else.
+# The sandbox never receives store credentials or a route to Orthanc / MinIO / OpenFGA / OpenBao.
+version: 1
+allow:
+  - host: inference.local
+    ports: [80, 443]
+  - host: backend
+    paths: ["/tools/*", "/healthz"]
+    ports: [8080]
+deny:
+  - host: postgres
+  - host: openfga
+  - host: openbao
+  - host: qdrant
+  - host: minio
+  - host: orthanc
+notes: |
+  Register RUN_TOKEN with the egress preset on every /chat. AGENT_RUNTIME=inproc
+  is the default until this host policy is loaded by OpenShell.

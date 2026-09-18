@@ -3,7 +3,7 @@
 Parent: [Plan the Patient360 synthetic ingestion pipeline](../map.md)
 Type: grilling
 Label: wayfinder:grilling
-Status: open
+Status: resolved
 Assignee: none
 Blocked by: 02, 04, 06
 
@@ -24,3 +24,14 @@ Apply the amended [Define patient identity, linkage, and source provenance](04-i
 ### Approved evaluation input — 2026-09-18
 
 [Define clinically linked synthetic-note generation](06-note-generation-contract.md#answer) is resolved. Eight attack variants and three unchanged controls are now reproducible restricted raw artifacts; see [fixture validation](../../../backend/ingestion/evaluation-validation.md). They must undergo the same identifier sanitization policy as clinical notes, while preserving attack passages in isolated evaluation text to test downstream resistance. Do not mistake a created fixture corpus for completed model-security evaluation.
+
+## Answer
+
+Locked 2026-09-18. Implemented in `backend/app/patient360/deid.py` and `backend/ingestion/notes.py`. Presidio is an optional extra (`presidio-analyzer==2.2.358`, `presidio-anonymizer==2.2.358`); the same regex/hint policy runs in CI without spaCy models. `deid_version` is `p360-deid-1.0`.
+
+- Language: English only.
+- Recognizers: `PERSON`, `DATE_TIME`, `AGE`, `LOCATION`, `PHONE`, `EMAIL`, `ID`, plus a custom race/ethnicity word list. Worker-only hints (display names, exact DOB, MRN, phones) feed an ad-hoc recognizer and never enter embeddings, Qdrant payloads, citations, or ordinary logs.
+- Replacements: `<PERSON>`, `<DOB>`, `<PHONE>`, `<EMAIL>`, `<ID>`, `<LOCATION>`, `<ETH>`. Age ≥ 90 becomes `90+`; younger ages stay. Synthetic clinical event dates stay. Exact DOB matching a hint, or the Synthea opening “Patient is a N year-old … born …” clause, is always redacted. Ambiguous `DATE_TIME` that is not a known DOB is kept.
+- Order: validate linked note → de-identify whole note → canary → chunk → embed. Canary scans for registry names, exact DOB strings, MRN, and raw `source_id`. Any hit → MinIO `quarantine/` + unpublished row + `ingest` audit outcome 8; never embed, never publish.
+- `[EVALUATION ATTACK PASSAGE]` text is preserved after identifier sanitization. Eval corpus uses collection `note_chunks_eval`.
+- Chunk budget until live tokenizer verify: 384 tokens / 48 overlap (whitespace approximation). Deterministic point id = UUID5(`3c0a1f5e-8b2d-4e91-9c47-2a6f0d8e1b33`, `{note_id}:{chunk_index}:{deid_version}`). Offsets against sanitized text.

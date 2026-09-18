@@ -1,0 +1,13 @@
+{
+  "_comment": "Build Plan §9 personas. login -> opaque user id. Roles live in identity.users; the u_maria -> p_103 link lives in the vault only. u_haller is the legal guardian of p_104 (a guardian tuple, not a vault link).",
+  "personas": [
+    { "login": "chen", "user_id": "u_chen", "display": "Dr. Sarah Chen" },
+    { "login": "rivera", "user_id": "u_rivera", "display": "Nurse Alex Rivera" },
+    { "login": "okafor", "user_id": "u_okafor", "display": "Dr. James Okafor" },
+    { "login": "nair", "user_id": "u_nair", "display": "Priya Nair" },
+    { "login": "maria", "user_id": "u_maria", "display": "Maria Santos" },
+    { "login": "diego", "user_id": "u_diego", "display": "Diego Santos" },
+    { "login": "lindqvist", "user_id": "u_lindqvist", "display": "Tomas Lindqvist" },
+    { "login": "haller", "user_id": "u_haller", "display": "Nina Haller" }
+  ]
+}

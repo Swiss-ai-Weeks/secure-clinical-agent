@@ -26,3 +26,6 @@ __pycache__/
 
 # Historical local access diagnostics are not part of the published project.
 /.scratch/rag-blueprint-reliability/
+.venv/
+.pytest_cache/
+.ruff_cache/
