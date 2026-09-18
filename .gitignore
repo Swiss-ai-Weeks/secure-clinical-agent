@@ -1,20 +1,9 @@
 .vendor/
 .secrets/
 .cache/
-# Only the explicitly shared synthetic-data snapshots are eligible for Git.
+# Only ingestion source snapshots are eligible for Git; other data stays local.
 /.data/*
-!/.data/README.md
-!/.data/clinical-demo/
-!/.data/evaluation/
-!/.data/evaluation-validation-20260918/
-!/.data/identity/
 !/.data/ingestion/
-!/.data/ingestion-repeat/
-!/.data/prepared/
-!/.data/projection-review/
-!/.data/runbook-_iu276uq/
-!/.data/structured-acceptance-20260918/
-!/.data/verification/
 
 # Database backups can contain credentials; transient/debug artifacts stay local.
 /.data/pg-rebuild-*/
