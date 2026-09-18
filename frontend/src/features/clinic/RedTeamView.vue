@@ -14,7 +14,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useLiveLoad } from '../../composables/useLiveLoad';
 import { apiClient } from '../../services/apiClient';
 
 const cases = ref<Array<Record<string, unknown>>>([]);
@@ -26,8 +27,8 @@ const asr = computed(() => {
   return n ? `${Math.round((failed.value / n) * 100)}%` : '—';
 });
 
-onMounted(async () => {
-  const body = await apiClient.redteam();
+useLiveLoad(async () => {
+  const body = await apiClient.redteam().catch(() => ({ cases: [] as Array<Record<string, unknown>>, pass: 0, fail: 0, partial: 0 }));
   cases.value = body.cases;
   passed.value = Number(body.pass ?? cases.value.filter(row => row.result === 'pass').length);
   failed.value = Number(body.fail ?? cases.value.filter(row => row.result === 'fail').length);

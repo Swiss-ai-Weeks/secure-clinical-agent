@@ -16,8 +16,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useLiveLoad } from '../../composables/useLiveLoad';
 import { apiClient } from '../../services/apiClient';
 import { ApiError } from '../../services/http';
 import type { ClinicalNote } from '../../types/patient360';
@@ -28,12 +29,13 @@ const route = useRoute();
 const ui = useUiStore();
 const notes = ref<ClinicalNote[]>([]);
 const error = ref('');
-const patientId = String(route.params.patientId);
+const patientId = computed(() => String(route.params.patientId));
 
-onMounted(async () => {
+useLiveLoad(async () => {
+  error.value = '';
+  notes.value = [];
   try {
-    const patient = await apiClient.getPatient(patientId);
-    notes.value = patient.notes;
+    notes.value = (await apiClient.getPatient(String(route.params.patientId))).notes;
   } catch (err) {
     error.value = err instanceof ApiError && err.notFound ? 'No published notes are visible for this record.' : (err as Error).message;
   }

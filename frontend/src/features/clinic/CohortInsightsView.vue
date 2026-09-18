@@ -29,8 +29,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import ClinicalCard from '../../components/ui/ClinicalCard.vue';
+import { useLiveLoad } from '../../composables/useLiveLoad';
 import { apiClient } from '../../services/apiClient';
 import { ApiError } from '../../services/http';
 import { useSessionStore } from '../../stores/useSessionStore';
@@ -53,7 +54,7 @@ async function run() {
   }
 }
 
-onMounted(run);
+useLiveLoad(run);
 </script>
 
 <style scoped>

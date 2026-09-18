@@ -8,12 +8,19 @@
       </label>
     </header>
     <p v-if="status">{{ status }}</p>
-    <ClinicalCard title="Patient documents">
+    <p v-if="missing">Resource not found</p>
+    <ClinicalCard v-else title="Patient documents">
       <div class="documents__list">
         <article v-for="document in documents" :key="document.id">
           <div>
             <h2>{{ document.title }}</h2>
             <p>{{ document.type }} · {{ document.date }} · {{ document.source }}</p>
+            <SignedMediaButton
+              v-if="document.objectKey || document.studyId"
+              :patient-key="patientId"
+              :object-key="document.objectKey"
+              :study-id="document.studyId"
+            />
           </div>
           <StatusPill :label="document.processingState" :tone="document.processingState === 'processed' ? 'success' : 'warning'" />
         </article>
@@ -24,29 +31,42 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { apiClient } from '../../services/apiClient';
-import type { MedicalDocument } from '../../types/patient360';
 import ClinicalCard from '../../components/ui/ClinicalCard.vue';
+import SignedMediaButton from '../../components/ui/SignedMediaButton.vue';
 import StatusPill from '../../components/ui/StatusPill.vue';
+import { useLiveLoad } from '../../composables/useLiveLoad';
+import { apiClient } from '../../services/apiClient';
+import { ApiError } from '../../services/http';
+import type { MedicalDocument } from '../../types/patient360';
 
 const route = useRoute();
 const documents = ref<MedicalDocument[]>([]);
 const status = ref('');
-const patientId = String(route.params.patientId);
+const missing = ref(false);
+const patientId = computed(() => String(route.params.patientId));
 
 async function refresh() {
-  const patient = await apiClient.getPatient(patientId);
+  const patient = await apiClient.getPatient(patientId.value);
   documents.value = patient.documents;
 }
 
-onMounted(() => { void refresh(); });
+useLiveLoad(async () => {
+  status.value = '';
+  missing.value = false;
+  documents.value = [];
+  try {
+    await refresh();
+  } catch (error) {
+    missing.value = error instanceof ApiError && error.notFound;
+  }
+});
 
 async function upload(event: Event) {
   const file = (event.target as HTMLInputElement).files?.[0];
   if (!file) return;
-  const result = await apiClient.uploadDocument(patientId, file);
+  const result = await apiClient.uploadDocument(patientId.value, file);
   status.value = `${file.name}: ${result.status}`;
   await refresh();
 }

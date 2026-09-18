@@ -14,9 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import ClinicalCard from '../../components/ui/ClinicalCard.vue';
+import { useLiveLoad } from '../../composables/useLiveLoad';
 import { apiClient } from '../../services/apiClient';
 import { ApiError } from '../../services/http';
 
@@ -25,8 +26,11 @@ const diet = ref<Array<Record<string, unknown>>>([]);
 const allergies = ref<Array<Record<string, unknown>>>([]);
 const missing = ref(false);
 
-onMounted(async () => {
+useLiveLoad(async () => {
   const key = String(route.params.patientId);
+  diet.value = [];
+  allergies.value = [];
+  missing.value = false;
   try {
     const [dietQ, allergyQ] = await Promise.all([
       apiClient.query('diet', { patient_key: key }).catch(err => { if (err instanceof ApiError && err.notFound) return null; throw err; }),

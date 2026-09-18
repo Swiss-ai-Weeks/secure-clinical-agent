@@ -53,8 +53,10 @@ const navItems = computed(() => {
   if (session.me && (session.hasPanel('labs') || session.hasPanel('diet') || session.hasPanel('allergies_food'))) {
     items.push({ label: 'Patients', to: '/patients', icon: Search, show: true });
   }
-  if (session.hasPanel('notes') || session.hasPanel('imaging') || session.hasPanel('imaging_metadata')) {
+  if (session.hasPanel('labs') || session.hasPanel('appointments')) {
     items.push({ label: 'Tasks / Follow-ups', to: '/tasks', icon: ClipboardList, show: true });
+  }
+  if (session.hasPanel('notes') || session.hasPanel('imaging') || session.hasPanel('imaging_metadata')) {
     items.push({ label: 'Documents / Inbox', to: `/patients/${patientId.value ?? 'p_101'}/documents`, icon: FileText, show: true });
   }
   if (session.hasPanel('aggregate') || session.hasPanel('aggregate_own_patients') || session.hasPanel('aggregate_ward')) {

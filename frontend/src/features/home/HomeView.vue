@@ -16,7 +16,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { ref } from 'vue';
+import { useLiveLoad } from '../../composables/useLiveLoad';
 import { apiClient } from '../../services/apiClient';
 import type { HomeDashboard } from '../../types/patient360';
 import { useSessionStore } from '../../stores/useSessionStore';
@@ -28,12 +29,9 @@ import RecentPatientActivity from './RecentPatientActivity.vue';
 const session = useSessionStore();
 const dashboard = ref<HomeDashboard | null>(null);
 
-async function load() {
+useLiveLoad(async () => {
   dashboard.value = await apiClient.getHomeDashboard();
-}
-
-onMounted(load);
-watch(() => session.me?.user_id, load);
+});
 </script>
 
 <style scoped>

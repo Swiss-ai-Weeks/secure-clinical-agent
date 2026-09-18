@@ -12,10 +12,12 @@
       <textarea id="ask-input" v-model="question" rows="3" />
       <button type="submit" :disabled="loading">Ask with sources</button>
     </form>
-    <ol v-if="loading" class="steps"><li v-for="step in loadingSteps" :key="step">{{ step }}</li></ol>
-    <article v-if="answer" class="answer">
-      <h3>✦ Answer</h3>
+    <p v-if="error" class="error">{{ error }}</p>
+    <ol v-if="loading || steps.length" class="steps"><li v-for="step in (loading ? loadingSteps : steps)" :key="step">{{ step }}</li></ol>
+    <article v-if="answer" class="answer" :class="{ refused: answer.refused }">
+      <h3>{{ answer.refused ? 'Refused' : '✦ Answer' }}</h3>
       <p>{{ answer.answer }}</p>
+      <p v-if="answer.policy_reason" class="reason">{{ answer.policy_reason }}</p>
       <div class="citations">
         <button v-for="citation in answer.citations" :key="citation.id" type="button" @click="ui.highlightSource(citation.sourceId)">{{ citation.label }}</button>
       </div>
@@ -26,24 +28,35 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { apiClient } from '../../services/apiClient';
+import { ApiError } from '../../services/http';
 import type { AiAnswer } from '../../types/patient360';
 import { useUiStore } from '../../stores/useUiStore';
 
 const ui = useUiStore();
 const question = ref('What changed with this patient since the last visit?');
 const loading = ref(false);
+const error = ref('');
 const answer = ref<AiAnswer | null>(null);
+const steps = ref<string[]>([]);
 const loadingSteps = ['Searching authorized records...', 'Reading visible notes...', 'Preparing cited summary...'];
 
 async function ask() {
   loading.value = true;
+  error.value = '';
   answer.value = null;
-  answer.value = await apiClient.askPatient360({
-    scope: ui.selectedPatientId ? 'patient' : 'clinic',
-    patientId: ui.selectedPatientId,
-    question: question.value
-  });
-  loading.value = false;
+  steps.value = [];
+  try {
+    answer.value = await apiClient.askPatient360({
+      scope: ui.selectedPatientId ? 'patient' : 'clinic',
+      patientId: ui.selectedPatientId,
+      question: question.value
+    });
+    steps.value = answer.value.retrievalSteps;
+  } catch (err) {
+    error.value = err instanceof ApiError ? err.message : 'Ask failed';
+  } finally {
+    loading.value = false;
+  }
 }
 </script>
 
@@ -57,6 +70,8 @@ async function ask() {
 .question textarea { width: 100%; border: 1px solid var(--color-line); border-radius: var(--radius-control); padding: 12px; resize: vertical; }
 .question button { background: var(--color-plum); color: white; }
 .steps, .answer { border-radius: var(--radius-control); background: var(--color-yellow-soft); padding: 16px; }
+.answer.refused { background: #fde8e8; }
 .answer p { line-height: 1.6; }
+.reason, .error { color: var(--color-danger); }
 .citations { display: flex; flex-wrap: wrap; gap: 8px; }
 </style>

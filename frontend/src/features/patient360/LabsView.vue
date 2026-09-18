@@ -21,8 +21,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useLiveLoad } from '../../composables/useLiveLoad';
 import { apiClient } from '../../services/apiClient';
 import { ApiError } from '../../services/http';
 import type { Patient } from '../../types/patient360';
@@ -33,7 +34,7 @@ const route = useRoute();
 const patient = ref<Patient | null>(null);
 const missing = ref(false);
 
-async function load() {
+useLiveLoad(async () => {
   missing.value = false;
   try {
     patient.value = await apiClient.getPatient(String(route.params.patientId));
@@ -41,9 +42,7 @@ async function load() {
     missing.value = error instanceof ApiError && error.notFound;
     patient.value = null;
   }
-}
-onMounted(load);
-watch(() => route.params.patientId, load);
+});
 </script>
 
 <style scoped>

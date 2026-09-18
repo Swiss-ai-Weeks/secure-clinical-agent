@@ -1,6 +1,7 @@
 <template>
   <div v-if="patient" class="overview">
     <PatientHeader :patient="patient" />
+    <ConsentCard v-if="session.hasPanel('consents')" :patient-key="patient.id" :relations="relations" title="Grant access" />
     <section class="overview__grid">
       <ClinicalBrief :patient="patient" />
       <SinceLastVisit :patient="patient" />
@@ -12,19 +13,25 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useLiveLoad } from '../../composables/useLiveLoad';
 import { apiClient } from '../../services/apiClient';
+import { grantableRelations } from '../../services/consents';
 import { ApiError } from '../../services/http';
+import { useSessionStore } from '../../stores/useSessionStore';
 import type { Patient } from '../../types/patient360';
+import ConsentCard from '../clinic/ConsentCard.vue';
 import PatientHeader from './PatientHeader.vue';
 import ClinicalBrief from './ClinicalBrief.vue';
 import SinceLastVisit from './SinceLastVisit.vue';
 import CurrentSnapshot from './CurrentSnapshot.vue';
 
 const route = useRoute();
+const session = useSessionStore();
 const patient = ref<Patient | null>(null);
 const missing = ref(false);
+const relations = computed(() => grantableRelations(session.me?.role ?? ''));
 
 async function load() {
   missing.value = false;
@@ -36,8 +43,7 @@ async function load() {
   }
 }
 
-onMounted(load);
-watch(() => route.params.patientId, load);
+useLiveLoad(load);
 </script>
 
 <style scoped>

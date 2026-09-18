@@ -141,4 +141,17 @@ export interface AuditRow {
   reason_code: string | null;
 }
 
+export interface MediaSignOut {
+  url: string;
+  expires_in: number;
+  jti: string;
+  audit_id: string;
+}
+
+export interface MediaFetchOut {
+  study_uid: string;
+  bytes_b64: string;
+  length: number;
+}
+
 export const DEMO_PATIENT_KEYS = ['p_101', 'p_102', 'p_103', 'p_104', 'p_205'] as const;

@@ -85,6 +85,8 @@ export interface MedicalDocument {
   processingState: 'processed' | 'pending-review' | 'extracting';
   uploadedBy: string;
   extractedFacts?: ExtractedFact[];
+  objectKey?: string;
+  studyId?: string;
 }
 
 export interface ExtractedFact {
@@ -126,6 +128,8 @@ export interface AiAnswer {
   answer: string;
   citations: AiCitation[];
   retrievalSteps: string[];
+  refused?: boolean;
+  policy_reason?: string | null;
 }
 
 export interface AskPatient360Request {
@@ -149,4 +153,14 @@ export interface HomeDashboard {
   briefing: Array<{ id: string; text: string; patientId?: string }>;
   attention: AttentionItem[];
   recentActivity: TimelineEvent[];
+}
+
+export interface FollowUp {
+  id: string;
+  patientId: string;
+  patient: string;
+  description: string;
+  dueDate: string;
+  source: string;
+  priority: 'High' | 'Normal';
 }

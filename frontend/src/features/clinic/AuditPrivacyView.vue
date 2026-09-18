@@ -17,14 +17,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
+import { useLiveLoad } from '../../composables/useLiveLoad';
 import { apiClient } from '../../services/apiClient';
 import type { AuditRow } from '../../types/api';
 
 const rows = ref<AuditRow[]>([]);
 
-onMounted(async () => {
-  rows.value = (await apiClient.listAudit()).events;
+useLiveLoad(async () => {
+  rows.value = (await apiClient.listAudit().catch(() => ({ events: [] }))).events;
 });
 </script>
 

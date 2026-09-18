@@ -14,13 +14,14 @@ Open `http://localhost:5173`. Start the backend (compose service on port 8080) s
 ## Demo path
 
 1. Choose **Dr. Sarah Chen** in the persona switcher (AAL2).
-2. Open **p_101** Elisabeth Keller — identity banner, labs, meds.
-3. Switch to **Priya Nair** — per-patient pages are not found; Cohort Insights runs aggregates (`cohort_2026`).
-4. Switch to **Maria Santos** — own banner on `p_103`, portal consents, book/cancel.
-5. Switch to **Nina Haller** — `p_104` with adolescent rows redacted.
-6. Switch to **Tomas Lindqvist** — diet and food allergies only.
-7. Ask Patient360 calls `/chat` (in-proc). Notes and imaging use `/tools/notes` and `/tools/imaging`.
+2. Open **p_101** Elisabeth Keller — identity banner, labs, meds, grant `care_team` / `consultant`, break-glass.
+3. On Imaging or Documents, **Open signed copy** issues a dashboard-only `/media/sign` URL (no pixel viewer).
+4. Switch to **Priya Nair** — per-patient pages are not found; Cohort Insights runs aggregates (`cohort_2026`).
+5. Switch to **Maria Santos** — own banner on `p_103`, portal grant/revoke, book/cancel.
+6. Switch to **Nina Haller** — `p_104` with adolescent rows redacted; portal grants on the visible child record.
+7. Switch to **Tomas Lindqvist** — diet and food allergies only.
+8. Ask Patient360 calls `/chat` (in-proc). Refusals and `policy_reason` stay visible. Notes use `/tools/notes`.
 
 ## Backend integration
 
-`src/services/apiClient.ts` is the cookie-credential client (`credentials: 'include'`). `/me.panels` gates the shell. `src/services/mockApi.ts` remains for unit fixtures only.
+`src/services/apiClient.ts` is the cookie-credential client (`credentials: 'include'`). `/me.panels` gates the shell. Home, tasks, and search are derived from identity, `/tools/query`, and `/audit`. `src/services/mockApi.ts` remains for unit fixtures only.

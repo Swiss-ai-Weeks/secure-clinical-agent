@@ -76,7 +76,8 @@ function documentsFrom(payload: NotesResponse | null, imaging: ImagingResponse |
       date: text(row.authored_at).slice(0, 10),
       source: 'upload',
       processingState: row.published ? 'processed' as const : 'pending-review' as const,
-      uploadedBy: 'patient'
+      uploadedBy: 'patient',
+      objectKey: text(row.sanitized_ref || row.cite_id || row.note_id) || undefined
     }));
   const reports = (imaging?.reports ?? []).map(row => ({
     id: text(row.cite_id),
@@ -85,7 +86,9 @@ function documentsFrom(payload: NotesResponse | null, imaging: ImagingResponse |
     date: text(row.issued_at || row.effective_at).slice(0, 10),
     source: 'imaging',
     processingState: 'processed' as const,
-    uploadedBy: 'clinical'
+    uploadedBy: 'clinical',
+    studyId: text(row.study_id || row.cite_id) || undefined,
+    objectKey: text(row.report_ref) || undefined
   }));
   return [...uploads, ...reports];
 }
@@ -184,7 +187,8 @@ export function summariesFromKeys(keys: readonly string[], banners: Array<Identi
       email: '',
       status: 'Visible',
       avatarInitials: initials(identity.given_name, identity.family_name, key),
-      assignedClinician: identity.mrn ?? ''
+      assignedClinician: identity.mrn ?? '',
+      warning: identity.compliance_flag ? 'Break-glass active' : undefined
     };
   });
 }

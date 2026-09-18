@@ -7,16 +7,27 @@ import type {
   ImagingResponse,
   LoginOut,
   Me,
+  MediaFetchOut,
+  MediaSignOut,
   NotesResponse,
   Persona,
   QueryResponse,
   Slot
 } from '../types/api';
 import { DEMO_PATIENT_KEYS } from '../types/api';
-import type { AiAnswer, AskPatient360Request, ExtractedFact, HomeDashboard, Patient, PatientSummary, TimelineEvent } from '../types/patient360';
+import type { AiAnswer, AskPatient360Request, FollowUp, HomeDashboard, Patient, PatientSummary, TimelineEvent } from '../types/patient360';
+import { activityFromAudit, attachEncounters, deriveAttention, deriveBriefing, deriveFollowUps, filterPatients } from './dashboard';
 import { ApiError, api } from './http';
-import { mockApi } from './mockApi';
 import { composePatient, composeTimeline, summariesFromKeys } from './patientRecord';
+
+async function ignoreMissing<T>(work: () => Promise<T>): Promise<T | null> {
+  try {
+    return await work();
+  } catch (error) {
+    if (error instanceof ApiError && (error.notFound || error.status === 401)) return null;
+    throw error;
+  }
+}
 
 export const apiClient = {
   async login(login: string, opts: { on_duty?: boolean; auth_level?: number } = {}): Promise<LoginOut> {
@@ -74,69 +85,64 @@ export const apiClient = {
   async getHomeDashboard(): Promise<HomeDashboard> {
     const me = await this.getMe().catch(() => null);
     const patients = me ? await this.getPatients().catch(() => []) : [];
+    const visible = patients.filter(patient => patient.status === 'Visible');
+    const support = me ? await this.loadVisibleSupport(visible, me) : { labsByKey: {}, encountersByKey: {}, documentsByKey: {} };
+    const audit = me ? await this.listAudit().catch(() => ({ events: [] as AuditRow[] })) : { events: [] };
     return {
       greeting: me?.display ? `Signed in as ${me.display}` : 'Sign in with a demo persona',
-      todaysPatients: patients,
-      briefing: [
-        { id: 'brief-role', text: me ? `${me.role} · panels gated by /me` : 'No session' },
-        { id: 'brief-keys', text: `Demo keys: ${DEMO_PATIENT_KEYS.join(', ')}` }
-      ],
-      attention: [],
-      recentActivity: []
+      todaysPatients: attachEncounters(patients, support.encountersByKey),
+      briefing: deriveBriefing(me, patients),
+      attention: deriveAttention(patients, support.labsByKey),
+      recentActivity: activityFromAudit(audit.events)
     };
   },
 
-  async getPatients(): Promise<PatientSummary[]> {
-    const banners = await Promise.all(DEMO_PATIENT_KEYS.map(async key => {
-      try {
-        return await this.getIdentity(key);
-      } catch (error) {
-        if (error instanceof ApiError && (error.notFound || error.status === 401)) return null;
-        throw error;
+  async getFollowUps(): Promise<FollowUp[]> {
+    const me = await this.getMe().catch(() => null);
+    if (!me) return [];
+    const patients = await this.getPatients().catch(() => []);
+    const support = await this.loadVisibleSupport(patients.filter(patient => patient.status === 'Visible'), me);
+    return deriveFollowUps({ patients, ...support });
+  },
+
+  async loadVisibleSupport(patients: PatientSummary[], me: Me) {
+    const labsByKey: Record<string, QueryResponse | null> = {};
+    const encountersByKey: Record<string, QueryResponse | null> = {};
+    const documentsByKey: Record<string, ReturnType<typeof composePatient>['documents']> = {};
+    await Promise.all(patients.map(async patient => {
+      if (me.panels.includes('labs')) {
+        labsByKey[patient.id] = await ignoreMissing(() => this.query('labs', { patient_key: patient.id }));
+      }
+      if (me.panels.includes('appointments') || me.panels.includes('labs') || me.panels.includes('portal')) {
+        encountersByKey[patient.id] = await ignoreMissing(() => this.query('encounters', { patient_key: patient.id }));
+      }
+      if (me.panels.includes('notes')) {
+        const notes = await ignoreMissing(() => this.notes(patient.id));
+        documentsByKey[patient.id] = notes ? composePatient(patient.id, null, {}, { notes }).documents : [];
       }
     }));
+    return { labsByKey, encountersByKey, documentsByKey };
+  },
+
+  async getPatients(): Promise<PatientSummary[]> {
+    const banners = await Promise.all(DEMO_PATIENT_KEYS.map(key => ignoreMissing(() => this.getIdentity(key))));
     return summariesFromKeys(DEMO_PATIENT_KEYS, banners);
   },
 
-  async searchPatients(query: string, mode: 'standard' | 'ai'): Promise<PatientSummary[]> {
-    const patients = await this.getPatients();
-    const normalized = query.trim().toLowerCase();
-    const matches = patients.filter(patient => {
-      const haystack = [patient.fullName, patient.id, patient.dateOfBirth].join(' ').toLowerCase();
-      return normalized.length === 0 || haystack.includes(normalized) || mode === 'ai';
-    });
-    return matches.map(patient => ({
-      ...patient,
-      resultMode: mode,
-      reason: mode === 'ai'
-        ? `AI matched "${query}" against visible demo keys and identity banners.`
-        : 'Matched structured patient fields.'
-    }));
+  async searchPatients(query: string): Promise<PatientSummary[]> {
+    return filterPatients(await this.getPatients(), query);
   },
 
   async getPatient(patientId: string): Promise<Patient> {
-    const identity = await this.getIdentity(patientId).catch(error => {
-      if (error instanceof ApiError && error.notFound) return null;
-      throw error;
-    });
+    const identity = await ignoreMissing(() => this.getIdentity(patientId));
     const datasets = ['labs', 'conditions', 'meds', 'encounters', 'allergies', 'diet'] as const;
-    const results = await Promise.all(datasets.map(async dataset => {
-      try {
-        return { dataset, query: await this.query(dataset, { patient_key: patientId }) };
-      } catch (error) {
-        if (error instanceof ApiError && error.notFound) return { dataset, query: null };
-        throw error;
-      }
-    }));
+    const results = await Promise.all(datasets.map(async dataset => ({
+      dataset,
+      query: await ignoreMissing(() => this.query(dataset, { patient_key: patientId }))
+    })));
     const byDataset = Object.fromEntries(results.map(item => [item.dataset, item.query]));
-    const notes = await this.notes(patientId, 'clinical notes').catch(error => {
-      if (error instanceof ApiError && error.notFound) return null;
-      throw error;
-    });
-    const imaging = await this.imaging(patientId).catch(error => {
-      if (error instanceof ApiError && error.notFound) return null;
-      throw error;
-    });
+    const notes = await ignoreMissing(() => this.notes(patientId, 'clinical notes'));
+    const imaging = await ignoreMissing(() => this.imaging(patientId));
     if (!identity && results.every(item => item.query === null) && !notes && !imaging) {
       throw new ApiError(404, { resourceType: 'OperationOutcome' }, 'Resource not found');
     }
@@ -144,13 +150,7 @@ export const apiClient = {
   },
 
   async getTimeline(patientId: string): Promise<TimelineEvent[]> {
-    try {
-      const patient = await this.getPatient(patientId);
-      return composeTimeline(patient);
-    } catch (error) {
-      if (error instanceof ApiError && error.notFound) return [];
-      throw error;
-    }
+    return composeTimeline(await this.getPatient(patientId));
   },
 
   async notes(patientKey: string, question = 'clinical notes'): Promise<NotesResponse> {
@@ -159,6 +159,14 @@ export const apiClient = {
 
   async imaging(patientKey: string): Promise<ImagingResponse> {
     return api('/tools/imaging', { method: 'POST', body: JSON.stringify({ patient_key: patientKey }) });
+  },
+
+  async signMedia(body: { patient_key: string; study_id?: string; object_key?: string }): Promise<MediaSignOut> {
+    return api('/media/sign', { method: 'POST', body: JSON.stringify(body) });
+  },
+
+  async fetchMedia(url: string): Promise<MediaFetchOut> {
+    return api(url.startsWith('/media') ? url : `/media/${url}`);
   },
 
   async askPatient360(request: AskPatient360Request): Promise<AiAnswer> {
@@ -175,7 +183,9 @@ export const apiClient = {
         sourceId: citation.sourceId,
         sourceType: citation.sourceType as AiAnswer['citations'][number]['sourceType']
       })),
-      retrievalSteps: body.retrievalSteps
+      retrievalSteps: body.retrievalSteps,
+      refused: body.refused,
+      policy_reason: body.policy_reason
     };
   },
 
@@ -184,10 +194,6 @@ export const apiClient = {
     data.append('patient_key', patientId);
     data.append('file', file);
     return api('/uploads', { method: 'POST', body: data });
-  },
-
-  applyExtractedFact(patientId: string, factId: string, decision: 'accepted' | 'edited' | 'rejected') {
-    return mockApi.applyExtractedFact(patientId, factId, decision);
   },
 
   async listAudit(): Promise<{ events: AuditRow[] }> {

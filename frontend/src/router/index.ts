@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import RoutePlaceholder from '../features/RoutePlaceholder.vue';
 
 const clinicalRoutes = [
   { path: '/', name: 'home', component: () => import('../features/home/HomeView.vue') },
@@ -24,10 +23,7 @@ const clinicalRoutes = [
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
-    ...clinicalRoutes.map(route => ({
-      ...route,
-      component: 'component' in route ? route.component : RoutePlaceholder
-    })),
+    ...clinicalRoutes,
     { path: '/patients/:patientId', redirect: to => `/patients/${to.params.patientId}/overview` }
   ],
   scrollBehavior: () => ({ top: 0 })

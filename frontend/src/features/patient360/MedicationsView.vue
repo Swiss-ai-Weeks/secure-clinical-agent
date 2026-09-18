@@ -26,8 +26,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useLiveLoad } from '../../composables/useLiveLoad';
 import { apiClient } from '../../services/apiClient';
 import { ApiError } from '../../services/http';
 import type { Patient } from '../../types/patient360';
@@ -39,7 +40,7 @@ const missing = ref(false);
 const currentMedications = computed(() => patient.value?.medications.filter(medication => medication.current) ?? []);
 const historicalMedications = computed(() => patient.value?.medications.filter(medication => !medication.current) ?? []);
 
-async function load() {
+useLiveLoad(async () => {
   missing.value = false;
   try {
     patient.value = await apiClient.getPatient(String(route.params.patientId));
@@ -47,9 +48,7 @@ async function load() {
     missing.value = error instanceof ApiError && error.notFound;
     patient.value = null;
   }
-}
-onMounted(load);
-watch(() => route.params.patientId, load);
+});
 </script>
 
 <style scoped>

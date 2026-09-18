@@ -34,9 +34,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import ClinicalCard from '../../components/ui/ClinicalCard.vue';
+import { useLiveLoad } from '../../composables/useLiveLoad';
 import { apiClient } from '../../services/apiClient';
 import { ApiError } from '../../services/http';
 import type { Appointment, Slot } from '../../types/api';
@@ -56,8 +57,9 @@ async function load() {
     rows.value = query.rows.filter(row => ['booked', 'pending'].includes(String(row.status ?? '')));
   } catch (err) {
     missing.value = err instanceof ApiError && err.notFound;
+    rows.value = [];
   }
-  slots.value = (await apiClient.availability()).slots;
+  slots.value = (await apiClient.availability().catch(() => ({ slots: [], count: 0 }))).slots;
 }
 
 async function book() {
@@ -89,7 +91,7 @@ async function cancel(id: string) {
   }
 }
 
-onMounted(load);
+useLiveLoad(load);
 </script>
 
 <style scoped>

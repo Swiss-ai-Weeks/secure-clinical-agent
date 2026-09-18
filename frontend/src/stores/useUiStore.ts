@@ -3,12 +3,12 @@ import { defineStore } from 'pinia';
 export const useUiStore = defineStore('ui', {
   state: () => ({
     askPanelOpen: false,
-    selectedPatientId: 'p_101',
+    selectedPatientId: undefined as string | undefined,
     highlightedSourceId: ''
   }),
   actions: {
     openAskPanel(patientId?: string) {
-      if (patientId) this.selectedPatientId = patientId;
+      this.selectedPatientId = patientId;
       this.askPanelOpen = true;
     },
     closeAskPanel() {
