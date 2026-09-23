@@ -125,6 +125,7 @@ describe('role home workspaces', () => {
       display: 'Tomas Lindqvist'
     }));
     expect(await screen.findByRole('heading', { name: 'Ward diet board' })).toBeInTheDocument();
+    expect(screen.getByText('Tomas Lindqvist · Dietary')).toBeInTheDocument();
     expect(await screen.findByText('Ward w_3b')).toBeInTheDocument();
     expect(screen.queryByText(/p_101/)).not.toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'Today' })).not.toBeInTheDocument();

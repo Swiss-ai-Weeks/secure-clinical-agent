@@ -16,9 +16,22 @@ const FALLBACK_PERSONAS: Persona[] = [
   { login: 'audit', user_id: 'u_audit', display: 'Compliance auditor', role: 'auditor' }
 ];
 
-function applySessionRole(personas: Persona[], me: Me | null): Persona[] {
-  if (!me) return personas;
+const ROLE_BY_USER_ID = Object.fromEntries(
+  FALLBACK_PERSONAS.map(persona => [persona.user_id, persona.role ?? ''])
+);
+
+function fillCatalogRoles(personas: Persona[]): Persona[] {
   return personas.map(persona => (
+    persona.role
+      ? persona
+      : { ...persona, role: ROLE_BY_USER_ID[persona.user_id] || persona.role }
+  ));
+}
+
+function applySessionRole(personas: Persona[], me: Me | null): Persona[] {
+  const catalog = fillCatalogRoles(personas);
+  if (!me) return catalog;
+  return catalog.map(persona => (
     persona.user_id === me.user_id
       ? { ...persona, role: me.role, panels: me.panels }
       : persona
@@ -42,7 +55,10 @@ export const useSessionStore = defineStore('session', {
   actions: {
     async bootstrap() {
       try {
-        this.personas = await apiClient.getPersonas().catch(() => FALLBACK_PERSONAS);
+        this.personas = applySessionRole(
+          await apiClient.getPersonas().catch(() => FALLBACK_PERSONAS),
+          null
+        );
         this.me = await apiClient.getMe();
         this.personas = applySessionRole(this.personas, this.me);
         this.error = '';

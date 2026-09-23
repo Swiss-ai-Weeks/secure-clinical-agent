@@ -48,13 +48,22 @@ beforeEach(() => {
 
 afterEach(() => cleanup());
 
+const DEMO_PERSONAS = [
+  { login: 'chen', user_id: 'u_chen', display: 'Dr. Sarah Chen', role: 'attending' },
+  { login: 'rivera', user_id: 'u_rivera', display: 'Nurse Alex Rivera', role: 'care_team' },
+  { login: 'okafor', user_id: 'u_okafor', display: 'Dr. James Okafor', role: 'consultant' },
+  { login: 'nair', user_id: 'u_nair', display: 'Priya Nair', role: 'researcher' },
+  { login: 'maria', user_id: 'u_maria', display: 'Maria Santos', role: 'patient' },
+  { login: 'lindqvist', user_id: 'u_lindqvist', display: 'Tomas Lindqvist', role: 'dietary_staff' }
+];
+
 async function renderShell(me: Me, path = '/') {
   state.me = me;
   const pinia = createPinia();
   setActivePinia(pinia);
   const session = useSessionStore();
   session.me = me;
-  session.personas = [{ login: 'chen', user_id: 'u_chen', display: 'Dr. Sarah Chen' }];
+  session.personas = DEMO_PERSONAS;
   session.ready = true;
   const router = createRouter({
     history: createMemoryHistory(),
@@ -79,6 +88,23 @@ async function renderShell(me: Me, path = '/') {
 }
 
 describe('AppShell workspaces', () => {
+  it('shows a human-readable access level for each persona', async () => {
+    await renderShell(sessionMe('attending', ['labs', 'ask'], { user_id: 'u_chen', display: 'Dr. Sarah Chen' }));
+    const switcher = screen.getByLabelText('Persona') as HTMLSelectElement;
+    const labels = [...switcher.options].map(option => option.textContent ?? '');
+    expect(labels).toEqual(expect.arrayContaining([
+      'Dr. Sarah Chen · Attending',
+      'Tomas Lindqvist · Dietary',
+      'Maria Santos · Family',
+      'Priya Nair · Research',
+      'Nurse Alex Rivera · Care team',
+      'Dr. James Okafor · Consultant'
+    ]));
+    expect(screen.getByText('Attending')).toBeInTheDocument();
+    expect(labels.join(' ')).not.toMatch(/u_chen|u_nair|p_|panels|Clinical/);
+    expect(screen.queryByText('Clinical')).not.toBeInTheDocument();
+  });
+
   it('does not show staff chrome for a caregiver', async () => {
     await renderShell(sessionMe('caregiver', ['portal', 'labs', 'consents', 'appointments', 'ask', 'notes'], {
       user_id: 'u_haller',
