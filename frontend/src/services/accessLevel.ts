@@ -1,4 +1,14 @@
-/** Human-readable access levels from role / workspace / panels. Never raw ids or panel counts. */
+/** Human labels for identity.users.credential_level (0–5) and role. Never raw ids or panel counts. */
+
+/** identity.users.credential_level CHECK (0–5). Demo seed uses 1, 2, 3. */
+export const CREDENTIAL_LEVEL_LABELS: Record<number, string> = {
+  0: 'Uncredentialed',
+  1: 'Limited',
+  2: 'Licensed',
+  3: 'Privileged',
+  4: 'Senior privileged',
+  5: 'Full privileges'
+};
 
 export const ACCESS_LEVEL_BY_ROLE: Record<string, string> = {
   attending: 'Attending',
@@ -12,6 +22,7 @@ export const ACCESS_LEVEL_BY_ROLE: Record<string, string> = {
 };
 
 export interface AccessLevelSource {
+  credential_level?: number | null;
   role?: string | null;
   panels?: readonly string[] | null;
 }
@@ -49,13 +60,30 @@ function fromPanels(panels: readonly string[]): string {
   return '';
 }
 
-/** Short clinical label for a session or catalog person. */
-export function accessLevel(source?: AccessLevelSource | null): string {
+function roleLabel(source?: AccessLevelSource | null): string {
   const role = text(source?.role);
   if (role && !looksLikeOpaqueId(role)) {
     return ACCESS_LEVEL_BY_ROLE[role] || titleCaseWords(role);
   }
   return fromPanels(source?.panels ?? []);
+}
+
+/** Short clearance label from identity.users.credential_level. */
+export function credentialLabel(level: number | null | undefined): string {
+  if (level == null || !Number.isFinite(level)) return '';
+  const key = Math.trunc(level);
+  return CREDENTIAL_LEVEL_LABELS[key] ?? '';
+}
+
+/**
+ * Primary label is credential/clearance. Role is appended when it adds a
+ * distinct clinical distinction (Attending vs Care team vs Family).
+ */
+export function accessLevel(source?: AccessLevelSource | null): string {
+  const credential = credentialLabel(source?.credential_level);
+  const role = roleLabel(source);
+  if (credential && role && role !== credential) return `${credential} · ${role}`;
+  return credential || role;
 }
 
 export function accessLevelForUser(

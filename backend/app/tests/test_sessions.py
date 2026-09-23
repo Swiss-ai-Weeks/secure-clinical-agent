@@ -9,13 +9,13 @@ async def test_dev_personas_include_identity_roles(harness: Harness):
     r = await harness.client.get("/auth/dev-personas")
     assert r.status_code == 200
     by_login = {row["login"]: row for row in r.json()}
-    assert by_login["chen"]["role"] == "attending"
-    assert by_login["rivera"]["role"] == "care_team"
-    assert by_login["okafor"]["role"] == "consultant"
-    assert by_login["lindqvist"]["role"] == "dietary_staff"
-    assert by_login["maria"]["role"] == "patient"
-    assert by_login["nair"]["role"] == "researcher"
-    assert by_login["audit"]["role"] == "auditor"
+    assert by_login["chen"]["role"] == "attending" and by_login["chen"]["credential_level"] == 3
+    assert by_login["rivera"]["role"] == "care_team" and by_login["rivera"]["credential_level"] == 2
+    assert by_login["okafor"]["role"] == "consultant" and by_login["okafor"]["credential_level"] == 3
+    assert by_login["lindqvist"]["role"] == "dietary_staff" and by_login["lindqvist"]["credential_level"] == 1
+    assert by_login["maria"]["role"] == "patient" and by_login["maria"]["credential_level"] == 1
+    assert by_login["nair"]["role"] == "researcher" and by_login["nair"]["credential_level"] == 2
+    assert by_login["audit"]["role"] == "auditor" and by_login["audit"]["credential_level"] == 3
     assert "labs" in by_login["chen"]["panels"]
     assert by_login["nair"]["panels"] == ["aggregate", "ask"]
 

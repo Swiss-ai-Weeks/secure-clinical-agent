@@ -158,10 +158,10 @@ describe('dashboard derivation', () => {
         outcome: '0',
         reason_code: 'relationship'
       }
-    ] as AuditRow[], [visible], [{ user_id: 'u_chen', display: 'Dr. Sarah Chen', role: 'attending' }]);
+    ] as AuditRow[], [visible], [{ user_id: 'u_chen', display: 'Dr. Sarah Chen', role: 'attending', credential_level: 3 }]);
     expect(activity).toHaveLength(2);
-    expect(activity[0].actor).toBe('Dr. Sarah Chen · Attending');
-    expect(activity[1].actor).toBe('Dr. Sarah Chen · Attending');
+    expect(activity[0].actor).toBe('Dr. Sarah Chen · Privileged · Attending');
+    expect(activity[1].actor).toBe('Dr. Sarah Chen · Privileged · Attending');
     expect(JSON.stringify(activity)).not.toMatch(/u_chen|p_101/);
     expect(activity[0].title).toBe('Opened labs for Elisabeth Keller');
     expect(activity[0].summary).toBe('2 times');
@@ -189,7 +189,7 @@ describe('dashboard derivation', () => {
     expect(attached[0].appointmentClinician).toBe('u_chen');
     expect(attached[0].reasonForVisit).toBe('Pneumonia follow-up');
     expect(practitionerName('u_chen', [{ user_id: 'u_chen', display: 'Dr. Sarah Chen' }])).toBe('Dr. Sarah Chen');
-    expect(practitionerName('u_chen', [{ user_id: 'u_chen', display: 'Dr. Sarah Chen', role: 'attending' }])).toBe('Dr. Sarah Chen · Attending');
+    expect(practitionerName('u_chen', [{ user_id: 'u_chen', display: 'Dr. Sarah Chen', role: 'attending', credential_level: 3 }])).toBe('Dr. Sarah Chen · Privileged · Attending');
     expect(practitionerName('u_okafor', [{ user_id: 'u_chen', display: 'Dr. Sarah Chen' }])).toBe('Clinician');
   });
 });

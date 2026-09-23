@@ -28,7 +28,7 @@ function sessionMe(role: string, panels: string[], extra: Partial<Me> = {}): Me 
     display: extra.display ?? role,
     role,
     department: null,
-    credential_level: 2,
+    credential_level: extra.credential_level ?? 2,
     self_patient_id: extra.self_patient_id ?? null,
     datasets: extra.datasets ?? [],
     panels,
@@ -122,10 +122,11 @@ describe('role home workspaces', () => {
     }]);
     await renderHome(sessionMe('dietary_staff', ['diet', 'allergies_food', 'aggregate_ward', 'ask'], {
       user_id: 'u_lindqvist',
-      display: 'Tomas Lindqvist'
+      display: 'Tomas Lindqvist',
+      credential_level: 1
     }));
     expect(await screen.findByRole('heading', { name: 'Ward diet board' })).toBeInTheDocument();
-    expect(screen.getByText('Tomas Lindqvist · Dietary')).toBeInTheDocument();
+    expect(screen.getByText(/Tomas Lindqvist · Limited/)).toBeInTheDocument();
     expect(await screen.findByText('Ward w_3b')).toBeInTheDocument();
     expect(screen.queryByText(/p_101/)).not.toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'Today' })).not.toBeInTheDocument();

@@ -42,7 +42,7 @@
     <div class="workspace">
       <header class="topbar">
         <div class="topbar__identity">
-          <p>{{ roleLabel }}</p>
+          <p>{{ credentialLine }}</p>
           <strong>{{ session.display }}</strong>
         </div>
         <div class="topbar__actions">
@@ -84,7 +84,7 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { ClipboardList, Home, LockKeyhole, PanelLeftClose, PanelLeftOpen, Search, Users } from 'lucide-vue-next';
-import { accessLevel, personAccessLabel } from '../../services/accessLevel';
+import { accessLevel, credentialLabel, personAccessLabel } from '../../services/accessLevel';
 import { canLaunchAsk, navItemsFor, patientTabsFor } from '../../services/workspace';
 import type { Persona } from '../../types/api';
 import { useUiStore } from '../../stores/useUiStore';
@@ -120,7 +120,7 @@ const showAsk = computed(() => canLaunchAsk({
   onDuty: session.me?.session.on_duty
 }));
 const currentLogin = computed(() => session.personas.find(p => p.user_id === session.me?.user_id)?.login ?? '');
-const roleLabel = computed(() => (session.me ? accessLevel(session.me) || 'Signed in' : 'Sign in'));
+const credentialLine = computed(() => (session.me ? accessLevel(session.me) || credentialLabel(session.me.credential_level) || 'Signed in' : 'Sign in'));
 
 function personaOption(persona: Persona): string {
   if (persona.user_id === session.me?.user_id) return personAccessLabel({ ...persona, ...session.me });

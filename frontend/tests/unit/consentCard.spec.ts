@@ -37,8 +37,8 @@ function renderCard() {
     session: { expires_at: '', absolute_expires_at: '', auth_level: 1, on_duty: true }
   };
   session.personas = [
-    { login: 'diego', user_id: 'u_diego', display: 'Diego Santos', role: 'caregiver' },
-    { login: 'maria', user_id: 'u_maria', display: 'Maria Santos', role: 'patient' }
+    { login: 'diego', user_id: 'u_diego', display: 'Diego Santos', role: 'caregiver', credential_level: 1 },
+    { login: 'maria', user_id: 'u_maria', display: 'Maria Santos', role: 'patient', credential_level: 1 }
   ];
   return render(ConsentCard, {
     props: { patientKey: 'p_103', relations: ['caregiver', 'caregiver_notes', 'blocked'], title: 'Grant access' },
@@ -87,8 +87,8 @@ describe('ConsentCard', () => {
     });
     renderCard();
     expect(await screen.findByText('Diego Santos')).toBeInTheDocument();
-    expect(screen.getByText(/Family · Caregiver/)).toBeInTheDocument();
-    expect(screen.getByRole('combobox', { name: 'Who' }).textContent).toMatch(/Maria Santos · Family/);
+    expect(screen.getByText(/Limited · Family · Caregiver/)).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Who' }).textContent).toMatch(/Maria Santos · Limited · Family/);
     expect(screen.queryByText(/u_diego|u_maria/)).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Revoke' })).toBeInTheDocument();
   });

@@ -33,6 +33,7 @@ export interface Persona {
   user_id: string;
   display: string;
   role?: string | null;
+  credential_level?: number | null;
   panels?: string[];
 }
 

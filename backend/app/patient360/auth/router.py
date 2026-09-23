@@ -43,6 +43,7 @@ class PersonaOut(BaseModel):
     user_id: str
     display: str
     role: str | None = None
+    credential_level: int | None = None
     panels: list[str] = Field(default_factory=list)
 
 
@@ -101,6 +102,7 @@ async def dev_personas(deps: DepsDep) -> list[PersonaOut]:
                 user_id=persona.user_id,
                 display=persona.display,
                 role=role,
+                credential_level=user.credential_level if user and user.active else None,
                 panels=list(ROLE_PANELS.get(role, ())) if role else [],
             )
         )

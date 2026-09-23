@@ -31,7 +31,7 @@ export function nextEncounter(rows: Record<string, unknown>[]): { start: string;
   return pending[0] ?? null;
 }
 
-export function practitionerName(userId: string | undefined, personas: Array<Pick<Persona, 'user_id' | 'display' | 'role' | 'panels'>>): string {
+export function practitionerName(userId: string | undefined, personas: Array<Pick<Persona, 'user_id' | 'display' | 'role' | 'panels' | 'credential_level'>>): string {
   if (!userId) return '';
   const persona = personas.find(entry => entry.user_id === userId);
   if (!persona) return 'Clinician';
@@ -154,7 +154,7 @@ export function deriveFollowUps(input: {
 export function activityFromAudit(
   rows: AuditRow[],
   patients: Array<{ id: string; fullName: string }> = [],
-  personas: Array<Pick<Persona, 'user_id' | 'display' | 'role' | 'panels'>> = []
+  personas: Array<Pick<Persona, 'user_id' | 'display' | 'role' | 'panels' | 'credential_level'>> = []
 ): TimelineEvent[] {
   const patientNames: Record<string, string> = {};
   for (const patient of patients) {
