@@ -1,5 +1,6 @@
 # Patient360 inference + stores on two H100 NVLs.
-# GPU 1: Nano (and VISTA with --profile ingest). GPU 0: safety + embed (and MedGemma with ingest).
+# GPU 1: Nano only (it already occupies most of the card).
+# GPU 0: safety + embed, and with --profile ingest also MedGemma + VISTA-3D.
 # Host publishes loopback only. NGC_API_KEY must come from the environment, never this file.
 
 name: patient360
@@ -108,12 +109,17 @@ services:
   backend:
     # Policy spine (Build Plan §4-5): sessions, PDP, run tokens, /tools/*, audit writer.
     # Connects to Postgres as p360_app, to OpenFGA with the preshared key, and to the
-    # linkage vault over the separate patient360-linkage network. Source: backend/app.
+    # linkage vault over the separate patient360-linkage network.
+    # Context is backend/ so the image can copy guardrails/ next to app/.
     build:
-      context: ../../app
+      context: ../..
+      dockerfile: app/Dockerfile
     image: patient360/backend:local
     container_name: patient360-backend
     restart: unless-stopped
+    # Bind-mounted .data/imaging is 775 host uid/gid 1000. Keep the image USER
+    # (uid 10001) and add that group so export_ct can write work/ for VISTA.
+    group_add: ["1000"]
     environment:
       PATIENT360_DB_DSN: postgres://p360_app:${PATIENT360_APP_PASSWORD:-patient360-app-dev}@postgres:5432/fhir
       PATIENT360_OPENFGA_URL: http://openfga:8080
@@ -132,19 +138,32 @@ services:
       PATIENT360_QDRANT_URL: http://qdrant:6333
       PATIENT360_QDRANT_API_KEY: ${PATIENT360_QDRANT_API_KEY:-change-me-qdrant}
       PATIENT360_EMBED_URL: http://embed:8000
+      PATIENT360_EMBED_MODEL: ${PATIENT360_EMBED_MODEL:-nvidia/llama-nemotron-embed-vl-1b-v2}
       PATIENT360_NANO_URL: http://nano:8000
+      PATIENT360_NANO_MODEL: ${PATIENT360_NANO_MODEL:-}
       PATIENT360_SAFETY_URL: http://safety:8000
+      PATIENT360_OPENSHELL_URL: ${PATIENT360_OPENSHELL_URL:-}
+      PATIENT360_OPENSHELL_SANDBOX: ${PATIENT360_OPENSHELL_SANDBOX:-patient360}
+      PATIENT360_OPENSHELL_AGENT: ${PATIENT360_OPENSHELL_AGENT:-main}
       PATIENT360_MINIO_URL: http://minio:9000
       PATIENT360_MINIO_ACCESS_KEY: ${PATIENT360_MINIO_USER:-patient360}
       PATIENT360_MINIO_SECRET_KEY: ${PATIENT360_MINIO_PASSWORD:-change-me-minio}
-      PATIENT360_AGENT_RUNTIME: ${PATIENT360_AGENT_RUNTIME:-inproc}
+      PATIENT360_ORTHANC_URL: http://orthanc:8042
+      PATIENT360_ORTHANC_USER: ${PATIENT360_ORTHANC_USER:-orthanc}
+      PATIENT360_ORTHANC_PASSWORD: ${PATIENT360_ORTHANC_PASSWORD:-orthanc}
+      PATIENT360_VISTA_URL: ${PATIENT360_VISTA_URL:-http://vista3d:8000}
+      PATIENT360_VISTA_WORK_DIR: /data/patient360
+      PATIENT360_AGENT_RUNTIME: ${PATIENT360_AGENT_RUNTIME:-openshell}
       # DEV=true enables /docs and POST /dev/run-token (mint a run token for the current
       # session, so the agent channel can be exercised before /chat exists).
       PATIENT360_DEV: ${PATIENT360_DEV:-false}
       # Loopback HTTP in the lab cannot set a Secure cookie; keep true behind TLS.
       PATIENT360_COOKIE_SECURE: ${PATIENT360_COOKIE_SECURE:-true}
+    volumes:
+      - ../../../.data/imaging:/data/patient360
     ports:
-      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:8088:8080"
+      - "172.20.0.1:8088:8080"
     depends_on:
       postgres:
         condition: service_healthy
@@ -154,6 +173,8 @@ services:
         condition: service_completed_successfully
       openbao-init:
         condition: service_completed_successfully
+      orthanc:
+        condition: service_started
     networks: [patient360, patient360-linkage]
 
   immudb:
@@ -288,9 +309,6 @@ services:
     container_name: patient360-orthanc
     restart: unless-stopped
     environment:
-      ORTHANC__NAME: Patient360
-      ORTHANC__AUTHENTICATION_ENABLED: "true"
-      ORTHANC__REGISTERED_USERS: "${ORTHANC_USERS_JSON}"
       DICOM_WEB_PLUGIN_ENABLED: "true"
       VERBOSE_ENABLED: "false"
     ports:
@@ -299,7 +317,7 @@ services:
     volumes:
       - orthanc-data:/var/lib/orthanc/db
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8042/system >/dev/null || exit 1"]
+      test: ["CMD-SHELL", "wget -q -S -O /dev/null http://127.0.0.1:8042/system 2>&1 | grep -qE 'HTTP/.* (200|401)'"]
       interval: 10s
       timeout: 5s
       retries: 20
@@ -307,7 +325,7 @@ services:
     networks: [patient360]
 
   nano:
-    image: nvcr.io/nim/nvidia/nemotron-3-nano:latest
+    image: nvcr.io/nim/nvidia/nemotron-3-nano:1.7.0-variant
     container_name: patient360-nano
     restart: unless-stopped
     user: "${UID:-1000}:${GID:-1000}"
@@ -384,7 +402,8 @@ services:
         device_ids: ["0"]
         capabilities: [gpu]
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/v1/health/ready >/dev/null || curl -fsS http://127.0.0.1:8000/v1/models >/dev/null"]
+      # This NIM image has no /bin/sh, so CMD-SHELL always fails.
+      test: ["CMD", "/usr/bin/curl", "-fsS", "http://127.0.0.1:8000/v1/health/ready"]
       interval: 20s
       timeout: 10s
       retries: 90
@@ -396,7 +415,6 @@ services:
     image: nvcr.io/nim/nvidia/vista3d:1.0.0
     container_name: patient360-vista3d
     restart: unless-stopped
-    user: "${UID:-1000}:${GID:-1000}"
     ipc: host
     shm_size: "16gb"
     environment:
@@ -405,12 +423,12 @@ services:
       HOME: /tmp
       USER: ${USER:-nvidia}
     volumes:
-      - ${HOME}/.cache/nim/vista3d:/opt/nim/.cache
+      - ../../../.data/imaging:/data/patient360
     ports:
       - "127.0.0.1:8003:8000"
     gpus:
       - driver: nvidia
-        device_ids: ["1"]
+        device_ids: ["0"]
         capabilities: [gpu]
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/v1/health/ready >/dev/null || curl -fsS http://127.0.0.1:8000/v1/models >/dev/null"]
@@ -426,6 +444,7 @@ services:
     container_name: patient360-medgemma
     restart: unless-stopped
     command:
+      - --model
       - google/medgemma-1.5-4b-it
       - --host
       - 0.0.0.0
@@ -434,11 +453,13 @@ services:
       - --max-model-len
       - "8192"
       - --gpu-memory-utilization
-      - "0.12"
+      - "0.30"
       - --served-model-name
       - google/medgemma-1.5-4b-it
       - --enforce-eager
+      - --trust-remote-code
     environment:
+      HF_TOKEN: ${HF_TOKEN:-}
       HUGGING_FACE_HUB_TOKEN: ${HF_TOKEN:-}
       HF_HOME: /root/.cache/huggingface
     volumes:

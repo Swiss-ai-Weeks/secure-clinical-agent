@@ -14,6 +14,7 @@ import logging
 import secrets
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
+from collections.abc import Awaitable, Callable
 from typing import Any, Protocol
 
 from ..audit import AuditEvent, AuditWriter
@@ -91,6 +92,8 @@ class SessionStore(Protocol):
     async def touch(self, session_hash: bytes, *, last_seen_at: datetime, expires_at: datetime) -> None: ...
 
     async def revoke(self, session_hash: bytes, *, now: datetime) -> None: ...
+
+    async def bind_sandbox(self, session_hash: bytes, sandbox_id: str) -> str: ...
 
 
 # --- Postgres implementations -------------------------------------------------
@@ -198,6 +201,32 @@ class PgSessionStore:
             log.error("session revoke failed: %s", exc.__class__.__name__)
             raise Transient("identity unavailable") from exc
 
+    async def bind_sandbox(self, session_hash: bytes, sandbox_id: str) -> str:
+        """Persist sandbox_id only when the live row still has none. Return the stored id."""
+        try:
+            async with self.db.pool.connection() as conn:
+                cur = await conn.execute(
+                    "UPDATE identity.sessions SET sandbox_id = %s "
+                    "WHERE session_hash = %s AND sandbox_id IS NULL AND revoked_at IS NULL "
+                    "RETURNING sandbox_id",
+                    (sandbox_id, session_hash),
+                )
+                row = await cur.fetchone()
+                if row and row.get("sandbox_id"):
+                    return str(row["sandbox_id"])
+                cur = await conn.execute(
+                    "SELECT sandbox_id FROM identity.sessions WHERE session_hash = %s",
+                    (session_hash,),
+                )
+                existing = await cur.fetchone()
+        except Exception as exc:
+            log.error("session sandbox bind failed: %s", exc.__class__.__name__)
+            raise Transient("identity unavailable") from exc
+        stored = existing.get("sandbox_id") if existing else None
+        if not stored:
+            raise Transient("sandbox bind failed")
+        return str(stored)
+
 
 def _normalise(row: dict[str, Any]) -> dict[str, Any]:
     out = dict(row)
@@ -235,6 +264,7 @@ class SessionManager:
         self.vault = vault
         self.audit = audit
         self.devlogin = devlogin
+        self.on_sandbox_retire: Callable[[str], Awaitable[None]] | None = None
 
     def _lifetimes(self, now: datetime) -> tuple[datetime, datetime]:
         absolute = now + timedelta(seconds=self.settings.session_absolute_seconds)
@@ -259,7 +289,11 @@ class SessionManager:
             raise Unauthenticated("inactive or unknown user")
 
         # Rotate: a cookie presented at login is revoked before the new row exists.
+        retired_sandbox: str | None = None
         if prior_cookie:
+            prior = await self.sessions.get(hash_token(prior_cookie))
+            if prior is not None:
+                retired_sandbox = prior.sandbox_id
             await self.sessions.revoke(hash_token(prior_cookie), now=now)
 
         self_patient_id: str | None = None
@@ -308,7 +342,21 @@ class SessionManager:
                 },
             )
         )
+        await self._retire_sandbox(retired_sandbox)
         return LoginResult(token=token, session=session, user=user)
+
+    async def bind_sandbox(self, session: Session, sandbox_id: str) -> str:
+        stored = await self.sessions.bind_sandbox(session.session_hash, sandbox_id)
+        session.sandbox_id = stored
+        return stored
+
+    async def _retire_sandbox(self, sandbox_id: str | None) -> None:
+        if not sandbox_id or self.on_sandbox_retire is None:
+            return
+        try:
+            await self.on_sandbox_retire(sandbox_id)
+        except Exception as exc:
+            log.warning("sandbox retire failed: %s", exc.__class__.__name__)
 
     async def authenticate(self, cookie: str, *, now: datetime | None = None) -> tuple[Session, User]:
         """Cookie -> live session + active user, sliding the inactivity expiry."""
@@ -352,3 +400,4 @@ class SessionManager:
             await self.audit.write(
                 AuditEvent(event_type="logout", agent_user=session.user_id, session_id=session.sid)
             )
+            await self._retire_sandbox(session.sandbox_id)

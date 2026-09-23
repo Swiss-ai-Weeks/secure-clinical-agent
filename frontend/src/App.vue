@@ -1,5 +1,9 @@
 <template>
-  <AppShell><RouterView /></AppShell>
+  <AppShell>
+    <Suspense>
+      <RouterView />
+    </Suspense>
+  </AppShell>
 </template>
 
 <script setup lang="ts">

@@ -17,7 +17,6 @@ describe('Patient360 router', () => {
         'patient-notes',
         'patient-imaging',
         'redteam',
-        'threat-model',
         'tasks',
         'cohort',
         'audit',

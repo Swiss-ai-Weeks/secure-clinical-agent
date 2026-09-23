@@ -7,9 +7,13 @@ from pydantic import BaseModel
 
 from ..auth.sessions import utcnow
 from ..auth.subject import DepsDep, SessionCallerDep
-from ..identity import identity_banner
+from ..identity import identity_banner, visible_patient_keys
 
 router = APIRouter(prefix="/patients", tags=["identity"])
+
+
+class PatientKeyOut(BaseModel):
+    patient_keys: list[str]
 
 
 class BannerOut(BaseModel):
@@ -23,6 +27,13 @@ class BannerOut(BaseModel):
     compliance_flag: bool
     audit_id: str
     identity_audit_id: str
+
+
+@router.get("", response_model=PatientKeyOut)
+async def list_visible_patients(caller: SessionCallerDep, deps: DepsDep) -> PatientKeyOut:
+    """Patient keys the caller may open: self plus FGA can_read_clinical."""
+    keys = await visible_patient_keys(deps, caller, now=utcnow())
+    return PatientKeyOut(patient_keys=keys)
 
 
 @router.get("/{patient_key}/identity", response_model=BannerOut)

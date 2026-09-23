@@ -5,8 +5,9 @@ Writes, idempotently (upsert on patient_key / source_id):
   identity.users     the seven personas (roles only; names live in the dev-login map)
   clinical.*         p_101 (labs trend, medication change, one V+PSY condition and one
                      R+PSY medication, food allergy, renal-diabetic diet order on ward
-                     w_3b, one internal V+PSY note *metadata* row), p_102, p_103 (Maria:
-                     meds, conditions, a booked cardiology appointment), p_205 (unassigned)
+                     w_3b, one internal V+PSY note *metadata* row, one CXR), p_102 (CT chest),
+                     p_103 (Maria: meds, conditions, booked cardiology appointment, cardiac US),
+                     p_205 (unassigned)
   vault              linkage/self/u_maria -> p_103 (the only place that link persists) and
                      linkage/identity/{p_xxx} synthetic identity records (`register`)
   audit.audit_events one `consent_granted` row (detail.seeded = true) per grant tuple that
@@ -65,6 +66,7 @@ USERS = [
     ("u_diego", "caregiver", None, 1),
     ("u_lindqvist", "dietary_staff", "kitchen", 1),
     ("u_haller", "caregiver", None, 1),  # Nina Haller, legal guardian of p_104 (guardian tuple)
+    ("u_audit", "auditor", "compliance", 3),
 ]
 
 PATIENTS = [
@@ -1079,46 +1081,56 @@ class Seeder:
             )
 
     def imaging(self) -> None:
-        study_id = self.upsert(
-            "studies",
-            "ImagingStudy/p101-cxr-2026-09-11",
-            dict(
-                source_id=sid("ImagingStudy", "p101-cxr-2026-09-11"),
-                patient_key="p_101",
-                encounter_id=self.enc_id("p101-imp-2026-09-10"),
-                status="available",
-                study_at=ts(2026, 9, 11, 9),
-                modality="CR",
-                procedure_code="36643-5",
-                procedure_system=LOINC,
-                procedure_display="Chest X-ray",
-                confidentiality="N",
-                sensitivity=[],
-                resource=Jsonb({"resourceType": "ImagingStudy", "status": "available"}),
-            ),
-        )
-        self.upsert(
-            "diagnostic_reports",
-            "DiagnosticReport/p101-cxr-2026-09-11",
-            dict(
-                source_id=sid("DiagnosticReport", "p101-cxr-2026-09-11"),
-                patient_key="p_101",
-                encounter_id=self.enc_id("p101-imp-2026-09-10"),
-                status="final",
-                category="RAD",
-                code="36643-5",
-                code_system=LOINC,
-                display="Chest X-ray",
-                effective_at=ts(2026, 9, 11, 9),
-                issued_at=ts(2026, 9, 11, 10),
-                conclusion_text="No acute cardiopulmonary process.",
-                study_id=study_id,
-                report_ref="reports/p_101/cxr.txt",
-                confidentiality="N",
-                sensitivity=[],
-                resource=Jsonb({"resourceType": "DiagnosticReport", "status": "final", "category": "RAD"}),
-            ),
-        )
+        from imaging_catalog import STUDIES as IMAGING_STUDIES
+
+        for study in IMAGING_STUDIES:
+            study_id = self.upsert(
+                "studies",
+                f"ImagingStudy/{study.key}",
+                dict(
+                    source_id=study.study_source,
+                    patient_key=study.patient_key,
+                    encounter_id=self.enc_id(study.encounter_key),
+                    status="available",
+                    study_at=study.study_at,
+                    modality=study.modality,
+                    description=study.description,
+                    procedure_code=study.procedure_code,
+                    procedure_system=LOINC,
+                    procedure_display=study.procedure_display,
+                    confidentiality="N",
+                    sensitivity=[],
+                    resource=Jsonb({"resourceType": "ImagingStudy", "status": "available"}),
+                ),
+            )
+            self.upsert(
+                "diagnostic_reports",
+                f"DiagnosticReport/{study.key}",
+                dict(
+                    source_id=study.report_source,
+                    patient_key=study.patient_key,
+                    encounter_id=self.enc_id(study.encounter_key),
+                    status="final",
+                    category="RAD" if study.modality == "CR" else study.modality,
+                    code=study.procedure_code,
+                    code_system=LOINC,
+                    display=study.procedure_display,
+                    effective_at=study.study_at,
+                    issued_at=study.study_at,
+                    conclusion_text=study.conclusion_text,
+                    study_id=study_id,
+                    report_ref=study.report_ref,
+                    confidentiality="N",
+                    sensitivity=[],
+                    resource=Jsonb(
+                        {
+                            "resourceType": "DiagnosticReport",
+                            "status": "final",
+                            "category": "RAD" if study.modality == "CR" else study.modality,
+                        }
+                    ),
+                ),
+            )
 
     def notes(self) -> None:
         for n in NOTES:
@@ -1153,6 +1165,9 @@ class Seeder:
             )
 
     def ensure_appointments_schema(self) -> None:
+        existing = self.conn.execute("SELECT to_regclass('clinical.appointments')").fetchone()
+        if existing and existing[0]:
+            return
         sql_path = (
             Path(__file__).resolve().parents[1] / "deploy/patient360/sql/fhir/06-appointments.sql"
         )
@@ -1160,26 +1175,70 @@ class Seeder:
 
     def appointments(self) -> None:
         # Maria's next cardiology slot with Dr. Okafor (replaces the planned-encounter stand-in).
-        self.upsert(
-            "appointments",
-            "Appointment/p103-cardio-2026-10-02",
+        slots = [
             dict(
-                source_id=sid("Appointment", "p103-cardio-2026-10-02"),
+                key="p103-cardio-2026-10-02",
                 patient_key="p_103",
                 practitioner_user_id="u_okafor",
-                status="booked",
                 start_at=ts(2026, 10, 2, 9, 30),
                 end_at=ts(2026, 10, 2, 10),
                 dept="cardiology",
-                service_type="185349003",
-                service_type_system=SNOMED,
                 service_type_display="Encounter for check up",
                 created_by="u_maria",
-                confidentiality="N",
-                sensitivity=[],
-                resource=Jsonb({"resourceType": "Appointment", "status": "booked"}),
             ),
-        )
+            # Chen's Today roster: the three showcase Synthea charts.
+            dict(
+                key="hettinger-im-2026-09-22",
+                patient_key="p_485ba8c8597d4c5cb0fbda55317119a3",
+                practitioner_user_id="u_chen",
+                start_at=ts(2026, 9, 22, 8, 30),
+                end_at=ts(2026, 9, 22, 9, 0),
+                dept="internal medicine",
+                service_type_display="Pneumonia follow-up",
+                created_by="u_chen",
+            ),
+            dict(
+                key="mclaughlin-endo-2026-09-22",
+                patient_key="p_56fc60ea6ccd458496bba589b932e26d",
+                practitioner_user_id="u_chen",
+                start_at=ts(2026, 9, 22, 9, 15),
+                end_at=ts(2026, 9, 22, 9, 45),
+                dept="endocrinology",
+                service_type_display="Diabetes follow-up",
+                created_by="u_chen",
+            ),
+            dict(
+                key="schiller-cardio-2026-09-22",
+                patient_key="p_b1ef4e59dd984d828f102e37a3a5cd77",
+                practitioner_user_id="u_chen",
+                start_at=ts(2026, 9, 22, 10, 0),
+                end_at=ts(2026, 9, 22, 10, 30),
+                dept="cardiology",
+                service_type_display="Hypertension follow-up",
+                created_by="u_chen",
+            ),
+        ]
+        for slot in slots:
+            self.upsert(
+                "appointments",
+                f"Appointment/{slot['key']}",
+                dict(
+                    source_id=sid("Appointment", slot["key"]),
+                    patient_key=slot["patient_key"],
+                    practitioner_user_id=slot["practitioner_user_id"],
+                    status="booked",
+                    start_at=slot["start_at"],
+                    end_at=slot["end_at"],
+                    dept=slot["dept"],
+                    service_type="185349003",
+                    service_type_system=SNOMED,
+                    service_type_display=slot["service_type_display"],
+                    created_by=slot["created_by"],
+                    confidentiality="N",
+                    sensitivity=[],
+                    resource=Jsonb({"resourceType": "Appointment", "status": "booked"}),
+                ),
+            )
 
 
 def vault_write(url: str, token: str, mount: str, path: str, data: dict[str, Any]) -> None:

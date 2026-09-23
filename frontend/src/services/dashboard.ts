@@ -1,5 +1,7 @@
-import type { AuditRow, Me, QueryResponse } from '../types/api';
+import type { AuditRow, Me, Persona, QueryResponse } from '../types/api';
 import type { AttentionItem, FollowUp, MedicalDocument, PatientSummary, TimelineEvent } from '../types/patient360';
+import { actorAccessLabel, personAccessLabel } from './accessLevel';
+import { groupConsecutiveAuditEvents } from './auditLabels';
 
 export function filterPatients(patients: PatientSummary[], query: string): PatientSummary[] {
   const normalized = query.trim().toLowerCase();
@@ -15,16 +17,25 @@ export function filterPatients(patients: PatientSummary[], query: string): Patie
     }));
 }
 
-export function nextEncounter(rows: Record<string, unknown>[]): { start: string; type: string; status: string } | null {
+export function nextEncounter(rows: Record<string, unknown>[]): { start: string; type: string; reason: string; practitioner: string; status: string } | null {
   const pending = rows
     .filter(row => ['booked', 'pending'].includes(String(row.status ?? '')))
     .map(row => ({
       start: String(row.started_at ?? row.start ?? ''),
       type: String(row.dept ?? row.service_type ?? row.type_code ?? 'Appointment'),
+      reason: String(row.type_display ?? row.reason_display ?? ''),
+      practitioner: String(row.practitioner_user_id ?? ''),
       status: String(row.status ?? '')
     }))
     .sort((a, b) => a.start.localeCompare(b.start));
   return pending[0] ?? null;
+}
+
+export function practitionerName(userId: string | undefined, personas: Array<Pick<Persona, 'user_id' | 'display' | 'role' | 'panels'>>): string {
+  if (!userId) return '';
+  const persona = personas.find(entry => entry.user_id === userId);
+  if (!persona) return 'Clinician';
+  return personAccessLabel(persona);
 }
 
 export function isAbnormalLab(row: Record<string, unknown>): boolean {
@@ -32,14 +43,18 @@ export function isAbnormalLab(row: Record<string, unknown>): boolean {
 }
 
 export function deriveBriefing(me: Me | null, patients: PatientSummary[]): Array<{ id: string; text: string; patientId?: string }> {
+  const name = me?.display?.trim();
   const lines: Array<{ id: string; text: string; patientId?: string }> = [
-    { id: 'brief-role', text: me ? `${me.role} · ${me.panels.length} panels gated by /me` : 'No session' }
+    {
+      id: 'brief-greeting',
+      text: name ? `Good morning, ${name}.` : me ? 'Good morning.' : "Sign in to see today's summary."
+    }
   ];
-  for (const patient of patients) {
+  for (const patient of patients.filter(item => item.status === 'Visible')) {
     lines.push({
       id: `brief-${patient.id}`,
-      text: patient.status === 'Visible' ? `${patient.fullName} (${patient.id}) is visible.` : `${patient.id} is not visible.`,
-      patientId: patient.status === 'Visible' ? patient.id : undefined
+      text: `${patient.fullName} is on your roster.`,
+      patientId: patient.id
     });
   }
   return lines;
@@ -101,7 +116,7 @@ export function deriveFollowUps(input: {
         id: `lab-${patient.id}-${String(row.cite_id ?? tasks.length)}`,
         patientId: patient.id,
         patient: patient.fullName,
-        description: `Review ${String(row.display ?? row.code ?? 'lab')} for ${patient.id}`,
+        description: `Review ${String(row.display ?? row.code ?? 'lab')} for ${patient.fullName}`,
         dueDate: String(row.effective_at ?? '').slice(0, 10) || '—',
         source: 'Laboratory',
         priority: 'High'
@@ -116,7 +131,8 @@ export function deriveFollowUps(input: {
         description: `Confirm ${String(row.dept ?? 'clinic')} appointment (${row.status})`,
         dueDate: String(row.started_at ?? row.start ?? '').slice(0, 10) || '—',
         source: 'Appointments',
-        priority: String(row.status) === 'pending' ? 'High' : 'Normal'
+        priority: String(row.status) === 'pending' ? 'High' : 'Normal',
+        clinicianId: String(row.practitioner_user_id ?? '') || undefined
       });
     }
     for (const document of input.documentsByKey[patient.id] ?? []) {
@@ -135,16 +151,32 @@ export function deriveFollowUps(input: {
   return tasks;
 }
 
-export function activityFromAudit(rows: AuditRow[]): TimelineEvent[] {
-  return rows.slice(0, 12).map(row => ({
-    id: row.id,
-    kind: 'note',
-    date: (row.recorded_at || '').slice(0, 10) || '—',
-    title: row.event_type,
-    summary: [row.agent_user, row.entity_patient, row.reason_code].filter(Boolean).join(' · '),
-    tags: [row.purpose_of_event || 'audit'],
-    provenance: 'clinical'
-  }));
+export function activityFromAudit(
+  rows: AuditRow[],
+  patients: Array<{ id: string; fullName: string }> = [],
+  personas: Array<Pick<Persona, 'user_id' | 'display' | 'role' | 'panels'>> = []
+): TimelineEvent[] {
+  const patientNames: Record<string, string> = {};
+  for (const patient of patients) {
+    const name = patient.fullName?.trim();
+    if (!name || name === 'Patient' || /p_[0-9a-f]/i.test(name)) continue;
+    patientNames[patient.id] = name;
+  }
+  const byId = new Map(rows.map(row => [row.id, row]));
+  return groupConsecutiveAuditEvents(rows, 12, patientNames).map(item => {
+    const source = byId.get(item.id);
+    const actor = actorAccessLabel(source?.agent_user, personas);
+    return {
+      id: item.id,
+      kind: 'note',
+      date: item.date,
+      title: item.title,
+      summary: item.summary,
+      actor: actor && actor !== 'System' ? actor : undefined,
+      tags: ['activity'],
+      provenance: 'clinical'
+    };
+  });
 }
 
 export function attachEncounters(patients: PatientSummary[], encountersByKey: Record<string, QueryResponse | null>): PatientSummary[] {
@@ -153,7 +185,13 @@ export function attachEncounters(patients: PatientSummary[], encountersByKey: Re
     return {
       ...patient,
       appointmentTime: next?.start ? next.start.slice(11, 16) || next.start.slice(0, 10) : patient.appointmentTime,
-      appointmentType: next?.type ?? patient.appointmentType
+      appointmentType: next?.type ?? patient.appointmentType,
+      appointmentClinician: next?.practitioner || patient.appointmentClinician,
+      reasonForVisit: next?.reason || patient.reasonForVisit
     };
+  }).sort((a, b) => {
+    const at = a.appointmentTime || '\uffff';
+    const bt = b.appointmentTime || '\uffff';
+    return at.localeCompare(bt);
   });
 }

@@ -1,9 +1,10 @@
 # NeMo Guardrails (second wall)
 
-Rails live in `patient360/guardrails.py` and run on every `/chat` turn.
+`LLMRails.check_async` runs this pack on every `/chat` turn. It does not generate the answer. OpenShell still writes that.
 
-- Input: identity-claim / jailbreak phrasing.
-- Output: every `p_xxx` / `note_id` in the answer must appear in this run's tool results.
-- Optional safety NIM: set `PATIENT360_SAFETY_URL` (compose service `safety` on 8002).
+- Input: `check identity claim`, then the content-safety NIM when `PATIENT360_SAFETY_URL` is set.
+- Output: `check citation leak` (ids must be in this run's tool results), then content safety when that URL is set.
+- Compose service `safety` is that NIM (`PATIENT360_SAFETY_URL`, host port 8002).
+- An empty safety URL drops the content-safety flows, so unit tests do not need a GPU. A set URL that errors refuses with `content_safety_unavailable`.
 
-This directory is the config hook for a later Colang pack. The Python rails are the default so the in-proc demo does not depend on NeMo being installed.
+The identity and citation checks themselves stay in `patient360/guardrails.py` and are registered as Colang actions.

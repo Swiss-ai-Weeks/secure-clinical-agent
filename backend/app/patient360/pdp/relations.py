@@ -66,6 +66,7 @@ ROLE_PANELS: dict[str, tuple[str, ...]] = {
         "ask",
     ),
     "caregiver": (
+        "portal",
         "labs",
         "conditions",
         "meds",
@@ -73,6 +74,7 @@ ROLE_PANELS: dict[str, tuple[str, ...]] = {
         "allergies",
         "diet",
         "notes",
+        "consents",
         "appointments",
         "ask",
     ),

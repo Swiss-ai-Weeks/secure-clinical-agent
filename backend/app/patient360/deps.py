@@ -12,10 +12,12 @@ from .auth.sessions import PgSessionStore, PgUserRepo, SessionManager, SessionSt
 from .config import Settings
 from .db import Database
 from .devlogin import DevLoginMap
+from .dicom import DicomStore, OrthancStore
 from .fga import HttpFgaClient, RelationChecker
 from .humanwrites import BreakGlassLimiter
+from .nemo_rails import NemoRails
 from .tools.reader import ClinicalReader, PgClinicalReader
-from .tools.stores import HttpNotes, MemoryNotes, MemoryObjects, NotesIndex, ObjectStore
+from .tools.stores import HttpNotes, MemoryNotes, MemoryObjects, MinioObjects, NotesIndex, ObjectStore
 from .vault import LinkageVault, OpenBaoVault
 
 
@@ -32,6 +34,8 @@ class AppDeps:
     notes: NotesIndex
     objects: ObjectStore
     devlogin: DevLoginMap
+    dicom: DicomStore | None = None
+    nemo: NemoRails | None = None
     manager: SessionManager = field(init=False)
     break_glass_limiter: BreakGlassLimiter = field(init=False)
     closers: list[Any] = field(default_factory=list)
@@ -46,6 +50,13 @@ class AppDeps:
             devlogin=self.devlogin,
         )
         self.break_glass_limiter = BreakGlassLimiter(per_hour=self.settings.break_glass_per_hour)
+
+        async def _retire_sandbox(sandbox_id: str) -> None:
+            from .openshell import destroy_session_sandbox
+
+            await destroy_session_sandbox(self.settings, sandbox_id)
+
+        self.manager.on_sandbox_retire = _retire_sandbox
 
     @property
     def policy_version(self) -> str:
@@ -78,10 +89,30 @@ async def build_deps(settings: Settings) -> AppDeps:
     notes: NotesIndex
     objects: ObjectStore
     if settings.qdrant_url:
-        notes = HttpNotes(settings.qdrant_url, settings.qdrant_api_key.get_secret_value(), settings.embed_url)
+        notes = HttpNotes(
+            settings.qdrant_url,
+            settings.qdrant_api_key.get_secret_value(),
+            settings.embed_url,
+            settings.embed_model,
+        )
     else:
         notes = MemoryNotes()
-    objects = MemoryObjects()
+    objects: ObjectStore = (
+        MinioObjects(
+            settings.minio_url,
+            settings.minio_access_key,
+            settings.minio_secret_key.get_secret_value(),
+        )
+        if settings.minio_url
+        else MemoryObjects()
+    )
+    dicom: DicomStore | None = None
+    if settings.orthanc_url:
+        dicom = OrthancStore(
+            settings.orthanc_url,
+            settings.orthanc_user,
+            settings.orthanc_password.get_secret_value(),
+        )
     deps = AppDeps(
         settings=settings,
         audit=audit,
@@ -94,6 +125,7 @@ async def build_deps(settings: Settings) -> AppDeps:
         notes=notes,
         objects=objects,
         devlogin=DevLoginMap.load(settings.devlogin_path),
+        dicom=dicom,
     )
     deps.closers.extend([db.close, fga.close, vault.close])
     return deps

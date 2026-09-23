@@ -37,3 +37,17 @@ Patient360 is the clinical-agent product in this repository. The RAG overlay is 
 **Restricted provenance**: The source links needed by an authorized operator to trace prepared records back to their origin. These links are separate from the safe opaque citations exposed by the application.
 
 **Pseudonymized synthetic data**: Generated clinical records whose source identities are replaced with opaque identities while restricted links preserve traceability. Retained linkage and clinical detail mean this term does not assert irreversible anonymity.
+
+## Ingestion publication language
+
+**Quarantined note**: A whole note withheld from embedding and retrieval because sanitization or its validation failed. It requires corrected processing and successful validation before admission.
+
+**Partial ingestion batch**: A batch in which some notes have become eligible for authorized retrieval while other notes remain withheld. It is not a claim that the complete clinical seed passed acceptance.
+
+## Ingestion retrieval language
+
+**Heading context**: A sanitized source heading carried with a passage to preserve its section meaning. It is distinct from the passage body and retains its own source location.
+
+**Embedding contract**: The versioned agreement that makes stored passage vectors and query vectors compatible. A replacement contract is validated before it becomes eligible for retrieval.
+
+**Document version**: A complete prepared revision of a note, distinct from the note's stable identity. Changed content or inherited restrictions can create a new revision while preserving the original note identity.

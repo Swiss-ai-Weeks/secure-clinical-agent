@@ -1,0 +1,8 @@
+define flow check identity claim
+  $identity_ok = execute check_identity_claim
+  if not $identity_ok
+    bot refuse to respond
+    stop
+
+define bot refuse to respond
+  "No authorized evidence for that question."

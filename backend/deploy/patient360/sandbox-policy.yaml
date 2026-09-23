@@ -1,19 +1,72 @@
-# OpenShell egress allowlist. Implicit deny for everything else.
-# The sandbox never receives store credentials or a route to Orthanc / MinIO / OpenFGA / OpenBao.
-version: 1
-allow:
-  - host: inference.local
-    ports: [80, 443]
-  - host: backend
-    paths: ["/tools/*", "/healthz"]
-    ports: [8080]
-deny:
-  - host: postgres
-  - host: openfga
-  - host: openbao
-  - host: qdrant
-  - host: minio
-  - host: orthanc
-notes: |
-  Register RUN_TOKEN with the egress preset on every /chat. AGENT_RUNTIME=inproc
-  is the default until this host policy is loaded by OpenShell.
+# NemoClaw custom preset: Patient360 /tools/* via the OpenShell host hop.
+# Implicit deny for everything else. Never add postgres, OpenFGA, OpenBao,
+# Qdrant, MinIO, or Orthanc. Apply with:
+#   nemoclaw <sandbox> policy add --from-file sandbox-policy.yaml --yes \
+#     --trusted-private-host host.openshell.internal
+#
+# Sandboxes sit on openshell-docker (host.openshell.internal = 172.20.0.1).
+# Publish the backend on that bridge (compose.openshell-tools.yaml) as well as
+# 127.0.0.1 so Ask tools are reachable. Register RUN_TOKEN per sandbox with
+# openshell provider create|update --type generic --credential RUN_TOKEN.
+preset:
+  name: patient360-tools
+  description: Patient360 /tools and /healthz through host.openshell.internal
+network_policies:
+  patient360-tools:
+    name: patient360-tools
+    endpoints:
+      - host: host.openshell.internal
+        port: 8088
+        protocol: rest
+        enforcement: enforce
+        request_body_credential_rewrite: true
+        rules:
+          - allow:
+              method: POST
+              path: /tools/query
+          - allow:
+              method: POST
+              path: /tools/notes
+          - allow:
+              method: POST
+              path: /tools/imaging
+          - allow:
+              method: GET
+              path: /healthz
+        allowed_ips:
+          - 10.0.0.0/8
+          - 172.16.0.0/12
+          - 192.168.0.0/16
+      - host: host.openshell.internal
+        port: 8080
+        protocol: rest
+        enforcement: enforce
+        request_body_credential_rewrite: true
+        rules:
+          - allow:
+              method: POST
+              path: /tools/query
+          - allow:
+              method: POST
+              path: /tools/notes
+          - allow:
+              method: POST
+              path: /tools/imaging
+          - allow:
+              method: GET
+              path: /healthz
+        allowed_ips:
+          - 10.0.0.0/8
+          - 172.16.0.0/12
+          - 192.168.0.0/16
+    binaries:
+      - path: /usr/bin/curl
+      - path: /usr/bin/python3
+      - path: /usr/bin/python3*
+      - path: /bin/bash
+      - path: /usr/bin/bash
+      - path: /bin/sh
+      - path: /usr/bin/sh
+      - path: /usr/local/bin/openclaw
+      - path: /usr/local/bin/node
+      - path: /usr/bin/node

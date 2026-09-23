@@ -87,6 +87,8 @@ class ImagingRequest(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     patient_key: str = Field(..., pattern=r"^p_[0-9a-z]+$", max_length=64)
+    study_id: str | None = Field(None, max_length=64)
+    classes: list[str] | None = Field(default=None, max_length=8)
 
     def ignored_args(self) -> list[str]:
         return sorted(self.model_extra or {})
@@ -99,6 +101,10 @@ class ImagingResponse(BaseModel):
     obligations: dict[str, Any]
     decision: DecisionOut
     audit_id: UUID
+    overlay_classes: list[str] | None = None
+    overlay_text: str | None = None
+    overlay_study_id: str | None = None
+    allowed_classes: list[str] = Field(default_factory=list)
 
 
 class QueryResponse(BaseModel):

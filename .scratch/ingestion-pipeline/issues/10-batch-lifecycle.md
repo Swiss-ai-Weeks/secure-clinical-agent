@@ -18,3 +18,9 @@ Decide artifact storage and retention: the architecture shows quarantine but cur
 ## Answer
 
 Locked 2026-09-18. A note becomes queryable only when Postgres `published=true` (CHECK already requires `sanitized_ref` + `deid_version`) **and** matching Qdrant points have `published=true`. Partial writes stay unpublished. `notes.py` checkpoints per note id; retries reuse deterministic point ids. Failed/ambiguous sanitization goes to MinIO `quarantine/` (bucket already created by `minio-init`) plus a local restricted failure record. Embedding outage leaves the row unpublished. The worker is CLI-only and is not a published compose port. Eval corpus never publishes into `note_chunks`.
+
+### User-approved partial-batch policy — 2026-09-18
+
+The user accepted the recommendation in the acceptance discussion: individually validated notes may become queryable after all of their publication and access checks pass even when another note is quarantined. Quarantined or partially written document versions remain withheld. Report such a run as partial, with explicit rejected counts and safe reason codes; do not call it a complete successful seed.
+
+The [acceptance decision](11-acceptance-and-handoff.md#answer) owns whether expected rejection fixtures or unexpected baseline quarantines pass the test. This policy does not bypass policy-wide validation failures: if the sanitizer policy itself fails its required validation, no note may be admitted under that policy. The predicates and checkpoints described above still require live cross-store and recovery evidence; their presence in code is not proof of enforcement.

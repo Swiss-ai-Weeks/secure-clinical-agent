@@ -1,0 +1,792 @@
+{
+  "observed_at": "2026-09-18T13:53:51.080476+00:00",
+  "url": "http://127.0.0.1:8001",
+  "model": "nvidia/llama-nemotron-embed-vl-1b-v2",
+  "tokenizers_version": "0.22.2",
+  "tokenizer_sha256": "0fb8bdddbd4c4ffa55e51d5b0393611e3df49dd86a31189ef5dcb750cf3da399",
+  "ready": {
+    "object": "health.response",
+    "message": "ready",
+    "ready": true
+  },
+  "runtime": {
+    "release": "2.3.0",
+    "api": "1.0.0"
+  },
+  "samples": [
+    {
+      "mode": "passage",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        13
+      ],
+      "elapsed_ms": 7.12,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        1.0000135842728821,
+        1.0000135842728821
+      ],
+      "usage": {
+        "prompt_tokens": 13,
+        "total_tokens": 13
+      },
+      "text": "The library opens at nine in the morning.",
+      "content_tokens": 9
+    },
+    {
+      "mode": "passage",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        5
+      ],
+      "elapsed_ms": 6.31,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        0.9999977083484687,
+        0.9999977083484687
+      ],
+      "usage": {
+        "prompt_tokens": 5,
+        "total_tokens": 5
+      },
+      "text": "word",
+      "content_tokens": 1
+    },
+    {
+      "mode": "passage",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        6
+      ],
+      "elapsed_ms": 6.48,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        1.0000056996011457,
+        1.0000056996011457
+      ],
+      "usage": {
+        "prompt_tokens": 6,
+        "total_tokens": 6
+      },
+      "text": "word ",
+      "content_tokens": 2
+    },
+    {
+      "mode": "passage",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        12
+      ],
+      "elapsed_ms": 6.42,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        0.999999252302453,
+        0.999999252302453
+      ],
+      "usage": {
+        "prompt_tokens": 12,
+        "total_tokens": 12
+      },
+      "text": "## Plan\n\nContinue the exercise programme.",
+      "content_tokens": 8
+    },
+    {
+      "mode": "passage",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        11
+      ],
+      "elapsed_ms": 6.08,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        0.9999926010937845,
+        0.9999926010937845
+      ],
+      "usage": {
+        "prompt_tokens": 11,
+        "total_tokens": 11
+      },
+      "text": "[PERSON] reports no pain.",
+      "content_tokens": 7
+    },
+    {
+      "mode": "passage",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        14
+      ],
+      "elapsed_ms": 6.41,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        0.9999977181587572,
+        0.9999977181587572
+      ],
+      "usage": {
+        "prompt_tokens": 14,
+        "total_tokens": 14
+      },
+      "text": "Café — temperature 37.2 °C.",
+      "content_tokens": 12
+    },
+    {
+      "mode": "passage",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        11
+      ],
+      "elapsed_ms": 6.63,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        0.9999879437633272,
+        0.9999879437633272
+      ],
+      "usage": {
+        "prompt_tokens": 11,
+        "total_tokens": 11
+      },
+      "text": "  repeated\tspaces\n\nremain.",
+      "content_tokens": 7
+    },
+    {
+      "mode": "passage",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        9
+      ],
+      "elapsed_ms": 6.51,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        1.000007156061431,
+        1.000007156061431
+      ],
+      "usage": {
+        "prompt_tokens": 9,
+        "total_tokens": 9
+      },
+      "text": "<|begin_of_text|>literal token marker",
+      "content_tokens": 4
+    },
+    {
+      "mode": "query",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        12
+      ],
+      "elapsed_ms": 6.86,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        0.9999867169614591,
+        0.9999867169614591
+      ],
+      "usage": {
+        "prompt_tokens": 12,
+        "total_tokens": 12
+      },
+      "text": "The library opens at nine in the morning.",
+      "content_tokens": 9
+    },
+    {
+      "mode": "query",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        4
+      ],
+      "elapsed_ms": 6.5,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        0.9999897173389555,
+        0.9999897173389555
+      ],
+      "usage": {
+        "prompt_tokens": 4,
+        "total_tokens": 4
+      },
+      "text": "word",
+      "content_tokens": 1
+    },
+    {
+      "mode": "query",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        5
+      ],
+      "elapsed_ms": 6.25,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        0.9999855086295402,
+        0.9999855086295402
+      ],
+      "usage": {
+        "prompt_tokens": 5,
+        "total_tokens": 5
+      },
+      "text": "word ",
+      "content_tokens": 2
+    },
+    {
+      "mode": "query",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        11
+      ],
+      "elapsed_ms": 6.4,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        1.000000289376413,
+        1.000000289376413
+      ],
+      "usage": {
+        "prompt_tokens": 11,
+        "total_tokens": 11
+      },
+      "text": "## Plan\n\nContinue the exercise programme.",
+      "content_tokens": 8
+    },
+    {
+      "mode": "query",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        10
+      ],
+      "elapsed_ms": 6.75,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        0.9999910437844914,
+        0.9999910437844914
+      ],
+      "usage": {
+        "prompt_tokens": 10,
+        "total_tokens": 10
+      },
+      "text": "[PERSON] reports no pain.",
+      "content_tokens": 7
+    },
+    {
+      "mode": "query",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        13
+      ],
+      "elapsed_ms": 6.97,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        1.0000014840718727,
+        1.0000014840718727
+      ],
+      "usage": {
+        "prompt_tokens": 13,
+        "total_tokens": 13
+      },
+      "text": "Café — temperature 37.2 °C.",
+      "content_tokens": 12
+    },
+    {
+      "mode": "query",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        10
+      ],
+      "elapsed_ms": 6.67,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        0.9999806818007158,
+        0.9999806818007158
+      ],
+      "usage": {
+        "prompt_tokens": 10,
+        "total_tokens": 10
+      },
+      "text": "  repeated\tspaces\n\nremain.",
+      "content_tokens": 7
+    },
+    {
+      "mode": "query",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        8
+      ],
+      "elapsed_ms": 6.63,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        1.0000051916585935,
+        1.0000051916585935
+      ],
+      "usage": {
+        "prompt_tokens": 8,
+        "total_tokens": 8
+      },
+      "text": "<|begin_of_text|>literal token marker",
+      "content_tokens": 4
+    }
+  ],
+  "boundaries": [
+    {
+      "mode": "passage",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        512
+      ],
+      "elapsed_ms": 9.46,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        1.0000011177066472,
+        1.0000011177066472
+      ],
+      "usage": {
+        "prompt_tokens": 512,
+        "total_tokens": 512
+      }
+    },
+    {
+      "mode": "passage",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        513
+      ],
+      "elapsed_ms": 9.25,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        1.0000060143606346,
+        1.0000060143606346
+      ],
+      "usage": {
+        "prompt_tokens": 513,
+        "total_tokens": 513
+      }
+    },
+    {
+      "mode": "passage",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        4095
+      ],
+      "elapsed_ms": 48.76,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        0.9999995330061198,
+        0.9999995330061198
+      ],
+      "usage": {
+        "prompt_tokens": 4095,
+        "total_tokens": 4095
+      }
+    },
+    {
+      "mode": "passage",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        4096
+      ],
+      "elapsed_ms": 48.14,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        1.0000018374486195,
+        1.0000018374486195
+      ],
+      "usage": {
+        "prompt_tokens": 4096,
+        "total_tokens": 4096
+      }
+    },
+    {
+      "mode": "passage",
+      "inputs": 1,
+      "status": 422,
+      "formatted_tokens": [
+        4097
+      ],
+      "elapsed_ms": 24.32,
+      "error": {
+        "object": "error",
+        "message": "input length 4097 exceeds model maximum 4096; set truncate=END or START to truncate long inputs",
+        "type": "invalid_request_error"
+      }
+    },
+    {
+      "mode": "query",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        512
+      ],
+      "elapsed_ms": 10.44,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        1.0000080647156337,
+        1.0000080647156337
+      ],
+      "usage": {
+        "prompt_tokens": 512,
+        "total_tokens": 512
+      }
+    },
+    {
+      "mode": "query",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        513
+      ],
+      "elapsed_ms": 11.49,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        1.0000198196116388,
+        1.0000198196116388
+      ],
+      "usage": {
+        "prompt_tokens": 513,
+        "total_tokens": 513
+      }
+    },
+    {
+      "mode": "query",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        4095
+      ],
+      "elapsed_ms": 53.43,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        0.999992001969721,
+        0.999992001969721
+      ],
+      "usage": {
+        "prompt_tokens": 4095,
+        "total_tokens": 4095
+      }
+    },
+    {
+      "mode": "query",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        4096
+      ],
+      "elapsed_ms": 53.97,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        1.0000140108730486,
+        1.0000140108730486
+      ],
+      "usage": {
+        "prompt_tokens": 4096,
+        "total_tokens": 4096
+      }
+    },
+    {
+      "mode": "query",
+      "inputs": 1,
+      "status": 422,
+      "formatted_tokens": [
+        4097
+      ],
+      "elapsed_ms": 30.64,
+      "error": {
+        "object": "error",
+        "message": "input length 4097 exceeds model maximum 4096; set truncate=END or START to truncate long inputs",
+        "type": "invalid_request_error"
+      }
+    }
+  ],
+  "batches": [
+    {
+      "mode": "passage",
+      "inputs": 1,
+      "status": 200,
+      "formatted_tokens": [
+        512
+      ],
+      "elapsed_ms": 10.92,
+      "dimensions": 2048,
+      "indices": [
+        0
+      ],
+      "norm_range": [
+        1.0000011177066472,
+        1.0000011177066472
+      ],
+      "usage": {
+        "prompt_tokens": 512,
+        "total_tokens": 512
+      }
+    },
+    {
+      "mode": "passage",
+      "inputs": 8,
+      "status": 200,
+      "formatted_tokens": [
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512
+      ],
+      "elapsed_ms": 67.43,
+      "dimensions": 2048,
+      "indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "norm_range": [
+        1.0000011177066472,
+        1.0000011177066472
+      ],
+      "usage": {
+        "prompt_tokens": 4096,
+        "total_tokens": 4096
+      }
+    },
+    {
+      "mode": "passage",
+      "inputs": 16,
+      "status": 200,
+      "formatted_tokens": [
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512
+      ],
+      "elapsed_ms": 130.78,
+      "dimensions": 2048,
+      "indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "norm_range": [
+        1.0000011177066472,
+        1.0000011177066472
+      ],
+      "usage": {
+        "prompt_tokens": 8192,
+        "total_tokens": 8192
+      }
+    },
+    {
+      "mode": "passage",
+      "inputs": 32,
+      "status": 200,
+      "formatted_tokens": [
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512
+      ],
+      "elapsed_ms": 231.63,
+      "dimensions": 2048,
+      "indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "norm_range": [
+        1.0000011177066472,
+        1.0000011177066472
+      ],
+      "usage": {
+        "prompt_tokens": 16384,
+        "total_tokens": 16384
+      }
+    }
+  ],
+  "mixed_oversize_batch": {
+    "mode": "passage",
+    "inputs": 2,
+    "status": 422,
+    "formatted_tokens": [
+      5,
+      4097
+    ],
+    "elapsed_ms": 20.18,
+    "error": {
+      "object": "error",
+      "message": "input length 4097 exceeds model maximum 4096; set truncate=END or START to truncate long inputs",
+      "type": "invalid_request_error"
+    }
+  },
+  "result": "passed"
+}

@@ -42,6 +42,8 @@ class PersonaOut(BaseModel):
     login: str
     user_id: str
     display: str
+    role: str | None = None
+    panels: list[str] = Field(default_factory=list)
 
 
 @router.post("/dev-login", response_model=LoginOut)
@@ -89,4 +91,17 @@ async def logout(caller: SessionCallerDep, response: Response, deps: DepsDep) ->
 async def dev_personas(deps: DepsDep) -> list[PersonaOut]:
     if not deps.settings.dev:
         raise NotFound()
-    return [PersonaOut(login=p.login, user_id=p.user_id, display=p.display) for p in deps.devlogin.personas()]
+    out: list[PersonaOut] = []
+    for persona in deps.devlogin.personas():
+        user = await deps.users.get(persona.user_id)
+        role = user.role if user and user.active else None
+        out.append(
+            PersonaOut(
+                login=persona.login,
+                user_id=persona.user_id,
+                display=persona.display,
+                role=role,
+                panels=list(ROLE_PANELS.get(role, ())) if role else [],
+            )
+        )
+    return out

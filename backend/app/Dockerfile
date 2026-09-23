@@ -1,4 +1,4 @@
-# Patient360 backend (policy spine). Built by compose from backend/deploy/patient360.
+# Patient360 backend (policy spine). Build context is backend/ so the Colang pack is in the image.
 FROM python:3.12-slim AS runtime
 
 COPY --from=ghcr.io/astral-sh/uv:0.12.0 /uv /uvx /bin/
@@ -12,11 +12,13 @@ ENV UV_COMPILE_BYTECODE=1 \
 WORKDIR /app
 
 # Dependencies first so source edits do not invalidate the layer.
-COPY pyproject.toml uv.lock README.md ./
+COPY app/pyproject.toml app/uv.lock app/README.md ./
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev --no-install-project
 
-COPY patient360 ./patient360
+COPY app/patient360 ./patient360
+COPY guardrails ./guardrails
+COPY redteam ./redteam
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 

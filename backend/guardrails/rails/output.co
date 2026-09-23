@@ -1,0 +1,5 @@
+define flow check citation leak
+  $citation_ok = execute check_citation_leak
+  if not $citation_ok
+    bot refuse to respond
+    stop

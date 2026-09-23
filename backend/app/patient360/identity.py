@@ -106,3 +106,22 @@ async def identity_banner(deps: AppDeps, caller: Caller, patient_key: str, *, no
         purpose_of_event=purpose,
         compliance_flag=decision.compliance_flag,
     )
+
+
+async def visible_patient_keys(deps: AppDeps, caller: Caller, *, now: datetime) -> list[str]:
+    """Patient keys this dashboard caller may open: self plus a live clinical grant."""
+    keys: set[str] = set()
+    if caller.session.self_patient_id:
+        keys.add(caller.session.self_patient_id)
+    permission = "can_read_diet" if caller.user.role == "dietary_staff" else "can_read_clinical"
+    try:
+        objects = await deps.fga.list_objects(
+            f"user:{caller.user.user_id}", permission, "patient", now
+        )
+    except Exception:
+        objects = []
+    for obj in objects:
+        _, _, key = obj.partition(":")
+        if key.startswith("p_"):
+            keys.add(key)
+    return sorted(keys)

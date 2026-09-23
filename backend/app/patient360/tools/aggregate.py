@@ -66,7 +66,11 @@ def apply_suppression(
     cells: list[dict[str, Any]] = []
     for row in raw:
         dims = {k: row.get(k) for k in group_by}
-        cells.append({"dims": dims, "count": int(row["count"]), "suppressed": False})
+        cell: dict[str, Any] = {"dims": dims, "count": int(row["count"]), "suppressed": False}
+        display = row.get("display")
+        if display:
+            cell["display"] = display
+        cells.append(cell)
     if not k_min:
         return cells
     for cell in cells:

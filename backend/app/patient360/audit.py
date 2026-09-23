@@ -42,6 +42,7 @@ EVENT_TYPES = frozenset(
         "identity_resolve",
         "appointment_booked",
         "appointment_cancelled",
+        "vista_reprocess",
     }
 )
 # audit.vs_purpose_of_use()

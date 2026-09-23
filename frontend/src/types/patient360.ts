@@ -20,6 +20,7 @@ export interface PatientSummary {
   status: string;
   appointmentTime?: string;
   appointmentType?: string;
+  appointmentClinician?: string;
   reasonForVisit?: string;
   warning?: string;
   avatarInitials: string;
@@ -34,12 +35,15 @@ export interface Patient extends PatientSummary {
   bloodType: string;
   majorAllergies: string[];
   majorDiagnoses: string[];
+  placement: string;
   riskIndicators: string[];
   measurements: Measurement[];
   labs: LabResult[];
   medications: Medication[];
   documents: MedicalDocument[];
   notes: ClinicalNote[];
+  /** True when this caller may read notes for this chart, which is the upload grant. */
+  canUpload?: boolean;
 }
 
 export interface Measurement {
@@ -50,6 +54,8 @@ export interface Measurement {
   provenance: Provenance;
 }
 
+export type LabFlag = 'high' | 'low' | 'normal' | 'unknown';
+
 export interface LabResult {
   id: string;
   label: string;
@@ -58,6 +64,7 @@ export interface LabResult {
   referenceRange: string;
   previousValue?: string;
   trend: 'up' | 'down' | 'stable';
+  flag: LabFlag;
   abnormal: boolean;
   date: string;
   sourceId: string;
@@ -85,6 +92,7 @@ export interface MedicalDocument {
   processingState: 'processed' | 'pending-review' | 'extracting';
   uploadedBy: string;
   extractedFacts?: ExtractedFact[];
+  summary?: string;
   objectKey?: string;
   studyId?: string;
 }
@@ -103,6 +111,7 @@ export interface ClinicalNote {
   author: string;
   date: string;
   text: string;
+  storageKey?: string;
 }
 
 export interface TimelineEvent {
@@ -111,6 +120,7 @@ export interface TimelineEvent {
   date: string;
   title: string;
   summary: string;
+  actor?: string;
   tags: string[];
   provenance: Provenance;
   linkedRecordId?: string;
@@ -120,7 +130,7 @@ export interface AiCitation {
   id: string;
   label: string;
   sourceId: string;
-  sourceType: TimelineKind | 'lab' | 'document' | 'note';
+  sourceType: TimelineKind | 'lab' | 'document' | 'note' | 'condition' | 'medication' | 'identity' | 'encounter';
 }
 
 export interface AiAnswer {
@@ -130,12 +140,19 @@ export interface AiAnswer {
   retrievalSteps: string[];
   refused?: boolean;
   policy_reason?: string | null;
+  sandboxStamp?: string;
+}
+
+export interface ChatHistoryTurn {
+  role: 'user' | 'assistant';
+  content: string;
 }
 
 export interface AskPatient360Request {
   scope: 'patient' | 'clinic';
   patientId?: string;
   question: string;
+  history?: ChatHistoryTurn[];
 }
 
 export interface AttentionItem {
@@ -163,4 +180,5 @@ export interface FollowUp {
   dueDate: string;
   source: string;
   priority: 'High' | 'Normal';
+  clinicianId?: string;
 }

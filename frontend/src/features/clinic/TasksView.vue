@@ -5,11 +5,11 @@
       <h1>Tasks & follow-ups</h1>
       <span>Derived from visible labs, appointments, and uploads. Nothing is persisted here.</span>
     </header>
-    <div class="task-list">
+    <div v-if="!loading" class="task-list">
       <article v-for="task in tasks" :key="task.id">
         <div>
           <StatusPill :label="task.priority" :tone="task.priority === 'High' ? 'danger' : 'neutral'" />
-          <h2>{{ task.description }}</h2>
+          <h2>{{ taskLabel(task) }}</h2>
           <p>{{ task.patient }} · due {{ task.dueDate }}</p>
           <small>{{ task.source }}</small>
         </div>
@@ -24,19 +24,26 @@ import { ref } from 'vue';
 import StatusPill from '../../components/ui/StatusPill.vue';
 import { useLiveLoad } from '../../composables/useLiveLoad';
 import { apiClient } from '../../services/apiClient';
+import { practitionerName } from '../../services/dashboard';
+import { useSessionStore } from '../../stores/useSessionStore';
 import type { FollowUp } from '../../types/patient360';
 
+const session = useSessionStore();
 const tasks = ref<FollowUp[]>([]);
 
-useLiveLoad(async () => {
+function taskLabel(task: FollowUp): string {
+  const doctor = practitionerName(task.clinicianId, session.personas);
+  if (!doctor || !task.description.includes('appointment')) return task.description;
+  return task.description.replace(' appointment', ` appointment with ${doctor}`);
+}
+
+const { loading } = useLiveLoad(async () => {
   tasks.value = await apiClient.getFollowUps().catch(() => []);
 });
 </script>
 
 <style scoped>
 .tasks { display: grid; gap: 20px; max-width: 1000px; }
-.tasks header p { margin: 0; color: var(--color-muted); font-size: 14px; font-weight: 800; text-transform: uppercase; }
-.tasks h1 { margin: 4px 0; font-size: clamp(2rem, 4vw, 3rem); }
 .tasks header span { color: var(--color-muted); }
 .task-list { display: grid; gap: 12px; }
 .task-list article { display: flex; justify-content: space-between; gap: 18px; border: 1px solid var(--color-line); border-radius: var(--radius-card); background: var(--color-surface); padding: 20px; }

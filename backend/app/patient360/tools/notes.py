@@ -6,10 +6,12 @@ from datetime import datetime
 from typing import TYPE_CHECKING, Any
 
 from ..audit import OUTCOME_MINOR, OUTCOME_SUCCESS, AuditEvent, encode_query
+from ..clinical_view import clean_synthea_note
 from ..errors import Deny, NotFound
 from ..pdp import Context, Decision, Resource, evaluate
 from ..pdp.models import PURPOSE_BY_ROLE
-from ..pdp.relations import BREAK_GLASS_ROLES
+from ..pdp.relations import BREAK_GLASS_ROLES, PIXEL_ROLES
+from ..publication import chunk_visible
 from .query import _agent_software
 from .schemas import DecisionOut, NotesRequest, NotesResponse
 
@@ -24,6 +26,58 @@ def allowed_confidentiality(redact: dict[str, str]) -> tuple[str, ...] | None:
     if not blocked:
         return None
     return tuple(label for label in ("N", "R", "V") if label not in blocked)
+
+
+def _without_signed_file(row: dict[str, Any]) -> dict[str, Any]:
+    """Drop the stored-file pointer when this role cannot open signed bytes."""
+    if "sanitized_ref" not in row:
+        return row
+    return {key: value for key, value in row.items() if key != "sanitized_ref"}
+
+
+def _chart_upload(card: dict[str, Any]) -> bool:
+    if card.get("source") == "upload" or card.get("provenance") == "patient-reported":
+        return True
+    return str(card.get("note_id") or "").startswith("notes/")
+
+
+def notes_from_chunks(chunks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Build note cards from Qdrant hits when clinical.notes has no published row."""
+    grouped: dict[str, dict[str, Any]] = {}
+    for chunk in chunks:
+        note_id = str(chunk.get("note_id") or chunk.get("cite_id") or "")
+        if not note_id:
+            continue
+        piece = str(chunk.get("text") or "").strip()
+        current = grouped.get(note_id)
+        if current is None:
+            patient_key = str(chunk.get("patient_key") or "")
+            prefix = f"{patient_key}-"
+            alias = note_id[len(prefix) :] if patient_key and note_id.startswith(prefix) else ""
+            filename = note_id.rsplit("/", 1)[-1]
+            if filename.endswith(".txt"):
+                filename = filename[:-4]
+            title = str(chunk.get("type_display") or "").strip() or (
+                filename if note_id.startswith("notes/") and filename else ""
+            ) or (alias.replace("-", " ").strip().capitalize() if alias else "Clinical note")
+            ref = chunk.get("sanitized_ref") or (note_id if note_id.startswith("notes/") else None)
+            grouped[note_id] = {
+                "note_id": note_id,
+                "cite_id": chunk.get("cite_id") or note_id,
+                "type_display": title,
+                "authored_at": chunk.get("authored_at"),
+                "provenance": chunk.get("provenance") or "clinical",
+                "source": chunk.get("source"),
+                "uploader_role": chunk.get("uploader_role"),
+                "published": True,
+                "sanitized_ref": ref,
+                "text": piece,
+                "redacted": bool(chunk.get("redacted")),
+            }
+            continue
+        if piece and piece not in (current.get("text") or ""):
+            current["text"] = f"{current['text']}\n\n{piece}" if current.get("text") else piece
+    return list(grouped.values())
 
 
 async def run_notes(deps: AppDeps, caller: Caller, req: NotesRequest, *, now: datetime) -> NotesResponse:
@@ -108,12 +162,51 @@ async def run_notes(deps: AppDeps, caller: Caller, req: NotesRequest, *, now: da
             )
             for n in notes
         ]
+    chunks = [c for c in chunks if chunk_visible(c)]
+    notes = [n for n in notes if chunk_visible(n)]
     by_note = {str(c.get("note_id")): c.get("text") for c in chunks if c.get("note_id")}
+    titles = {
+        str(note.get("note_id") or note.get("source_id") or ""): note.get("type_display")
+        for note in notes
+        if note.get("type_display")
+    }
     for note in notes:
+        source = str(note.get("source_id") or "")
+        if not note.get("note_id") and source:
+            note["note_id"] = source.rsplit("/", 1)[-1]
         if not note.get("text"):
-            note["text"] = by_note.get(str(note.get("note_id") or "")) or by_note.get(
-                str(note.get("source_id") or "")
-            )
+            note["text"] = by_note.get(str(note.get("note_id") or "")) or by_note.get(source)
+    for chunk in chunks:
+        if not chunk.get("type_display"):
+            title = titles.get(str(chunk.get("note_id") or "")) or titles.get(str(chunk.get("cite_id") or ""))
+            if title:
+                chunk["type_display"] = title
+    if not notes and chunks:
+        notes = notes_from_chunks(chunks)
+    else:
+        known = {
+            str(note.get(key) or "")
+            for note in notes
+            for key in ("note_id", "cite_id", "source_id", "sanitized_ref")
+            if note.get(key)
+        }
+        uploaded = [
+            card
+            for card in notes_from_chunks(chunks)
+            if _chart_upload(card)
+            and str(card.get("note_id") or "") not in known
+            and str(card.get("cite_id") or "") not in known
+        ]
+        notes = uploaded + notes
+    for note in notes:
+        if note.get("text") and not note.get("redacted"):
+            note["text"] = clean_synthea_note(str(note["text"]))
+    for chunk in chunks:
+        if chunk.get("text") and not chunk.get("redacted"):
+            chunk["text"] = clean_synthea_note(str(chunk["text"]))
+    if subject.role not in PIXEL_ROLES:
+        notes = [_without_signed_file(note) for note in notes]
+        chunks = [_without_signed_file(chunk) for chunk in chunks]
 
     await deps.audit.write(
         AuditEvent(

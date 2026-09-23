@@ -13,6 +13,7 @@ from .config import Settings
 from .deps import AppDeps, build_deps
 from .errors import install_handlers
 from .media import router as media_router
+from .nemo_rails import load_nemo_rails
 from .routers.appointments import router as appointments_router
 from .routers.audit import router as audit_router
 from .routers.break_glass import router as break_glass_router
@@ -22,6 +23,7 @@ from .routers.dev import router as dev_router
 from .routers.identity import router as identity_router
 from .routers.me import router as me_router
 from .routers.redteam import router as redteam_router
+from .routers.reprocess import router as reprocess_router
 from .routers.uploads import router as uploads_router
 from .tools.router import router as tools_router
 
@@ -36,6 +38,8 @@ def create_app(settings: Settings | None = None, deps: AppDeps | None = None) ->
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         owned = deps is None
         app.state.deps = deps or await build_deps(settings)
+        if app.state.deps.nemo is None:
+            app.state.deps.nemo = load_nemo_rails(settings)
         log.info(
             "patient360 backend up: policy_version=%s dev=%s", app.state.deps.policy_version, settings.dev
         )
@@ -64,6 +68,7 @@ def create_app(settings: Settings | None = None, deps: AppDeps | None = None) ->
     app.include_router(audit_router)
     app.include_router(chat_router)
     app.include_router(media_router)
+    app.include_router(reprocess_router)
     app.include_router(uploads_router)
     app.include_router(redteam_router)
     app.include_router(dev_router)

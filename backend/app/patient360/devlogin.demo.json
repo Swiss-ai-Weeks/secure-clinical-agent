@@ -8,6 +8,7 @@
     { "login": "maria", "user_id": "u_maria", "display": "Maria Santos" },
     { "login": "diego", "user_id": "u_diego", "display": "Diego Santos" },
     { "login": "lindqvist", "user_id": "u_lindqvist", "display": "Tomas Lindqvist" },
-    { "login": "haller", "user_id": "u_haller", "display": "Nina Haller" }
+    { "login": "haller", "user_id": "u_haller", "display": "Nina Haller" },
+    { "login": "audit", "user_id": "u_audit", "display": "Compliance auditor" }
   ]
 }

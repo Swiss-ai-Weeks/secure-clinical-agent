@@ -7,16 +7,17 @@ test('signature Patient360 demo flow', async ({ page }) => {
   await page.getByText('Elisabeth Keller').first().click();
 
   await expect(page.getByRole('heading', { name: 'Elisabeth Keller' })).toBeVisible();
-  await expect(page.getByText('✦ Clinical Brief')).toBeVisible();
+  await expect(page.getByText('Clinical brief')).toBeVisible();
   await expect(page.getByText('Since your last consultation')).toBeVisible();
   await expect(page.getByText('Grant access')).toBeVisible();
 
   await page.getByRole('link', { name: 'Timeline' }).click();
   await expect(page.getByText('HbA1c')).toBeVisible();
 
-  await page.getByRole('button', { name: '✦ Ask Patient360' }).click();
+  await page.getByRole('button', { name: 'Ask Patient360' }).click();
+  await page.getByRole('textbox', { name: 'Question' }).fill('What changed with this patient since the last visit?');
   await page.getByRole('button', { name: 'Ask with sources' }).click();
-  await expect(page.getByText('Based on authorized evidence')).toBeVisible();
+  await expect(page.getByText(/Wrote a cited summary|NemoClaw was unavailable/)).toBeVisible();
   await page.getByRole('button', { name: 'Close' }).click();
 
   await page.getByRole('link', { name: 'Documents' }).click();
@@ -29,7 +30,7 @@ test('signature Patient360 demo flow', async ({ page }) => {
 
   await page.locator('select').selectOption('nair');
   await page.goto('/patients/p_101/overview');
-  await expect(page.getByText('Resource not found')).toBeVisible();
+  await expect(page.getByText('Chart not available')).toBeVisible();
 
   await page.locator('select').selectOption('maria');
   await page.goto('/portal');

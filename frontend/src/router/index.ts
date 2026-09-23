@@ -1,4 +1,6 @@
+import { nextTick } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import { useUiStore } from '../stores/useUiStore';
 
 const clinicalRoutes = [
   { path: '/', name: 'home', component: () => import('../features/home/HomeView.vue') },
@@ -12,9 +14,9 @@ const clinicalRoutes = [
   { path: '/patients/:patientId/documents', name: 'patient-documents', component: () => import('../features/patient360/DocumentsView.vue') },
   { path: '/patients/:patientId/notes', name: 'patient-notes', component: () => import('../features/patient360/NotesView.vue') },
   { path: '/patients/:patientId/imaging', name: 'patient-imaging', component: () => import('../features/patient360/ImagingView.vue') },
+  { path: '/patients/:patientId/imaging/viewer', name: 'patient-ohif', component: () => import('../features/patient360/OhifView.vue') },
   { path: '/tasks', name: 'tasks', component: () => import('../features/clinic/TasksView.vue') },
   { path: '/redteam', name: 'redteam', component: () => import('../features/clinic/RedTeamView.vue') },
-  { path: '/threat-model', name: 'threat-model', component: () => import('../features/clinic/ThreatModelView.vue') },
   { path: '/cohort', name: 'cohort', component: () => import('../features/clinic/CohortInsightsView.vue') },
   { path: '/audit', name: 'audit', component: () => import('../features/clinic/AuditPrivacyView.vue') },
   { path: '/portal', name: 'portal', component: () => import('../features/portal/PatientPortalView.vue') }
@@ -27,4 +29,28 @@ export const router = createRouter({
     { path: '/patients/:patientId', redirect: to => `/patients/${to.params.patientId}/overview` }
   ],
   scrollBehavior: () => ({ top: 0 })
+});
+
+function withUi(fn: (ui: ReturnType<typeof useUiStore>) => void) {
+  try {
+    fn(useUiStore());
+  } catch {
+    // Pinia is not active during isolated router imports.
+  }
+}
+
+router.beforeEach((to, from) => {
+  if (to.path !== from.path || to.name !== from.name) {
+    withUi(ui => ui.beginNavigation());
+  }
+});
+
+router.afterEach(() => {
+  withUi(ui => {
+    void nextTick(() => ui.endNavigation());
+  });
+});
+
+router.onError(() => {
+  withUi(ui => ui.endNavigation());
 });

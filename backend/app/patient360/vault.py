@@ -24,6 +24,7 @@ from typing import Any, Protocol
 
 import httpx
 
+from .clinical_view import clean_synthea_name
 from .errors import Transient
 
 log = logging.getLogger(__name__)
@@ -54,8 +55,8 @@ class Identity:
     def from_record(cls, patient_key: str, data: dict[str, Any]) -> Identity:
         return cls(
             patient_key=patient_key,
-            given_name=str(data.get("given_name", "")),
-            family_name=str(data.get("family_name", "")),
+            given_name=clean_synthea_name(str(data.get("given_name", ""))),
+            family_name=clean_synthea_name(str(data.get("family_name", ""))),
             birth_date=str(data.get("birth_date", "")),
             sex=str(data.get("sex", "unknown")),
             mrn=data.get("mrn"),
@@ -119,7 +120,7 @@ class OpenBaoVault:
 
 
 class StaticVault:
-    """In-memory mapping for tests and for the inproc fallback."""
+    """In-memory mapping for tests."""
 
     def __init__(
         self, mapping: dict[str, str] | None = None, identities: dict[str, Identity] | None = None

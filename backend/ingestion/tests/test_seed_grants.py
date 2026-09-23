@@ -15,8 +15,18 @@ class SeedGrantsTests(unittest.TestCase):
         objects = [w["object"] for w in body["writes"] if w.get("kind") == "synthea_demo"]
         self.assertEqual(objects, ["patient:p_syn_a", "patient:p_syn_b", "patient:p_syn_c"])
         self.assertTrue(all(w["user"] == "user:u_chen" for w in body["writes"] if w.get("kind") == "synthea_demo"))
+        self.assertEqual(
+            [w["object"] for w in body["writes"] if w.get("kind") == "synthea_care_team"],
+            ["patient:p_syn_a", "patient:p_syn_b", "patient:p_syn_c"],
+        )
+        self.assertEqual(
+            [w["object"] for w in body["writes"] if w.get("kind") == "synthea_consultant"],
+            ["patient:p_syn_b", "patient:p_syn_c"],
+        )
         self.assertTrue(any(c["detail"]["seeded"] for c in body["consents"]))
-        self.assertTrue(any(w["kind"] == "admission" for w in body["writes"]))
+        admitted = [w["object"] for w in body["writes"] if w.get("kind") == "admission"]
+        self.assertEqual(admitted, ["patient:p_101", "patient:p_syn_a"])
+        self.assertFalse(any(w["user"] == "user:u_nair" for w in body["writes"]))
 
     def test_cli_json(self):
         from seed_grants import main

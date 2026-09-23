@@ -11,6 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
+from ..clinical_view import CLINICAL_CONDITION_WHERE, LAB_CLINICAL_CATEGORY_WHERE
 from ..pdp.models import Obligations
 from .schemas import QueryFilters
 
@@ -85,6 +86,7 @@ DATASETS: dict[str, DatasetSpec] = {
         code_column="t.code",
         category_column="t.category",
         active_sql="t.status IN ('final', 'amended', 'corrected')",
+        fixed_where=(LAB_CLINICAL_CATEGORY_WHERE,),
     ),
     "conditions": DatasetSpec(
         name="conditions",
@@ -107,6 +109,7 @@ DATASETS: dict[str, DatasetSpec] = {
         code_column="t.code",
         category_column="t.category",
         active_sql="t.clinical_status IN ('active', 'recurrence', 'relapse')",
+        fixed_where=(CLINICAL_CONDITION_WHERE,),
     ),
     "meds": DatasetSpec(
         name="meds",
@@ -244,6 +247,15 @@ AGGREGATE_DIM_SQL: dict[str, str] = {
 PATIENT_DIMS = frozenset({"sex", "birth_year"})
 
 
+def _code_label_sql(spec: DatasetSpec, group_by: list[str]) -> str | None:
+    """Sidecar display for a coded dim. Not itself a group-by / allowed dim."""
+    if "code" in group_by and "display" in spec.columns:
+        return f"MIN({spec.columns['display']}) AS display"
+    if "type_code" in group_by and "type_display" in spec.columns:
+        return f"MIN({spec.columns['type_display']}) AS display"
+    return None
+
+
 def _filter_where(
     spec: DatasetSpec,
     filters: QueryFilters,
@@ -293,6 +305,9 @@ def build_aggregate_query(
     where_sql = " AND ".join(where) if where else "TRUE"
     if group_by:
         select = ", ".join(f"{AGGREGATE_DIM_SQL[d]} AS {d}" for d in group_by)
+        label = _code_label_sql(spec, group_by)
+        if label:
+            select = f"{select}, {label}"
         group_sql = ", ".join(AGGREGATE_DIM_SQL[d] for d in group_by)
         sql = (
             f"SELECT {select}, COUNT(*)::int AS count FROM {from_sql} WHERE {where_sql} GROUP BY {group_sql}"

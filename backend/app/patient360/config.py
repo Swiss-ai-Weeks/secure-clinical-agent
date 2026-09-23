@@ -62,14 +62,25 @@ class Settings(BaseSettings):
     qdrant_url: str = ""
     qdrant_api_key: SecretStr = SecretStr("")
     embed_url: str = ""
+    embed_model: str = "nvidia/llama-nemotron-embed-vl-1b-v2"
     minio_url: str = ""
     minio_access_key: str = ""
     minio_secret_key: SecretStr = SecretStr("")
+    orthanc_url: str = ""
+    orthanc_user: str = ""
+    orthanc_password: SecretStr = SecretStr("")
     nano_url: str = ""
+    nano_model: str = ""
     safety_url: str = ""
-    agent_runtime: str = "inproc"
+    guardrails_path: Path | None = None
+    agent_runtime: str = "openshell"
     openshell_url: str = ""
+    openshell_sandbox: str = "patient360"
+    openshell_agent: str = "main"
     media_ttl_seconds: int = 300
+    vista_url: str = ""
+    vista_work_dir: Path = Path("/data/patient360")
+    vista_timeout_seconds: float = 300
 
     # Dev-only surface: /dev/run-token, /docs, and the dev-login map.
     dev: bool = False

@@ -1,24 +1,38 @@
 #!/usr/bin/env python3
-"""Stretch: TCIA → header strip → Orthanc. Not on the critical demo path."""
+"""Imaging ingest: synthetic DICOM → Orthanc → optional MedGemma / VISTA-3D."""
 
 from __future__ import annotations
 
 import json
+import sys
+
+from dicom_seed import main as seed_main
+from imaging_enrich import main as enrich_main
 
 
 def plan() -> dict:
     return {
-        "status": "stretch",
-        "steps": [
-            "Download one TCIA study under the ingest compose profile",
-            "pydicom header strip + pydeface before Orthanc C-STORE",
-            "Set clinical.studies.orthanc_id; serve pixels only via /media/{signed}",
-            "OHIF talks to the image auth proxy, never to Orthanc",
-            "VISTA-3D SEG overlays inherit the study gate",
-            "MedGemma enrichment is optional PDP-gated text",
+        "status": "wired",
+        "seed": "backend/ingestion/dicom_seed.py",
+        "enrich": "backend/ingestion/imaging_enrich.py",
+        "patients": ["p_101", "p_102", "p_103"],
+        "notes": [
+            "Live pixels are retagged public-domain DICOM; ellipse pixels stay in offline tests",
+            "VISTA-3D and MedGemma stay on Compose profile ingest, GPU 0",
+            "Dashboard pixels go through /media/{signed}; tools stay report-text",
         ],
     }
 
 
+def main(argv: list[str] | None = None) -> int:
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if argv[:1] == ["plan"]:
+        print(json.dumps(plan(), indent=2))
+        return 0
+    if argv[:1] == ["enrich"]:
+        return enrich_main(argv[1:])
+    return seed_main(argv[1:] if argv[:1] == ["seed"] else argv)
+
+
 if __name__ == "__main__":
-    print(json.dumps(plan(), indent=2))
+    sys.exit(main())

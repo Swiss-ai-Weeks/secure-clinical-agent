@@ -1,0 +1,16 @@
+# Host-only bridge ports for NemoClaw startup checks and sandbox tool/inference calls.
+# The base Compose file retains loopback ports for the UI and local operators.
+# Run from the repository root:
+#   docker compose --env-file backend/deploy/patient360/.env \
+#     -f backend/deploy/patient360/compose.yaml \
+#     -f backend/deploy/patient360/compose.openshell-tools.yaml up -d backend nano
+services:
+  backend:
+    ports:
+      - "${PATIENT360_SANDBOX_GATEWAY:-172.20.0.1}:8088:8080"
+  nano:
+    ports:
+      # NemoClaw's onboarding probe uses Docker's default bridge/host-gateway.
+      - "${PATIENT360_DOCKER_GATEWAY:-172.17.0.1}:8000:8000"
+      # The running OpenShell sandboxes use their own bridge gateway.
+      - "${PATIENT360_SANDBOX_GATEWAY:-172.20.0.1}:8000:8000"

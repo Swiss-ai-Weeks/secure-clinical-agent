@@ -5,6 +5,21 @@ from __future__ import annotations
 from .conftest import Harness
 
 
+async def test_dev_personas_include_identity_roles(harness: Harness):
+    r = await harness.client.get("/auth/dev-personas")
+    assert r.status_code == 200
+    by_login = {row["login"]: row for row in r.json()}
+    assert by_login["chen"]["role"] == "attending"
+    assert by_login["rivera"]["role"] == "care_team"
+    assert by_login["okafor"]["role"] == "consultant"
+    assert by_login["lindqvist"]["role"] == "dietary_staff"
+    assert by_login["maria"]["role"] == "patient"
+    assert by_login["nair"]["role"] == "researcher"
+    assert by_login["audit"]["role"] == "auditor"
+    assert "labs" in by_login["chen"]["panels"]
+    assert by_login["nair"]["panels"] == ["aggregate", "ask"]
+
+
 async def test_login_sets_cookie_and_me_returns_manifest(harness: Harness):
     body = await harness.login("chen", auth_level=2)
     assert body["role"] == "attending" and body["self_patient_id"] is None
@@ -36,6 +51,13 @@ async def test_caregiver_without_vault_link_has_no_self_key(harness: Harness):
     assert body["self_patient_id"] is None
 
 
+async def test_caregiver_me_includes_portal_and_consents(harness: Harness):
+    await harness.login("haller")
+    me = (await harness.client.get("/me")).json()
+    assert "portal" in me["panels"] and "consents" in me["panels"]
+    assert "break_glass" not in me["panels"]
+
+
 async def test_login_rotates_session(harness: Harness):
     await harness.login("chen")
     first = harness.client.cookies.get(harness.settings.cookie_name)
@@ -53,6 +75,44 @@ async def test_logout_ends_session(harness: Harness):
     assert (await harness.client.post("/auth/logout")).status_code == 204
     assert (await harness.client.get("/me")).status_code == 401
     assert [e.event_type for _, e in harness.audit.events] == ["login", "logout"]
+
+
+async def test_bind_sandbox_is_sticky(harness: Harness):
+    await harness.login("chen")
+    session = next(iter(harness.sessions.rows.values()))
+    first = await harness.deps.manager.bind_sandbox(session, "p360-s-aaa111bbb222")
+    second = await harness.deps.manager.bind_sandbox(session, "p360-s-otherboxxx")
+    assert first == second == "p360-s-aaa111bbb222"
+    stored = await harness.sessions.get(session.session_hash)
+    assert stored is not None and stored.sandbox_id == first
+
+
+async def test_logout_retires_bound_sandbox(harness: Harness):
+    retired: list[str] = []
+
+    async def capture(name: str) -> None:
+        retired.append(name)
+
+    harness.deps.manager.on_sandbox_retire = capture
+    await harness.login("chen")
+    session = next(iter(harness.sessions.rows.values()))
+    await harness.deps.manager.bind_sandbox(session, "p360-s-logout1")
+    assert (await harness.client.post("/auth/logout")).status_code == 204
+    assert retired == ["p360-s-logout1"]
+
+
+async def test_login_rotation_retires_prior_sandbox(harness: Harness):
+    retired: list[str] = []
+
+    async def capture(name: str) -> None:
+        retired.append(name)
+
+    harness.deps.manager.on_sandbox_retire = capture
+    await harness.login("chen")
+    session = next(iter(harness.sessions.rows.values()))
+    await harness.deps.manager.bind_sandbox(session, "p360-s-priorbox")
+    await harness.login("chen")
+    assert retired == ["p360-s-priorbox"]
 
 
 async def test_unknown_login_is_401(harness: Harness):

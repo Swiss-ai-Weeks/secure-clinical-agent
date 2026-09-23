@@ -52,6 +52,10 @@ class ClinicalReader(Protocol):
 
     async def list_imaging(self, patient_key: str) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]: ...
 
+    async def get_study(self, patient_key: str, orthanc_id: str) -> dict[str, Any] | None: ...
+
+    async def upsert_vista_report(self, row: dict[str, Any]) -> dict[str, Any]: ...
+
 
 class PgClinicalReader:
     def __init__(self, db: Database) -> None:
@@ -110,7 +114,7 @@ class PgClinicalReader:
             "SELECT cite_id, status, 'AMB' AS class, service_type AS type_code, "
             "service_type_system AS type_system, service_type_display AS type_display, "
             "start_at AS started_at, end_at AS ended_at, NULL AS reason_code, "
-            "NULL AS reason_system, NULL AS reason_display, dept, "
+            "NULL AS reason_system, NULL AS reason_display, dept, practitioner_user_id, "
             "confidentiality, sensitivity "
             "FROM clinical.appointments "
             "WHERE patient_key = %s AND status IN ('booked', 'pending')"
@@ -201,10 +205,12 @@ class PgClinicalReader:
             "FROM clinical.studies WHERE patient_key = %s ORDER BY study_at DESC"
         )
         reports_sql = (
-            "SELECT cite_id, source_id, patient_key, status, category, code, display, "
-            "effective_at, issued_at, conclusion_text, report_ref, study_id, "
-            "confidentiality, sensitivity "
-            "FROM clinical.imaging_reports WHERE patient_key = %s ORDER BY issued_at DESC"
+            "SELECT r.cite_id, r.source_id, r.patient_key, r.status, r.category, r.code, r.display, "
+            "r.effective_at, r.issued_at, r.conclusion_text, r.report_ref, r.study_id, "
+            "r.confidentiality, r.sensitivity, s.orthanc_id "
+            "FROM clinical.imaging_reports r "
+            "LEFT JOIN clinical.studies s ON s.id = r.study_id "
+            "WHERE r.patient_key = %s ORDER BY r.issued_at DESC"
         )
         try:
             async with self.db.pool.connection() as conn:
@@ -216,6 +222,46 @@ class PgClinicalReader:
             log.error("imaging list failed: %s", exc.__class__.__name__)
             raise Transient("clinical store unavailable") from exc
         return studies, reports
+
+    async def get_study(self, patient_key: str, orthanc_id: str) -> dict[str, Any] | None:
+        sql = (
+            "SELECT id, source_id, patient_key, modality, procedure_code, procedure_display, "
+            "study_at, encounter_id, orthanc_id "
+            "FROM clinical.studies WHERE patient_key = %s AND orthanc_id = %s"
+        )
+        try:
+            async with self.db.pool.connection() as conn:
+                cur = await conn.execute(sql, (patient_key, orthanc_id))
+                row = await cur.fetchone()
+        except Exception as exc:
+            log.error("study read failed: %s", exc.__class__.__name__)
+            raise Transient("clinical store unavailable") from exc
+        return dict(row) if row else None
+
+    async def upsert_vista_report(self, row: dict[str, Any]) -> dict[str, Any]:
+        sql = (
+            "INSERT INTO clinical.diagnostic_reports ("
+            "source_id, patient_key, encounter_id, status, category, code, code_system, "
+            "display, effective_at, issued_at, conclusion_text, study_id, confidentiality, "
+            "sensitivity, resource"
+            ") VALUES ("
+            "%(source_id)s, %(patient_key)s, %(encounter_id)s, %(status)s, %(category)s, "
+            "%(code)s, %(code_system)s, %(display)s, %(effective_at)s, %(issued_at)s, "
+            "%(conclusion_text)s, %(study_id)s, %(confidentiality)s, %(sensitivity)s, %(resource)s"
+            ") ON CONFLICT (source_id) DO UPDATE SET "
+            "conclusion_text = EXCLUDED.conclusion_text, display = EXCLUDED.display, "
+            "issued_at = EXCLUDED.issued_at, study_id = EXCLUDED.study_id, "
+            "encounter_id = EXCLUDED.encounter_id "
+            "RETURNING id, source_id, display, conclusion_text"
+        )
+        try:
+            async with self.db.pool.connection() as conn:
+                cur = await conn.execute(sql, row)
+                stored = await cur.fetchone()
+        except Exception as exc:
+            log.error("vista report upsert failed: %s", exc.__class__.__name__)
+            raise Transient("clinical store unavailable") from exc
+        return dict(stored) if stored else row
 
     async def booked_windows(
         self, *, practitioner_user_id: str | None, start: datetime, end: datetime

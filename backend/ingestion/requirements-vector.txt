@@ -1,0 +1,2 @@
+# Worker-only tokenizer dependency; no remote model code is executed.
+tokenizers==0.22.2

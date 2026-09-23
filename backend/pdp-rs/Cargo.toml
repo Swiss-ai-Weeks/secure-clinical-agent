@@ -1,0 +1,12 @@
+[package]
+name = "pdp_rs"
+version = "0.1.0"
+edition = "2021"
+description = "PyO3 PDP beat. FastAPI keeps the Python evaluate until this matches the matrix."
+
+[lib]
+name = "pdp_rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.24", features = ["extension-module"] }

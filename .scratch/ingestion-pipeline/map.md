@@ -30,6 +30,14 @@ A reproducible batch worker for seeding Patient360 with linked synthetic patient
 
 - [Define clinically linked synthetic-note generation](issues/06-note-generation-contract.md#answer): approved eight isolated attack variants with unchanged controls and full-path resistance criteria; a reproducible local corpus is implemented, while sanitization and security evaluation remain downstream.
 
+- [Choose note de-identification and chunk boundaries](issues/07-deid-and-chunking.md#user-confirmed-chunking-amendment--2026-09-18): user reconfirmed section-aware 512/64 model-token chunking and exact sanitized citations; the worker now uses the pinned tokenizer with exact separate heading/body offsets; the separate application upload helper remains outside this change.
+
+- [Choose the embedding and Qdrant note-chunk contract](issues/09-vector-contract.md#answer): finalized measured token admission, sanitized heading context, contract-specific collections, versioned UUID points and typed payload/index requirements; unpublished worker chunk/embedding artifacts are implemented and tested; versioned stores, trusted eligibility and live seed acceptance remain pending.
+
+- [Choose batch orchestration, publication, and recovery](issues/10-batch-lifecycle.md#user-approved-partial-batch-policy--2026-09-18): validated notes may become eligible independently of quarantined notes; partial runs remain explicitly partial and require real publication/access enforcement.
+
+- [Define acceptance evidence and the implementation handoff](issues/11-acceptance-and-handoff.md#answer): approved the three-example pilot, top-five evidence gate, smoke-to-seed progression, failure/replay checks and explicit partial-run acceptance rules; implementation and live acceptance remain pending.
+
 ## Not yet specified
 
 - Additional source/export edge cases beyond the validated Synthea cohort and the handling they may require in downstream adapters.

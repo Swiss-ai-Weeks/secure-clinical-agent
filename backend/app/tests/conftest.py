@@ -37,6 +37,7 @@ def make_settings(**overrides) -> Settings:
         run_token_secret="test-run-token-secret-0123456789abcdef",
         dev=True,
         cookie_secure=False,
+        safety_url="",
         devlogin_path=DEVLOGIN,
     )
     base.update(overrides)
@@ -75,6 +76,7 @@ def make_deps(
     clinical = overrides.get("clinical") or FakeClinical(demo_rows())
     notes = overrides.get("notes") or MemoryNotes(demo_note_chunks())
     objects = overrides.get("objects") or MemoryObjects()
+    dicom = overrides.get("dicom")
     deps = AppDeps(
         settings=settings,
         audit=audit,
@@ -87,6 +89,7 @@ def make_deps(
         notes=notes,
         objects=objects,
         devlogin=DevLoginMap.load(settings.devlogin_path),
+        dicom=dicom,
     )
     return deps, audit, fga, sessions, clinical
 

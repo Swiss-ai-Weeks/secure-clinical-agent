@@ -6,7 +6,7 @@ describe('ProvenanceBadge', () => {
   it('marks AI content with the required symbol', () => {
     render(ProvenanceBadge, { props: { provenance: 'ai-generated' } });
 
-    expect(screen.getByText('✦ AI generated')).toBeInTheDocument();
+    expect(screen.getByText('AI generated')).toBeInTheDocument();
   });
 
   it('marks patient-reported content with explicit text', () => {

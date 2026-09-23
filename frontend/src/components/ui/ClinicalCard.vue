@@ -14,9 +14,39 @@ const titleId = `card-${props.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 </script>
 
 <style scoped>
-.card { background: var(--color-surface); border: 1px solid var(--color-line); border-radius: var(--radius-card); padding: 22px; box-shadow: var(--shadow-soft); }
-.card.ai { background: var(--color-yellow-soft); }
-.card__header { margin-bottom: 16px; }
-.card__eyebrow { margin: 0 0 4px; color: var(--color-muted); font-size: 14px; font-weight: 800; text-transform: uppercase; }
-h2 { margin: 0; font-size: clamp(1.35rem, 2vw, 1.8rem); }
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-soft);
+}
+
+.card.ai {
+  background:
+    linear-gradient(180deg, var(--color-accent-soft) 0%, var(--color-surface) 42%);
+  border-color: rgb(29 78 216 / 14%);
+}
+
+.card__header {
+  margin-bottom: var(--space-5);
+}
+
+.card__eyebrow {
+  margin: 0 0 var(--space-1);
+  color: var(--color-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  line-height: var(--leading-tight);
+}
+
+h2 {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+}
 </style>

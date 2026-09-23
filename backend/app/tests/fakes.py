@@ -427,6 +427,14 @@ class FakeSessions:
         if s and s.revoked_at is None:
             s.revoked_at = now
 
+    async def bind_sandbox(self, session_hash: bytes, sandbox_id: str) -> str:
+        s = self.rows[session_hash]
+        if s.sandbox_id is None and s.revoked_at is None:
+            s.sandbox_id = sandbox_id
+        if not s.sandbox_id:
+            raise RuntimeError("sandbox bind failed")
+        return s.sandbox_id
+
 
 # clinical.patients birth years (seed_demo.py).
 BIRTH_YEARS: dict[str, int] = {"p_101": 1961, "p_102": 1974, "p_103": 1958, "p_104": 2012, "p_205": 1989}
@@ -468,6 +476,14 @@ class FakeClinical:
             out = [r for r in out if obligations.allergy_category in (r.get("category") or [])]
         if filters.active_only and dataset == "meds":
             out = [r for r in out if r.get("status") == "active"]
+        if filters.code:
+            out = [r for r in out if r.get("code") == filters.code]
+        if filters.category:
+            out = [
+                r
+                for r in out
+                if r.get("category") == filters.category or filters.category in (r.get("category") or [])
+            ]
         if dataset == "encounters":
             out = out + list(self.rows.get(("appointments", patient_key), []))
         return out[: filters.limit]
@@ -510,12 +526,20 @@ class FakeClinical:
         if filters.active_only and dataset == "meds":
             rows = [r for r in rows if r.get("status") == "active"]
         counts: Counter[tuple[Any, ...]] = Counter()
+        labels: dict[tuple[Any, ...], str] = {}
         for row in rows:
-            counts[tuple(row.get(d) for d in group_by)] += 1
+            key = tuple(row.get(d) for d in group_by)
+            counts[key] += 1
+            if key not in labels:
+                label = row.get("display") or row.get("type_display")
+                if label:
+                    labels[key] = str(label)
         out: list[dict[str, Any]] = []
         for key, n in counts.items():
             cell = {d: key[i] for i, d in enumerate(group_by)}
             cell["count"] = n
+            if key in labels:
+                cell["display"] = labels[key]
             out.append(cell)
         return out
 
@@ -564,6 +588,24 @@ class FakeClinical:
             reports = list(self.rows.get(("imaging", patient_key), []))
         return studies, reports
 
+    async def get_study(self, patient_key: str, orthanc_id: str) -> dict[str, Any] | None:
+        for row in self.study_rows:
+            if row.get("patient_key") == patient_key and row.get("orthanc_id") == orthanc_id:
+                return dict(row)
+        for row in self.rows.get(("studies", patient_key), []):
+            if row.get("orthanc_id") == orthanc_id:
+                return dict(row)
+        return None
+
+    async def upsert_vista_report(self, row: dict[str, Any]) -> dict[str, Any]:
+        stored = dict(row)
+        stored.setdefault("id", uuid4())
+        self.report_rows = [
+            item for item in self.report_rows if item.get("source_id") != row.get("source_id")
+        ]
+        self.report_rows.append(stored)
+        return stored
+
     async def booked_windows(
         self, *, practitioner_user_id: str | None, start: datetime, end: datetime
     ) -> list[dict[str, Any]]:
@@ -598,6 +640,7 @@ def _appointment_as_encounter(row: dict[str, Any]) -> dict[str, Any]:
         "started_at": row.get("start_at"),
         "ended_at": row.get("end_at"),
         "dept": row.get("dept"),
+        "practitioner_user_id": row.get("practitioner_user_id"),
         "confidentiality": row.get("confidentiality", "N"),
         "sensitivity": row.get("sensitivity", []),
     }

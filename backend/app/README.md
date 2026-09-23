@@ -29,7 +29,7 @@ backend/app/
 
 ## Run
 
-As a compose service (built from this directory; see [backend/deploy/patient360/compose.yaml](../deploy/patient360/compose.yaml)):
+As a compose service (build context is `backend/`, so the image includes `guardrails/`; see [backend/deploy/patient360/compose.yaml](../deploy/patient360/compose.yaml)):
 
 ```bash
 docker compose --env-file backend/deploy/patient360/.env -f backend/deploy/patient360/compose.yaml up -d --build openbao-init backend
@@ -61,7 +61,7 @@ OpenBao holds the only copies of `login -> p_xxx` (`linkage/self/{user_id}`) and
 | `PATIENT360_LINKAGE_WORKER_TOKEN` | `p360-worker` | create/update/read `linkage/*` | `seed_demo.py` (`register`), the ingestion worker |
 | `PATIENT360_LINKAGE_TOKEN` | root | everything | `openbao` and `openbao-init` only |
 
-The init script fails if the backend token can write. OpenBao runs in `-dev` mode (unsealed, in-memory): after a restart, `openbao-init` re-runs on `up` and `seed_demo.py` must be re-run to restore the identities. That is a lab limitation, recorded here and on the threat-model page.
+The init script fails if the backend token can write. OpenBao runs in `-dev` mode (unsealed, in-memory): after a restart, `openbao-init` re-runs on `up` and `seed_demo.py` must be re-run to restore the identities. That is a lab limitation, recorded here and in `docs/threat-model.md`.
 
 ## Tests
 

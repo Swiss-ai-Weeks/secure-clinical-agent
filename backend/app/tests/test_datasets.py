@@ -8,7 +8,7 @@ import pytest
 
 from patient360.pdp.models import Obligations
 from patient360.pdp.relations import DATASETS as PDP_DATASETS
-from patient360.tools.datasets import DATASETS, FORBIDDEN_OUTPUT_COLUMNS, build_query
+from patient360.tools.datasets import DATASETS, FORBIDDEN_OUTPUT_COLUMNS, build_aggregate_query, build_query
 from patient360.tools.schemas import QueryFilters
 
 
@@ -32,6 +32,14 @@ def test_query_is_pinned_to_patient_and_parameterised(name):
     assert params["patient_key"] == "p_101"
     assert "LIMIT %(limit)s" in sql and params["limit"] == 200
     assert "p_101" not in sql  # value travels as a parameter, never interpolated
+
+
+def test_labs_and_conditions_project_clinical_rows():
+    labs_sql, _ = build_query(DATASETS["labs"], "p_101", QueryFilters(), Obligations())
+    cond_sql, _ = build_query(DATASETS["conditions"], "p_101", QueryFilters(), Obligations())
+    assert "t.category IN ('laboratory', 'vital-signs')" in labs_sql
+    assert "t.display ~*" in cond_sql
+    assert "diabetes" in cond_sql
 
 
 def test_filters_only_narrow():
@@ -60,6 +68,16 @@ def test_food_only_obligation_becomes_array_containment():
         DATASETS["labs"], "p_101", QueryFilters(), Obligations(allergy_category="food")
     )
     assert "allergy_category" not in sql2 and "allergy_category" not in params2
+
+
+def test_aggregate_attaches_code_display_without_grouping_on_it():
+    sql, _ = build_aggregate_query(
+        DATASETS["conditions"], ["code"], QueryFilters(), Obligations(), None
+    )
+    assert "t.code AS code" in sql
+    assert "MIN(t.display) AS display" in sql
+    assert "GROUP BY t.code" in sql
+    assert "display" not in sql.split("GROUP BY", 1)[1]
 
 
 def test_unknown_filter_keys_are_rejected():

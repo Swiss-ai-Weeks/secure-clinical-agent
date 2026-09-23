@@ -2,6 +2,46 @@
 
 from __future__ import annotations
 
+from patient360.tools.notes import notes_from_chunks
+
+
+def test_upload_chunk_keeps_the_filename():
+    cards = notes_from_chunks(
+        [
+            {
+                "note_id": "notes/p_101/Backilyan.pdf.txt",
+                "cite_id": "abcd1234",
+                "patient_key": "p_101",
+                "provenance": "patient-reported",
+                "text": "Co-Founder and COO.",
+                "published": True,
+            }
+        ]
+    )
+    assert cards[0]["type_display"] == "Backilyan.pdf"
+    assert cards[0]["sanitized_ref"] == "notes/p_101/Backilyan.pdf.txt"
+    assert cards[0]["provenance"] == "patient-reported"
+
+
+async def test_signed_file_pointer_follows_pixel_access(harness):
+    row = harness.deps.clinical.rows[("notes", "p_101")][0]
+    row["sanitized_ref"] = "notes/p_101/p_101-historical-pneumonia.pdf"
+    row["type_display"] = "Historical pneumonia"
+
+    await harness.login("chen", auth_level=2)
+    chen = await harness.client.post("/tools/notes", json={"patient_key": "p_101", "question": "pneumonia"})
+    assert chen.status_code == 200, chen.text
+    chen_note = next(note for note in chen.json()["notes"] if note.get("type_display") == "Historical pneumonia")
+    assert chen_note["sanitized_ref"].endswith(".pdf")
+    assert "Metformin" in chen_note["text"]
+
+    await harness.login("rivera", auth_level=2)
+    rivera = await harness.client.post("/tools/notes", json={"patient_key": "p_101", "question": "pneumonia"})
+    assert rivera.status_code == 200, rivera.text
+    rivera_note = next(note for note in rivera.json()["notes"] if note.get("type_display") == "Historical pneumonia")
+    assert "sanitized_ref" not in rivera_note
+    assert "Metformin" in rivera_note["text"]
+
 
 async def test_chen_reads_p101_discharge(harness):
     await harness.login("chen", auth_level=2)

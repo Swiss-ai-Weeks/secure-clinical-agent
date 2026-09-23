@@ -1,0 +1,32 @@
+# Input and output rails only. Chat never calls generate, so the main model is not asked to answer.
+models:
+  - type: main
+    engine: nim
+    model: nano
+    parameters:
+      base_url: http://127.0.0.1:9/v1
+      api_key: null
+
+  - type: content_safety
+    engine: nim
+    model: nvidia/llama-3.1-nemotron-safety-guard-8b-v3
+    parameters:
+      base_url: http://127.0.0.1:9/v1
+      api_key: null
+      timeout: 20
+      max_retries: 1
+
+rails:
+  input:
+    flows:
+      - check identity claim
+      - content safety check input $model=content_safety
+  output:
+    flows:
+      - check citation leak
+      - content safety check output $model=content_safety
+
+instructions:
+  - type: general
+    content: |
+      Do not answer the user. These rails only check a question and an answer produced elsewhere.

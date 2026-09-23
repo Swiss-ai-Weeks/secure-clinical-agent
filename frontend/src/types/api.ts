@@ -32,6 +32,8 @@ export interface Persona {
   login: string;
   user_id: string;
   display: string;
+  role?: string | null;
+  panels?: string[];
 }
 
 export interface IdentityBanner {
@@ -127,6 +129,12 @@ export interface ChatResponse {
   audit_id: string;
   policy_reason: string | null;
   refused: boolean;
+  sandbox_stamp?: string | null;
+}
+
+export interface ChatSandboxStatus {
+  active: boolean;
+  stamp?: string;
 }
 
 export interface AuditRow {
@@ -146,12 +154,24 @@ export interface MediaSignOut {
   expires_in: number;
   jti: string;
   audit_id: string;
+  study_instance_uid?: string;
 }
 
 export interface MediaFetchOut {
   study_uid: string;
   bytes_b64: string;
   length: number;
+}
+
+export interface ReprocessOut {
+  patient_key: string;
+  study_id: string;
+  classes: string[];
+  report_text: string;
+  series_uid: string;
+  report_source_id?: string | null;
+  audit_id: string;
+  decision_audit_id: string;
 }
 
 export const DEMO_PATIENT_KEYS = ['p_101', 'p_102', 'p_103', 'p_104', 'p_205'] as const;

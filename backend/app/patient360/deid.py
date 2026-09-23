@@ -13,8 +13,8 @@ from uuid import UUID, uuid5
 
 DEID_VERSION = "p360-deid-1.0"
 NOTES_NAMESPACE = UUID("3c0a1f5e-8b2d-4e91-9c47-2a6f0d8e1b33")
-CHUNK_TOKENS = 384
-CHUNK_OVERLAP = 48
+CHUNK_TOKENS = 512
+CHUNK_OVERLAP = 64
 ATTACK_MARK = "[EVALUATION ATTACK PASSAGE]"
 
 RACE_ETHNICITY = (
@@ -144,25 +144,60 @@ def canary_hits(text: str, hints: IdentityHints) -> list[str]:
     return hits
 
 
-def chunk_text(text: str, note_id: str, *, deid_version: str = DEID_VERSION) -> list[Chunk]:
-    words = text.split()
-    if not words:
+def _load_tokenizer(path: str | None):
+    if not path:
+        return None
+    try:
+        from tokenizers import Tokenizer
+    except ImportError:
+        return None
+    from pathlib import Path
+
+    if not Path(path).is_file():
+        return None
+    return Tokenizer.from_file(path)
+
+
+def _token_spans(text: str, tokenizer) -> list[tuple[int, int]]:
+    """Character spans for each content token. Offsets refer to exact `text`."""
+    if tokenizer is not None:
+        encoded = tokenizer.encode(text, add_special_tokens=False)
+        spans = [(s, e) for s, e in encoded.offsets if e > s]
+        if spans:
+            return spans
+    return [(m.start(), m.end()) for m in re.finditer(r"\S+", text)]
+
+
+def chunk_text(
+    text: str,
+    note_id: str,
+    *,
+    deid_version: str = DEID_VERSION,
+    heading: str = "",
+    tokenizer_path: str | None = None,
+) -> list[Chunk]:
+    """512-token content windows with up to 64-token overlap. Heading is repeated per chunk."""
+    if not text.strip():
+        return []
+    tokenizer = _load_tokenizer(tokenizer_path)
+    heading_prefix = f"{heading.strip()}\n\n" if heading.strip() else ""
+    heading_budget = len(_token_spans(heading_prefix, tokenizer)) if heading_prefix else 0
+    body_budget = max(1, CHUNK_TOKENS - heading_budget)
+    spans = _token_spans(text, tokenizer)
+    if not spans:
         return []
     chunks: list[Chunk] = []
-    start_word = 0
+    start_i = 0
     index = 0
-    while start_word < len(words):
-        end_word = min(len(words), start_word + CHUNK_TOKENS)
-        piece = " ".join(words[start_word:end_word])
-        # Offsets against the joined sanitized text (approximate after whitespace collapse).
-        prefix = " ".join(words[:start_word])
-        start = len(prefix) + (1 if prefix else 0)
-        end = start + len(piece)
+    while start_i < len(spans):
+        end_i = min(len(spans), start_i + body_budget)
+        start, end = spans[start_i][0], spans[end_i - 1][1]
+        piece = heading_prefix + text[start:end]
         point_id = str(uuid5(NOTES_NAMESPACE, f"{note_id}:{index}:{deid_version}"))
         chunks.append(Chunk(chunk_index=index, text=piece, start=start, end=end, point_id=point_id))
-        if end_word >= len(words):
+        if end_i >= len(spans):
             break
-        start_word = max(end_word - CHUNK_OVERLAP, start_word + 1)
+        start_i = max(end_i - CHUNK_OVERLAP, start_i + 1)
         index += 1
     return chunks
 

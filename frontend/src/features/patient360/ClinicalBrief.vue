@@ -1,15 +1,30 @@
 <template>
-  <ClinicalCard title="✦ Clinical Brief" :ai="true">
+  <ClinicalCard title="Clinical brief" :ai="true">
     <ul class="brief"><li v-for="statement in briefStatements" :key="statement">{{ statement }}</li></ul>
     <article v-if="summary" class="summary" :class="{ refused: summary.refused }">
-      <p>{{ summary.answer }}</p>
-      <p v-if="summary.policy_reason" class="error">{{ summary.policy_reason }}</p>
+      <template v-for="(block, index) in summaryBlocks" :key="index">
+        <ul v-if="block.type === 'list'" class="summary__list">
+          <li v-for="(item, itemIndex) in block.items" :key="itemIndex">
+            <template v-for="(part, partIndex) in item" :key="partIndex">
+              <strong v-if="part.bold">{{ part.text }}</strong>
+              <template v-else>{{ part.text }}</template>
+            </template>
+          </li>
+        </ul>
+        <p v-else>
+          <template v-for="(part, partIndex) in block.parts" :key="partIndex">
+            <strong v-if="part.bold">{{ part.text }}</strong>
+            <template v-else>{{ part.text }}</template>
+          </template>
+        </p>
+      </template>
+      <p v-if="reasonLabel" class="error">{{ reasonLabel }}</p>
     </article>
     <p v-if="error" class="error">{{ error }}</p>
-    <div class="actions">
-      <button type="button" @click="viewSources">View sources</button>
+    <div v-if="canAsk" class="actions">
+      <button type="button" @click="viewSources">Open Ask</button>
       <button type="button" :disabled="loading" @click="regenerate">{{ loading ? 'Regenerating…' : 'Regenerate summary' }}</button>
-      <button type="button" class="actions__primary" @click="ui.openAskPanel(patient.id)">Ask follow-up</button>
+      <button type="button" class="actions__primary" @click="ui.openAskPanel(patient.id, 'What should I follow up on for this patient?')">Ask follow-up</button>
     </div>
   </ClinicalCard>
 </template>
@@ -19,27 +34,33 @@ import { computed, ref } from 'vue';
 import type { AiAnswer, Patient } from '../../types/patient360';
 import ClinicalCard from '../../components/ui/ClinicalCard.vue';
 import { apiClient } from '../../services/apiClient';
+import { answerBlocks, policyReasonLabel } from '../../services/askCitations';
+import { briefStatements as statementsFor } from '../../services/patientRecord';
 import { ApiError } from '../../services/http';
+import { canLaunchAsk } from '../../services/workspace';
+import { useSessionStore } from '../../stores/useSessionStore';
 import { useUiStore } from '../../stores/useUiStore';
 
 const props = defineProps<{ patient: Patient }>();
 const ui = useUiStore();
+const session = useSessionStore();
 const summary = ref<AiAnswer | null>(null);
 const loading = ref(false);
 const error = ref('');
-const briefStatements = computed(() => {
-  const statements = [`Record ${props.patient.id} · ${props.patient.fullName}.`];
-  if (props.patient.majorDiagnoses.length) statements.push(`Conditions on file: ${props.patient.majorDiagnoses.join(', ')}.`);
-  if (props.patient.labs[0]) statements.push(`Latest lab: ${props.patient.labs[0].label} ${props.patient.labs[0].value} ${props.patient.labs[0].unit}.`);
-  if (props.patient.majorAllergies.length) statements.push(`Allergies: ${props.patient.majorAllergies.join(', ')}.`);
-  if (props.patient.riskIndicators.length) statements.push(props.patient.riskIndicators.join(' '));
-  return statements;
-});
+const briefStatements = computed(() => statementsFor(props.patient));
+const summaryBlocks = computed(() => (summary.value ? answerBlocks(summary.value.answer) : []));
+const reasonLabel = computed(() => policyReasonLabel(summary.value?.policy_reason));
+const canAsk = computed(() => canLaunchAsk({
+  panels: session.panels,
+  workspace: session.workspace,
+  patientId: props.patient.id,
+  onDuty: session.me?.session.on_duty
+}));
 
 function viewSources() {
   const first = props.patient.labs[0]?.sourceId || props.patient.notes[0]?.id;
   if (first) ui.highlightSource(first);
-  ui.openAskPanel(props.patient.id);
+  ui.openAskPanel(props.patient.id, 'What changed with this patient since the last visit?');
 }
 
 async function regenerate() {
@@ -60,12 +81,15 @@ async function regenerate() {
 </script>
 
 <style scoped>
-.brief { display: grid; gap: 12px; margin: 0; padding-left: 22px; }
-.brief li::marker { content: '✦  '; color: var(--color-warning); }
-.summary { margin-top: 16px; border-radius: var(--radius-control); background: var(--color-yellow-soft); padding: 12px; }
-.summary.refused { background: #fde8e8; }
+.brief { display: grid; gap: 12px; margin: 0; padding-left: 1.15rem; }
+.brief li::marker { color: var(--color-accent); }
+.summary { display: grid; gap: 10px; margin-top: 16px; border-radius: var(--radius-control); background: var(--color-surface); border: 1px solid var(--color-line); padding: 12px; }
+.summary p { margin: 0; line-height: 1.65; }
+.summary__list { display: grid; gap: 8px; margin: 0; padding-left: 1.15rem; line-height: 1.55; }
+.summary.refused { background: var(--color-danger-soft); border-color: rgb(180 35 24 / 18%); }
 .error { color: var(--color-danger); }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-.actions button { border: 1px solid var(--color-line); border-radius: var(--radius-control); background: var(--color-surface); padding: 0 12px; cursor: pointer; font-weight: 700; }
-.actions .actions__primary { border-color: var(--color-plum); background: var(--color-plum); color: white; }
+.actions button { border: 1px solid var(--color-line); border-radius: var(--radius-control); background: var(--color-surface); padding: 0 12px; cursor: pointer; font-weight: 650; }
+.actions button:disabled { opacity: 0.6; cursor: wait; }
+.actions .actions__primary { border-color: var(--color-accent); background: var(--color-accent); color: white; }
 </style>

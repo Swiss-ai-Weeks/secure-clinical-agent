@@ -1,0 +1,47 @@
+# OpenShell profile so RUN_TOKEN rewrites only on Patient360 chart tools.
+id: patient360-tools-v1
+display_name: Patient360 tools
+description: Per-session run token for Patient360 /tools/query, /tools/notes, and /tools/imaging
+category: agent
+credentials:
+  - name: run_token
+    description: Short-lived Patient360 run token
+    env_vars:
+      - RUN_TOKEN
+    required: true
+    auth_style: bearer
+    header_name: Authorization
+    query_param: ""
+endpoints:
+  - host: host.openshell.internal
+    port: 8088
+    protocol: rest
+    enforcement: enforce
+    request_body_credential_rewrite: true
+    rules:
+      - allow: { method: POST, path: "/tools/query" }
+      - allow: { method: POST, path: "/tools/notes" }
+      - allow: { method: POST, path: "/tools/imaging" }
+      - allow: { method: GET, path: "/healthz" }
+  - host: host.openshell.internal
+    port: 8080
+    protocol: rest
+    enforcement: enforce
+    request_body_credential_rewrite: true
+    rules:
+      - allow: { method: POST, path: "/tools/query" }
+      - allow: { method: POST, path: "/tools/notes" }
+      - allow: { method: POST, path: "/tools/imaging" }
+      - allow: { method: GET, path: "/healthz" }
+binaries:
+  - /usr/bin/python3
+  - /usr/bin/python3*
+  - /usr/bin/curl
+  - /bin/bash
+  - /usr/bin/bash
+  - /bin/sh
+  - /usr/bin/sh
+  - /usr/local/bin/openclaw
+  - /usr/local/bin/node
+  - /usr/bin/node
+inference_capable: false

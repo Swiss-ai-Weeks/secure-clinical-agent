@@ -129,3 +129,39 @@ async def test_vault_unavailable_fails_closed(harness: Harness):
     harness.deps.vault = DownVault()
     await harness.login("chen", auth_level=2)
     assert (await harness.client.get("/patients/p_101/identity")).status_code == 503
+
+
+async def test_lindqvist_lists_ward_patients_not_clinical_roster(harness: Harness):
+    await harness.login("lindqvist", auth_level=1)
+    r = await harness.client.get("/patients")
+    assert r.status_code == 200, r.text
+    keys = r.json()["patient_keys"]
+    assert "p_101" in keys
+    assert "p_102" not in keys
+    assert "p_205" not in keys
+
+
+async def test_chen_lists_granted_patients(harness: Harness):
+    await harness.login("chen", auth_level=2)
+    r = await harness.client.get("/patients")
+    assert r.status_code == 200, r.text
+    keys = r.json()["patient_keys"]
+    assert "p_101" in keys and "p_102" in keys
+    assert "p_205" not in keys
+
+
+async def test_lindqvist_lists_ward_patients_not_clinical_roster(harness: Harness):
+    await harness.login("lindqvist", auth_level=1)
+    r = await harness.client.get("/patients")
+    assert r.status_code == 200, r.text
+    keys = r.json()["patient_keys"]
+    assert "p_101" in keys
+    assert "p_102" not in keys
+    assert "p_205" not in keys
+
+
+async def test_maria_lists_only_self(harness: Harness):
+    await harness.login("maria", auth_level=1)
+    r = await harness.client.get("/patients")
+    assert r.status_code == 200
+    assert r.json()["patient_keys"] == ["p_103"]

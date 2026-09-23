@@ -13,7 +13,10 @@ router = APIRouter(tags=["redteam"])
 
 
 def _catalog() -> dict[str, Any]:
-    cases = [{**c, "result": "catalogued", "mpib": c.get("owasp")} for c in load_cases()]
+    cases = [
+        {**c, "layer": c.get("layer") or "pdp", "result": "catalogued", "mpib": c.get("owasp")}
+        for c in load_cases()
+    ]
     body = summarize(cases)
     body["asr"] = 0.0
     return body

@@ -29,3 +29,4 @@ __pycache__/
 .venv/
 .pytest_cache/
 .ruff_cache/
+backend/pdp-rs/target/

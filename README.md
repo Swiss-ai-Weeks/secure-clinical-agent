@@ -19,7 +19,9 @@ npm ci
 npm run dev
 ```
 
-See [the frontend README](frontend/README.md) for development and testing instructions. The current frontend uses mock data.
+See [the frontend README](frontend/README.md) for development and testing instructions. The frontend connects to the backend through `/api`; mock data is also available for tests.
+
+For the running NemoClaw deployment, UI address, and agent reliability checks, see [NemoClaw verification](docs/NEMOCLAW-VERIFICATION.md).
 
 ## Backend
 

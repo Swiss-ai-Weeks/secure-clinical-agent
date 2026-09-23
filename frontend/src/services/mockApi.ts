@@ -48,16 +48,16 @@ export const mockApi = {
     if (request.scope === 'clinic') {
       return {
         id: 'answer-clinic-1',
-        answer: 'Ask is mocked until /chat. In the live roster, p_101 (Elisabeth Keller) has an elevated HbA1c and is the assigned follow-up for Dr. Chen.',
-        retrievalSteps: ['Searching clinic tasks', 'Checking recent laboratory results', 'Applying role panels from /me'],
+        answer: 'Ask is mocked until chat is available. In the live roster, Elisabeth Keller has an elevated HbA1c and is the assigned follow-up for Dr. Chen.',
+        retrievalSteps: ['Searching clinic tasks', 'Checking recent laboratory results', 'Applying role panels'],
         citations: [{ id: 'citation-att-hba1c', label: 'Elisabeth HbA1c', sourceId: 'obs_a1', sourceType: 'lab' }]
       };
     }
 
     return {
       id: 'answer-patient-mock',
-      answer: 'Ask is mocked until /chat. The live chart for this key comes from /tools/query; this panel does not call the model.',
-      retrievalSteps: ['Searching selected patient key', 'Reading visible /tools/query rows', 'Preparing cited summary'],
+      answer: 'Ask is mocked until chat is available. The live chart comes from authorized query rows; this panel does not call the model.',
+      retrievalSteps: ['Searching selected patient chart', 'Reading visible clinical rows', 'Preparing cited summary'],
       citations: [
         { id: 'citation-hba1c', label: 'Recent HbA1c', sourceId: 'obs_a1', sourceType: 'lab' },
         { id: 'citation-metformin', label: 'Metformin', sourceId: 'med_a1', sourceType: 'medication' }

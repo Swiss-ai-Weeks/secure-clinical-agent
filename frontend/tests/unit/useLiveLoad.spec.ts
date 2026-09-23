@@ -5,6 +5,7 @@ import { createMemoryHistory, createRouter } from 'vue-router';
 import { describe, expect, it } from 'vitest';
 import { useLiveLoad } from '../../src/composables/useLiveLoad';
 import { useSessionStore } from '../../src/stores/useSessionStore';
+import { useUiStore } from '../../src/stores/useUiStore';
 
 const Dummy = defineComponent({
   setup() {
@@ -49,5 +50,35 @@ describe('useLiveLoad', () => {
     session.me.session.auth_level = 1;
     await nextTick();
     expect(wrapper.text()).toBe('3');
+  });
+
+  it('tracks loading and pageLoads around an async loader', async () => {
+    let resolveLoad!: () => void;
+    const DummyAsync = defineComponent({
+      setup() {
+        const { loading } = useLiveLoad(() => new Promise<void>(resolve => { resolveLoad = resolve; }));
+        return { loading };
+      },
+      template: '<div>{{ loading }}</div>'
+    });
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [{ path: '/patients/:patientId/overview', component: DummyAsync }]
+    });
+    await router.push('/patients/p_101/overview');
+    await router.isReady();
+    const pinia = createPinia();
+    const wrapper = mount(DummyAsync, { global: { plugins: [router, pinia] } });
+    const ui = useUiStore();
+
+    expect(wrapper.text()).toBe('true');
+    expect(ui.pageLoads).toBe(1);
+
+    resolveLoad();
+    await Promise.resolve();
+    await nextTick();
+
+    expect(wrapper.text()).toBe('false');
+    expect(ui.pageLoads).toBe(0);
   });
 });

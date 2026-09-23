@@ -13,6 +13,12 @@ dependencies = [
   "pydantic>=2.8",
   "pydantic-settings>=2.4",
   "python-multipart>=0.0.9",
+  "nemoguardrails>=0.17",
+  "pypdf>=5",
+  "numpy>=2.0",
+  "nibabel>=5.2",
+  "pydicom>=2.4",
+  "highdicom>=0.23",
 ]
 
 [project.optional-dependencies]

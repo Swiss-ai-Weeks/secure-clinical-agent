@@ -51,8 +51,11 @@ async def test_nair_project_permit_and_suppression(harness: Harness):
     body = r.json()
     by_code = {c["dims"]["code"]: c for c in body["rows"]}
     assert by_code["44054006"]["count"] == 12 and by_code["44054006"]["suppressed"] is False
+    assert by_code["44054006"]["display"] == "Type 2 diabetes"
     assert by_code["195967001"]["count"] == 6 and by_code["195967001"]["suppressed"] is False
+    assert by_code["195967001"]["display"] == "Asthma"
     assert by_code["22298006"]["suppressed"] is True and by_code["22298006"]["count"] is None
+    assert by_code["22298006"]["display"] == "Myocardial infarction"
     assert by_code["386661006"]["suppressed"] is True and by_code["386661006"]["count"] is None
     assert body["suppressed_cells"] == 2
     assert body["obligations"]["k_min"] == 5
@@ -67,6 +70,18 @@ async def test_complementary_suppresses_lone_sibling():
         5,
     )
     assert all(c["suppressed"] and c["count"] is None for c in cells)
+
+
+def test_display_survives_k_min_blanking():
+    cells = apply_suppression(
+        [{"code": "386661006", "display": "Fever", "count": 3}],
+        ["code"],
+        5,
+    )
+    assert cells[0]["suppressed"] is True
+    assert cells[0]["count"] is None
+    assert cells[0]["display"] == "Fever"
+    assert cells[0]["dims"] == {"code": "386661006"}
 
 
 async def test_nair_without_project_or_bad_dim_is_404(harness: Harness):
